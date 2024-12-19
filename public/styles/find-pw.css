@@ -1,0 +1,124 @@
+h2 {
+  text-align: center;
+  font-size: 2rem;
+  color: rgb(152, 41, 50);
+  font-weight: bold;
+  margin: 4rem;
+}
+
+hr {
+  margin-bottom: 2rem;
+  border: 1px solid black;
+}
+
+#form-div {
+  width: 27rem;
+  margin: 0 auto;
+  margin-bottom: 4rem;
+  padding: 1.5rem;
+  /* border: 5px solid rgb(152, 41, 50); */
+}
+
+.form-label {
+  display: block;
+  font-size: 1.2rem;
+  margin-top: 2rem;
+  margin-left: 0.1rem;
+  margin-bottom: 0.8rem;
+}
+
+.form-input {
+  font-size: 1.2rem;
+  width: 25rem;
+  padding: 1rem;
+}
+
+.form-input:focus {
+  outline: 2px solid rgb(152, 41, 50);
+}
+
+.caution {
+  color: red;
+  font-size: 0.9rem;
+  margin-top: 0.5rem;
+  margin-left: 0.1rem;
+}
+
+.success {
+  color: rgb(152, 41, 50);
+  font-size: 1.5rem;
+  margin-top: 1rem;
+}
+
+.btn {
+  display: "block";
+  background-color: black;
+  color: white;
+  padding: 0.5rem 2rem;
+  margin-top: 2rem;
+  width: 27rem;
+  height: 3.5rem;
+  font-size: 1.5rem;
+  border: 2px solid black;
+  border-radius: 4px;
+  color: white;
+  /* box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5); */
+}
+
+.btn:hover {
+  cursor: pointer;
+  background-color: rgb(152, 41, 50);
+  border: 2px solid rgb(152, 41, 50);
+  /* transform: translateY(-2px); */
+  /* box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.8); */
+}
+
+/* #login-btn:active {
+    transform: translateY(2px);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+  } */
+
+#change-pw {
+  /* display: none; */
+}
+
+#change-pw-form {
+  display: none; /* 기본적으로 숨김 */
+  transition: opacity 0.5s ease-in-out;
+}
+
+#change-pw-form.show {
+  display: block; /* 표시 */
+  opacity: 1;
+}
+
+#items-div {
+  margin-top: 1rem;
+  text-align: center;
+}
+
+.items {
+  text-decoration: none;
+  font-size: 1.2rem;
+  color: rgba(0, 0, 0, 0.4);
+}
+
+#gotojoin {
+  color: rgb(0, 0, 0, 0.65);
+}
+
+#gotojoin:hover {
+  color: rgb(152, 41, 50);
+  font-weight: bolder;
+}
+
+.items:hover {
+  color: rgb(152, 41, 50);
+  font-weight: bolder;
+}
+
+span {
+  font-size: 1.5rem;
+  color: rgba(0, 0, 0, 0.1);
+  padding-inline: 1rem;
+}

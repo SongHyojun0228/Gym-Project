@@ -1,0 +1,112 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('includes/head') %>
+    <link rel="stylesheet" href="/styles/insert-post.css" />
+    <script src="/scripts/insert-post.js" defer></script>
+    <title>Community</title>
+  </head>
+  <body>
+    <%- include('includes/header') %> <%- include('includes/aside')%>
+
+    <main>
+      <h2>게시물 등록</h2>
+      <hr id="headline-divide" />
+      <div id="form-container">
+        <hr class="long-hr" />
+
+        <form action="/insert-post" method="POST" enctype="multipart/form-data">
+          <div class="container-section">
+            <div class="label-container">
+              <label for="title" class="form-label">제목</label>
+            </div>
+
+            <div class="input-container">
+              <input type="text" name="title" id="title" required />
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container" id="textarea-container">
+              <label for="content" class="form-label">본문</label>
+            </div>
+
+            <div class="input-container">
+              <textarea
+                name="content"
+                id="conetnt"
+                class="input-container"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container">
+              <label for="img1" class="form-label">첨부파일 1</label>
+            </div>
+            <div class="input-container">
+              <input type="file" name="img1" id="img1" accept="image/*" />
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container">
+              <label for="img2" class="form-label">첨부파일 2</label>
+            </div>
+            <div class="input-container">
+              <input type="file" name="img2" id="img2" accept="image/*" />
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container">
+              <label for="img3" class="form-label">첨부파일 3</label>
+            </div>
+            <div class="input-container">
+              <input type="file" name="img3" id="img3" accept="image/*" />
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container">
+              <label for="img4" class="form-label">첨부파일 4</label>
+            </div>
+            <div class="input-container">
+              <input type="file" name="img4" id="img4" accept="image/*" />
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container">
+              <label for="img5" class="form-label">첨부파일 5</label>
+            </div>
+            <div class="input-container">
+              <input type="file" name="img5" id="img5" accept="image/*" />
+            </div>
+          </div>
+
+          <hr class="long-hr" />
+
+          <div id="button-container">
+            <a href="/community" id="cancel-btn">취소</a>
+            <button id="save-btn">등록</button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <%- include('includes/footer') %>
+  </body>
+</html>

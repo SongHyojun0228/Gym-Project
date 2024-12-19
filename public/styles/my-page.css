@@ -1,0 +1,205 @@
+#high-container {
+  width: 100%;
+  height: 20rem;
+  background-color: rgb(152, 41, 50);
+
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#high-left-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  margin-left: 10rem;
+}
+
+#profile-img-container {
+  /* height: 15rem; */
+  background-color: white;
+  border-radius: 100%;
+  width: 15rem;
+  height: 15rem;
+  overflow: hidden;
+  box-sizing: border-box;
+}
+
+#profile-img-container img {
+  display: block;
+  width: 15rem;
+  height: 15rem;
+  object-fit: cover;
+}
+
+#high-left-container form input {
+  display: none;
+}
+
+#save-profile-btn {
+  font-size: 0.8rem;
+  margin-top: 1rem;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+}
+
+#save-profile-btn:hover {
+  color: rgb(152, 41, 50);
+  font-weight: bold;
+}
+
+#change-profile-img {
+  cursor: pointer;
+  display: block;
+  font-size: 0.8rem;
+  margin-top: 1rem;
+  background-color: white;
+  border: 1px solid white;
+  border-radius: 4px;
+  padding: 0.3rem 0.5rem;
+}
+
+#change-profile-img:hover {
+  color: rgb(152, 41, 50);
+  font-weight: bold;
+}
+
+#high-right-container {
+  /* height: 15rem; */
+  margin-right: 10rem;
+}
+
+#profile-username {
+  color: white;
+  font-size: 3rem;
+  transition: font-size 0.5s ease-in-out;
+}
+
+#profile-name {
+  color: white;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+#profile-body {
+  color: white;
+  font-size: 1.5rem;
+  margin-top: 0.5rem;
+}
+
+#low-container {
+  margin: 8rem auto;
+  border: 2px solid rgb(0, 0, 0, 0.5);
+  width: 50rem;
+}
+
+.low-items-container {
+  display: flex;
+  align-items: center;
+  border-bottom: 2px solid rgb(0, 0, 0, 0.5);
+}
+
+.low-items-container:last-child {
+  border: none;
+}
+
+.title {
+  width: 10rem;
+  padding-block: 1.5rem;
+  border-right: 2px solid rgb(0, 0, 0, 0.5);
+  text-align: center;
+}
+
+.itmes {
+  width: 35rem;
+  text-align: center;
+  padding-block: 1.5rem;
+}
+
+.change-btn {
+  text-decoration: none;
+  cursor: pointer;
+  display: block;
+  text-align: center;
+  box-sizing: border-box;
+  width: 5rem;
+  color: black;
+  padding-block: 1.5rem;
+  border-left: 2px solid rgb(0, 0, 0, 0.5);
+  font-size: 1rem;
+}
+
+.change-btn:hover {
+  color: rgb(152, 41, 50);
+  font-weight: bold;
+}
+
+.gotopost,
+.gotopw {
+  color: black;
+  display: block;
+  text-align: center;
+  text-decoration: none;
+  padding: 1.5rem 2rem;
+}
+
+.gotopw {
+  border-bottom: 2px solid rgb(0, 0, 0, 0.5);
+}
+
+.gotopost:hover,
+.gotopw:hover {
+  font-weight: bold;
+  color: rgb(152, 41, 50);
+}
+    
+#high-left-container,
+#high-right-container {
+  transition: margin 0.5s ease-in-out;
+}
+
+@media (max-width: 75rem) {
+  #high-left-container {
+    margin-left: 3rem;
+  }
+  #high-right-container {
+    margin-right: 3rem;
+  }
+}
+
+@media (max-width: 50rem) {
+  #high-left-container {
+    margin-left: 1rem;
+  }
+  #high-right-container {
+    margin-right: 1rem;
+  }
+
+  #profile-img-container {
+    width: 13rem;
+    height: 13rem;
+  }
+
+  #profile-username {
+    font-size: 2rem;
+  }
+
+  #low-container {
+    width: 100%;
+  }
+
+  .title {
+    width: 30%;
+  }
+
+  .itmes {
+    width: 100%;
+  }
+
+  .change-btn {
+    width: 3 0%;
+  }
+}

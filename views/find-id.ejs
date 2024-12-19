@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("includes/head") %>
+    <link rel="stylesheet" href="/styles/find-id.css" />
+    <title>아이디 찾기</title>
+  </head>
+  <body>
+    <%- include("includes/header") %> <%- include("includes/aside")%>
+    <main>
+      <h2>아이디 찾기</h2>
+      <hr />
+      <div id="form-div">
+        <form action="/find-id" method="POST">
+          <label for="user_name" class="form-label">이름</label>
+          <input
+            type="text"
+            name="user_name"
+            id="user_name"
+            class="form-input"
+            placeholder="이름"
+          />
+          <% if (errors && errors.nameError) { %>
+            <p class="caution"><%= errors.nameError %></p>
+          <% } %>
+
+          <label for="user_username" class="form-label">닉네임</label>
+          <input
+            type="text"
+            name="user_username"
+            id="user_username"
+            class="form-input"
+            placeholder="닉네임"
+          />
+          <% if (errors && errors.usernameError) { %>
+            <p class="caution"><%= errors.usernameError %></p>
+          <% } %>
+
+          <% if (errors && errors.resultError) { %>
+            <p class="caution"><%= errors.resultError %></p>
+          <% } %>
+
+          <% if (successMessage) { %>
+            <p class="success"><%= successMessage %></p>
+          <% } %>
+
+          <div id="btn-div">
+            <button id="find-id-btn">아이디 찾기</button>
+          </div>
+        </form>
+
+        <div id="items-div">
+          <a href="/login" class="items">로그인</a>
+          <span>|</span>
+          <a href="/find-pw" class="items">비밀번호 찾기</a>
+          <span>|</span>
+          <a href="/join" class="items" id="gotojoin">회원가입</a>
+        </div>
+      </div>
+    </main>
+
+    <%- include("includes/footer") %>
+  </body>
+</html>

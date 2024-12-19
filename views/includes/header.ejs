@@ -1,0 +1,30 @@
+<header id="main-header">
+    <div id="logo-div">
+        <a id="logo" href="/">GYM</a>
+    </div>
+
+    <nav>
+        <div id="navigation">
+            <% if (typeof session !== "undefined" && session.isAuthenticated) { %>
+                <li class="nav-item"><a href="/community">커뮤니티</a></li>
+                <li class="nav-item"><a href="/daily">부위로그</a></li>
+                <li class="nav-item"><a href="/mygym">운동기록소</a></li>
+                <li class="nav-item"><a href="/my-page">마이페이지</a></li>
+                <form action="/logout" method="POST">
+                    <li class="nav-item"><button>로그아웃</button></li>
+                </form>
+            <% } else { %>
+                <li class="nav-item"><a href="/community">커뮤니티</a></li>
+                <!-- <li class="nav-item"><a href="/daily">부위로그</a></li>
+                <li class="nav-item"><a href="/mygym">운동기록소</a></li> -->
+                <li class="nav-item"><a href="/join">회원가입</a></li>
+                <li class="nav-item"><a href="/login">로그인</a></li>
+            <% } %>
+        </div>
+
+        <div id="aside-navigation">
+            <!-- 메뉴 아이콘 -->
+            <img src="/images/dumbell.png" alt="">
+        </div>
+    </nav>
+</header>

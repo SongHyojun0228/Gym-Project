@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('includes/head') %>
+    <link rel="stylesheet" href="/styles/community-detail.css" />
+    <title><%= post.title %></title>
+  </head>
+  <body>
+    <%- include('includes/header') %>
+    <%- include('includes/aside')%>
+    <main>
+      <h2>커뮤니티</h2>
+      <hr />
+      <div id="caution-container">
+        <h3 class="caution">***주의사항***</h3>
+        <p class="caution">
+          누구나 기분 좋게 참여할 수 있는 커뮤니티를 만들기 위해 커뮤니티
+          이용규칙을 제정하여 운영하고 있습니다.
+        </p>
+        <p class="caution">※ 정치, 사회 관련 행위 금지</p>
+        <p class="caution">
+          ※ 성별, 종교, 인종, 출신, 지역, 직업, 이념 등 사회적 이슈에 대한 언급
+          혹은 이와 관련된 행위 금지
+        </p>
+        <p class="caution">※ 홍보 및 판매 관련 행위 금지</p>
+        <p class="caution">
+          ※ 타인의 권리를 침해하거나 불쾌감을 주는 행위 금지
+        </p>
+        <p class="caution">※ 불법, 범죄 행위 등 범령을 위반하는 행위 금지</p>
+        <p class="caution">※ 스포일러, 공포, 속임, 놀라게 하는 행위 금지</p>
+      </div>
+
+      <div id="post-conatiner">
+        <div id="title-container">
+            <p class="post-detail"><%= post.author%> | <%= post.timeAgo%></p>
+            <h3><%= post.title%></h3>
+        </div>
+        <p id="post-comment"><%= post.content%></p>
+        
+        <% if (post.img && post.img.length > 0) { %>
+          <div class="img-container">
+            <% post.img.forEach((imgPath) => { %>
+              <% if (imgPath) { %> 
+                <div class="img-item">
+                  <img src="<%= imgPath %>" alt="게시물 이미지" style="max-width: 100%; height: auto; border-radius: 4px;" />
+                </div>
+              <% } %>
+            <% }); %>
+          </div>
+        <% } %> 
+      
+        <hr>
+
+        <ul id="comment-list">
+            <% for(const comment of comments) { %>
+              <li class="comment-item">
+                <p class="comment"><%= comment.comment %></p>
+                <p class="user-info"><%= comment.author %> | <%= comment.timeAgo %></p>
+              </li>
+            <% } %>
+          </ul>
+
+        <form action="/comment" method="POST" id="form-comment">
+            <input type="text" id="comment" name="comment" placeholder="댓글을 입력하세요.">
+            <% if(error) { %>
+                <p id="caution"><%= error.message %></p>
+            <% } %>
+            <input type="hidden" name="postId" value="<%= post._id %>"> 
+            <button>작성</button>
+        </form>
+
+      </div>
+      <div id="gotocommunity">
+        <a href="/community">게시글 보러가기</a>
+      </div>
+    <%- include('includes/footer') %>
+  </body>
+</html>

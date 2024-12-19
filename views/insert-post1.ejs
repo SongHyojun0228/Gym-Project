@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('includes/head') %>
+    <link rel="stylesheet" href="/styles/insert-post.css" />
+    <script src="/scripts/insert-post.js" defer></script>
+    <title>Community</title>
+  </head>
+  <body>
+    <%- include('includes/header') %>
+    <%- include('includes/aside')%>
+
+    <main>
+      <h2>POST</h2>
+      <div id="form-container">
+        <form action="insert-post" method="POST">
+          <label class="form-label" for="title">제목</label>
+          <input
+            class="form-input itemts"
+            type="text"
+            name="title"
+            id="title"
+            placeholder="Title"
+          />
+
+          <label for="img" class="form-label">이미지첨부</label>
+          <input type="file" name="img" id="img-input" multiple />
+          <div id="img-container">
+            <div id="img-item">
+              <img src="images/plus.png" alt="사진 첨부" />
+            </div>
+          </div>
+
+          <label for="content" class="form-label">본문 내용</label>
+          <textarea
+            class="items"
+            name="content"
+            id="content"
+            placeholder="Contents"
+          ></textarea>
+
+          <div id="btn-container">
+            <button id="btn">등록하기</button>
+          </div>
+        </form>
+      </div>
+    </main>
+    <%- include('includes/footer') %>
+  </body>
+</html>

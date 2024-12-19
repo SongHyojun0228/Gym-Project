@@ -1,0 +1,137 @@
+h2 {
+    text-align: center;
+    font-size: 2rem;
+    color: rgb(152, 41, 50);
+    font-weight: bold;
+    margin: 4rem;
+}
+
+#start-divide {
+    margin-bottom: 2rem;
+    border: 1px solid black;
+}
+
+#form-div {
+    width: 30rem;
+    margin: 0 auto;
+    margin-bottom: 4rem;
+    padding: 1.5rem;
+    /* border: 5px solid rgb(152, 41, 50); */
+    text-align: center;
+}
+
+.flex-container {
+    margin: auto;
+    margin-bottom: 2rem;
+    width: 27rem;
+    text-align: left;
+}
+
+.required {
+    color: rgb(152, 41, 50);
+}
+
+.form-label {
+    display: block;
+    font-weight: 400;
+    font-size: 1.2rem;
+    margin-bottom: 0.8rem;
+    margin-left: 0.1rem;
+}
+
+.form-input {
+    padding: 1rem;
+    font-size: 1.2rem;
+    width: 25rem;
+    border: 1px solid black;
+    border-radius: 4px;
+}
+
+.form-input:focus {
+    outline: 2px solid rgb(152, 41, 50);
+}
+
+.caution {
+    margin-top: 0.8rem;
+    margin-left: 0.1rem;
+    color: rgb(0,0,0,0.5);
+}
+
+.red-caution {
+    margin-top: 0.5rem;
+    margin-left: 0.1rem;
+    color: red;
+}
+
+#userIdWarning,
+#userPwWarning,
+#userPwCheckWarning,
+#userNameWarning {
+    display:none;
+}
+
+.section-divide {
+    width: 30rem;
+    margin: 1.5rem auto 2rem auto;
+    border: 0.5px solid rgba(152, 41, 50, 0.5);
+}
+
+.checkbox-group {
+    display: flex;
+    flex-direction: column; 
+    gap: 0.2rem;
+}
+
+.checkbox-group label {
+    font-size: 1.2rem;
+    color: black;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem; 
+}
+
+.agree-items {
+    margin-bottom: 0.5rem;
+}
+
+.checkbox-group input[type="checkbox"] {
+    width: 1.2rem;
+    height: 1.2rem;
+    appearance: none; 
+    border: 2px solid rgb(152, 41, 50);
+    background-color: white;  
+    cursor: pointer;
+    transition: background-color 0.3s ease, border-color 0.3s ease; 
+}
+
+.checkbox-group input[type="checkbox"]:checked {
+    background-color: rgb(152, 41, 50);
+    color: rgb(152, 41, 50);
+}
+
+#join-btn {
+    background-color: black;
+    color: white;
+    display: 'block';
+    margin-top: 2rem;
+    padding: 0.5rem 2rem;
+    width: 27rem;
+    height: 3.5rem;
+    font-size: 1.2rem;
+    border: 2px solid black;
+    border-radius: 4px;
+    /* box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5); */
+}
+
+#join-btn:hover {
+    background-color: rgb(152, 41, 50);
+    color: white;
+    border: 2px solid rgb(152, 41, 50);
+    /* transform: translateY(-2px);  */
+    /* box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.8);  */
+}
+
+#join-btn:active {
+    transform: translateY(2px);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2); 
+}

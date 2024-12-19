@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('includes/head') %>
+    <link rel="stylesheet" href="/styles/community.css" />
+    <title>커뮤니티</title>
+  </head>
+  <body>
+    <%- include('includes/header') %>
+    <%- include('includes/aside')%>
+    <main>
+      <h2>커뮤니티</h2>
+      <hr />
+      <div id="caution-container">
+        <h3 class="caution">***주의사항***</h3>
+        <p class="caution">
+          누구나 기분 좋게 참여할 수 있는 커뮤니티를 만들기 위해 커뮤니티
+          이용규칙을 제정하여 운영하고 있습니다.
+        </p>
+        <p class="caution">※ 정치, 사회 관련 행위 금지</p>
+        <p class="caution">
+          ※ 성별, 종교, 인종, 출신, 지역, 직업, 이념 등 사회적 이슈에 대한 언급
+          혹은 이와 관련된 행위 금지
+        </p>
+        <p class="caution">※ 홍보 및 판매 관련 행위 금지</p>
+        <p class="caution">
+          ※ 타인의 권리를 침해하거나 불쾌감을 주는 행위 금지
+        </p>
+        <p class="caution">※ 불법, 범죄 행위 등 범령을 위반하는 행위 금지</p>
+        <p class="caution">※ 스포일러, 공포, 속임, 놀라게 하는 행위 금지</p>
+      </div>
+
+      <div id="post-container">
+        <% for(const post of posts) { %>
+        <div class="post-items">
+          <a href="/community/<%= post._id%>" class="title"><%= post.title %></a>
+          <p class="content"><%= post.shortContent%></p>
+
+          <p class="post-detail"><%= post.author%> | <%= post.timeAgo%></p>
+        </div>
+        <% } %>
+      </div>
+
+      <div id="gotoadd">
+        <a href="/insert-post">글쓰기</a>
+      </div>
+    </main>
+    <%- include('includes/footer') %>
+  </body>
+</html>

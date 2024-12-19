@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('includes/head') %>
+    <link rel="stylesheet" href="/styles/change.css" />
+    <title>키 / 몸무게 수정</title>
+  </head>
+  <body>
+    <%- include('includes/header') %>
+    <%- include('includes/aside')%>
+    <main>
+      <h2>키 / 몸무게 수정</h2>
+      <hr>
+      <form action="/change-body" method="POST">
+        <div id="form-container">
+          <label for="height">키</label>
+          <input
+            type="number"
+            name="height"
+            id="height"
+            value="<%= user.height%>"
+          />
+
+          <label for="weight">몸무게 </label>
+          <input
+            type="number"
+            name="weight"
+            id="weight"
+            value="<%= user.weight%>"
+          />
+          <button id="save-btn">저장</button>
+        </div>
+      </form>
+    </main>
+    <%- include('includes/footer') %>
+  </body>
+</html>

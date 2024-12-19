@@ -1,0 +1,147 @@
+h2 {
+    font-family: '무신사';
+    font-weight: 500;
+    font-size: 2rem;
+    color: rgb(152, 41, 50);
+    text-align: center;
+    margin: 4rem;
+}
+
+#headline-divide {
+    border: 1px solid black;
+    margin: 4rem 0;
+}
+
+#form-container {
+    width: 40rem;
+    margin: 0 auto;
+    margin-bottom: 2rem;
+    align-items: center;
+}
+
+.long-hr {
+    width: 100%;
+    border: 1px solid black;
+}
+
+.container-section {
+    width: 40rem;
+    display: flex;
+}
+
+.label-container {
+    width: 10rem;
+    height: 4.5rem;
+    background-color: rgb(0,0,0,0.1);
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+}
+
+.form-label {
+    font-family: '무신사';
+    font-size: 1.2rem;
+    margin-left: 2rem;
+}
+
+.input-container {
+    width: 30rem;
+    display: flex;
+    justify-content: baseline;
+    align-items: center;
+}
+
+#textarea-container {
+    height: 25rem;
+}
+
+.input-container input {
+    width: 27rem;
+    height: 2rem;
+    font-family: '무신사';
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    margin-left: 1rem;
+    border: 1px solid rgb(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+.input-container input[type="file"] {
+    font-family: '무신사';
+    font-size: 1.1rem;
+    color: rgb(0, 0, 0, 0.3);
+}
+
+.input-container textarea {
+    width: 27rem;
+    height: 22.5rem;
+    font-family: '무신사';
+    font-size: 1.1rem;
+    padding: 0.5rem;
+    margin-left: 1rem;
+    border: 1px solid rgb(0,0,0,0.3);
+    border-radius: 4px;
+}
+
+.input-container input:focus,
+.input-container textarea:focus {
+    border: 1px solid rgb(152, 41, 50);
+    outline: 0.5px solid rgb(152, 41, 50);
+}
+
+.section-divide {
+    width: 40rem;
+    margin: 0;
+    border: 1px solid rgb(0,0,0,0.2);
+}
+
+#button-container {
+    margin-top: 2rem;
+    text-align: end;
+}
+
+#cancel-btn,
+#save-btn {
+    padding: 0.7rem 3.3rem;
+    font-size: 1.2rem;
+    border-radius: 4px;
+    margin-bottom: 4rem;
+    /* box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5); */
+}
+
+#cancel-btn {
+    text-decoration: none;
+    margin-inline: 0.5rem;
+    background-color: white;
+    border: 2px solid black;
+    color: black;   
+}
+
+#cancel-btn:hover {
+    background-color: white;
+    border: 2px solid rgb(152, 41, 50);
+    color: rgb(152, 41, 50);
+}
+
+#save-btn {
+    background-color: black;
+    color: white;
+    border: 2px solid black;
+}
+
+#save-btn:hover {
+    background-color: rgb(152, 41, 50);
+    border: 2px solid rgb(152, 41, 50);
+}
+  
+/* #cancel-btn:hover,
+#save-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.8);
+}
+  
+#cancel-btn:active,
+#save-btn:active {
+    transform: translateY(2px);
+    box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+} */

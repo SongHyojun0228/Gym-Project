@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('includes/head')%>
+    <link rel="stylesheet" href="/styles/login.css" />
+    <title>로그인</title>
+  </head>
+  <body>
+    <%- include('includes/header')%>
+    <%- include('includes/aside')%>
+    <main>
+      <h2 id="login-h2">로그인</h2>
+      <hr>
+      <div id="form-div">
+        <form action="/login" method="POST">
+          <label for="user_id" class="form-label">아이디</label>
+          <input
+            type="text"
+            name="user_id"
+            id="user_id"
+            class="form-input"
+            placeholder="아이디"
+          />
+          <% if (errorId) { %>
+            <p class="caution"><%= errorId %></p>
+          <% } %>
+  
+          <label for="user_pw" class="form-label">비밀번호</label>
+          <input
+            type="password"
+            name="user_pw"
+            id="user_pw"
+            class="form-input"
+            placeholder="비밀번호"
+          />
+          <% if (errorPw) { %>
+            <p class="caution"><%= errorPw %></p>
+          <% } %>
+  
+          <div id="btn-div">
+              <button id="login-btn">로그인</button>
+          </div>
+        </form>
+
+        <div id="items-div">
+            <a href="/find-id" class="items">아이디 찾기</a>
+            <span>|</span>
+            <a href="/find-pw" class="items">비밀번호 찾기</a>
+            <span>|</span>
+            <a href="/join" class="items" id="gotojoin">회원가입</a>
+        </div>
+      </div>
+    </main>
+    <%- include('includes/footer')%>
+  </body>
+</html>
+
+<script>
+  document.querySelectorAll(".form-input").forEach((input) => {
+    input.addEventListener("focus", () => {
+      document.querySelector(`label[for="${input.id}"]`).style.color =
+        "rgb(152, 41, 50)";
+    });
+    input.addEventListener("blur", () => {
+      document.querySelector(`label[for="${input.id}"]`).style.color = "black";
+    });
+  });
+</script>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('includes/head') %>
+    <link rel="stylesheet" href="/styles/change.css" />
+    <title>이메일 수정</title>
+  </head>
+  <body>
+    <%- include('includes/header') %>
+    <%- include('includes/aside')%>
+    <main>
+      <h2>이메일 수정</h2>
+      <hr>
+      <form action="/change-email" method="POST">
+        <div id="form-container">
+          <label for="email">이메일</label>
+          <input
+            type="email"
+            name="email"
+            id="email"
+            placeholder="<%= user.email%>"
+          />
+          <% if (message !== "") { %>
+            <p id="caution"><%= message %></p>
+          <% } %>
+          <button id="save-btn">저장</button>
+        </div>
+      </form>
+    </main>
+    <%- include('includes/footer') %>
+  </body>
+</html>

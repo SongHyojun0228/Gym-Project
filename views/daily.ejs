@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("includes/head") %>
+    <link rel="stylesheet" href="/styles/daily.css">
+    <title>Daily</title>
+</head>
+
+<body>
+    <%- include("includes/header") %>
+    <%- include('includes/aside')%>
+
+    <main id="main-form">
+        <h2>부위로그</h2>
+        <hr id="headline-section">
+        <div id="form-div">
+            <form action="insert-daily" method="POST" id="health-form">
+                <label for="select-muscle" class="form-label">운동부위<span id="detail-span"> (중복선택 가능)</span></label>
+                <div id="checkbox-group">
+                    <label>
+                        <input type="checkbox" name="muscle" value="가슴" class="input-checkbox">가슴
+                    </label>
+                    <label>
+                        <input type="checkbox" name="muscle" value="어깨" class="input-checkbox">어깨
+                    </label>
+                    <label>
+                        <input type="checkbox" name="muscle" value="팔" class="input-checkbox">팔
+                    </label>
+                    <label>
+                        <input type="checkbox" name="muscle" value="등" class="input-checkbox">등
+                    </label>
+                    <label>
+                        <input type="checkbox" name="muscle" value="하체" class="input-checkbox">하체
+                    </label>
+                    <label>
+                        <input type="checkbox" name="muscle" value="유산소" class="input-checkbox">유산소
+                    </label>
+                </div>
+
+                <hr class="section-divide">
+        
+                <label for="text_gym" class="form-label">운동 일지</label>
+                <textarea name="text_gym" id="text_gym"   name="text_gym" placeholder="Today's Sets"></textarea>
+
+                <hr class="section-divide">
+
+                <label for="protein" class="form-label">단백질량</label>
+                <input type="text" name="protein" id="protein" placeholder="100g">
+                <span id="gram">(g)</span>
+                <p class="protein-info">닭가슴살 100g당 단백질 약 20-25g</p>
+                <p class="protein-info">연어 100g당 단백질 약 20g</p>
+                <p class="protein-info">삶은 계란 하나 당 단백질 약 6-7g</p>
+
+                <hr class="section-divide">
+
+                <label for="date" class="form-label">날짜</label>
+                <input type="date" name="date" id="date">
+
+                <div id="btn-div">
+                    <button id="save-btn">저장</button>
+                </div>
+            </form>
+        </div>
+    </main>
+
+    <%- include("includes/footer") %>
+</body>
+
+</html>

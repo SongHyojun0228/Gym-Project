@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%-include('includes/head')%>
+    <link rel="stylesheet" href="/styles/my-page.css">
+    <script src="/scripts/mypage.js" defer></script>
+    <title>마이페이지</title>
+</head>
+<body>
+    <%-include('includes/header')%>
+    <%-include('includes/aside')%>
+    <main>
+        <div id="high-container">
+            <div id="high-left-container">
+                <div id="profile-img-container">
+                    <img src="<%= user.user_img ? user.user_img : '/images/profile.png' %>" alt="프로필 사진" id="profile-img-preview">
+                </div>
+                <form id="profile-form" action="/upload-profile-photo" method="post" enctype="multipart/form-data">
+                    <input type="file" name="profilePhoto" id="profile-img" style="display: none;" onchange="previewImage(event)">
+                    <button type="submit" id="save-profile-btn" style="display: none;">프로필 저장</button>
+                    <a id="change-profile-img" onclick="document.getElementById('profile-img').click();">프로필 사진 선택</a>
+                </form>
+            </div>
+
+            <div id="high-right-container">
+                <h3 id="profile-username"><%= user.username %></h3>
+                <p id="profile-name"><%= user.name %></p>
+                <p id="profile-body"><%= user.height %>cm / <%= user.weight %>kg</p>
+            </div>
+        </div>
+
+        <div id="low-container">
+            
+            <div class="low-items-container">
+                <p class="title">이름</p>
+                <p class="itmes"><%= user.name %></p>
+                <a  href="/change-name" class="change-btn" id="change-name-btn">변경</a>
+            </div>
+
+            <div class="low-items-container">
+                <p class="title">닉네임</p>
+                <p class="itmes"><%= user.username %></p>
+                <a href="/change-username" class="change-btn" id="change-username-btn">변경</a>
+            </div>
+
+            <div class="low-items-container">
+                <p class="title">키 / 몸무게</p>
+                <p class="itmes"><%= user.height %>cm / <%= user.weight %>kg</p>
+                <a href="/change-body" class="change-btn" id="change-height-btn">변경</a>
+            </div>
+
+            <div class="low-items-container">
+                <p class="title">생일</p>
+                <p class="itmes"><%= user.birth %></p>
+                <a href="/change-birth"  class="change-btn" id="change-birth-btn">변경</a>
+            </div>
+
+            <div class="low-items-container">
+                <p class="title">이메일</p>
+                <p class="itmes"><%= user.email %></p>
+                <a href="/change-email" class="change-btn" id="change-email-btn">변경</a>
+            </div>
+            <a class="gotopw">비밀번호 변경</a>
+            <a href="/my-post" class="gotopost">내 게시물</a>
+        </div>
+    </main>
+    <%-include('includes/footer')%>
+</body>
+</html>
+

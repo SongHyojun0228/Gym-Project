@@ -1,0 +1,175 @@
+h2 {
+  color: rgb(152, 41, 50);
+  font-size: 2rem;
+  font-weight: bolder;
+  text-align: center;
+  margin: 4rem;
+}
+
+#headline-section {
+  border: 1px solid black;
+  margin-bottom: 4rem;
+}
+
+#form-div {
+  display: block;
+  width: 50rem;
+  margin: 0 auto;
+  margin-bottom: 4rem;
+  border: 5px solid rgb(152, 41, 50);
+  border-radius: 4px;
+  text-align: left;
+}
+
+#checkbox-group {
+  display: flex;
+  flex-direction: column;
+  gap: 0.2rem;
+  margin-left: 1.5rem;
+}
+
+#checkbox-group label {
+  font-size: 1rem;
+  color: black;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#checkbox-group input[type="checkbox"] {
+  width: 1rem;
+  height: 1rem;
+  appearance: none;
+  border: 1px solid rgb(152, 41, 50);
+  background-color: white;
+  border-radius: 3px;
+  cursor: pointer;
+  transition: background-color 0.3s ease, border-color 0.3s ease;
+}
+
+#checkbox-group input[type="checkbox"]:checked {
+  background-color: rgb(152, 41, 50);
+  color: rgb(152, 41, 50);
+}
+
+#detail-span {
+  font-size: 1rem;
+}
+
+.form-label:first-child {
+    margin-top: 2rem;
+}
+
+.form-label {
+  display: block;
+  font-family: "무신사";
+  font-size: 1.5rem;
+  margin-bottom: 0.8rem;
+  margin-left: 1.5rem;
+}
+
+label input {
+  font-family: "무신사";
+}
+
+.section-divide {
+  width: 40rem;
+  margin: 2rem 0;
+  border: 0.5px solid rgba(152, 41, 50, 0.5);
+  margin-left: 1.5rem;
+  transition: width 0.5s ease-in-out; 
+}
+
+textarea {
+  display: block;
+  width: 40rem;
+  height: 12rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  border: 1px solid black;
+  margin-left: 1.5rem;
+  transition: width 0.5s ease-in-out; 
+}
+
+textarea:focus {
+  outline: 2px solid rgb(152, 41, 50);
+}
+
+#protein {
+  margin-left: 1.5rem;
+  margin-bottom: 0.3rem;
+  padding: 0.5rem;
+  font-size: 1rem;
+  width: 20rem;
+  border: 1px solid black;
+}
+
+#protein:focus {
+  outline: 2px solid rgb(152, 41, 50);
+}
+
+.protein-info {
+  color: rgba(0, 0, 0, 0.5);
+  margin-left: 1.5rem;
+}
+
+#date {
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-left: 1.5rem;
+}
+
+#date:focus {
+  outline: 2px solid rgb(152, 41, 50);
+}
+
+#save-btn {
+  margin-top: 1rem;
+  display: "block";
+  background-color: black;
+  color: white;
+  margin-left: 1.5rem;
+  margin-bottom: 2rem;
+  padding: 0.5rem 2.5rem;
+  font-size: 1rem;
+  border: 2px solid black;
+  border-radius: 4px;
+  /* box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5); */
+}
+
+#save-btn:hover {
+  background-color: rgb(152, 41, 50);
+  border: 2px solid rgb(152, 41, 50);
+  color: white;
+  /* transform: translateY(-2px);  */
+  /* box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.8);  */
+}
+
+#save-btn:active {
+  transform: translateY(2px);
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+@media (max-width: 50rem) {
+  #form-div {
+    width: 95%;
+  }
+
+  .section-divide {
+    width: 35rem;
+  }
+
+  textarea {
+    width: 35rem;
+  }
+}
+
+@media (max-width: 45rem) {
+    .section-divide {
+        width: 25rem;
+      }
+    
+      textarea {
+        width: 25rem;
+      }
+  }

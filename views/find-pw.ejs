@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("includes/head") %>
+    <link rel="stylesheet" href="/styles/find-pw.css" />
+    <title>비밀번호 찾기</title>
+  </head>
+  <body>
+    <%- include("includes/header") %> <%- include("includes/aside")%>
+    <main>
+      <h2>비밀번호 찾기</h2>
+      <hr />
+      <div id="form-div">
+        <form
+          action="/find-pw"
+          method="POST"
+          style="display: <%= !changePwVisible ? 'block' : 'none' %>;"
+        >
+          <label for="user_id" class="form-label">아이디</label>
+          <input
+            type="text"
+            name="user_id"
+            id="user_id"
+            class="form-input"
+            placeholder="아이디"
+          />
+          <% if (errors && errors.nameError) { %>
+          <p class="caution"><%= errors.nameError %></p>
+          <% } %>
+
+          <label for="user_name" class="form-label">이름</label>
+          <input
+            type="text"
+            name="user_name"
+            id="user_name"
+            class="form-input"
+            placeholder="이름"
+          />
+
+          <label for="user_username" class="form-label">닉네임</label>
+          <input
+            type="text"
+            name="user_username"
+            id="user_username"
+            class="form-input"
+            placeholder="닉네임"
+          />
+
+          <% if (errors && errors.usernameError) { %>
+          <p class="caution"><%= errors.usernameError %></p>
+          <% } %> <% if (errors && errors.resultError) { %>
+          <p class="caution"><%= errors.resultError %></p>
+          <% } %> <% if (successMessage) { %>
+          <p class="success"><%= successMessage %></p>
+          <% } %>
+
+          <div id="btn-div">
+            <button id="find-pw-btn" class="btn">비밀번호 찾기</button>
+          </div>
+        </form>
+
+        <!-- 비밀번호 변경 -->
+        <form
+          action="/change-pw/<%= userId %>"
+          method="POST"
+          id="change-pw-form"
+          style="display: <%= changePwVisible ? 'block' : 'none' %>;"
+        >
+          <label for="user_pw" class="form-label">새 비밀번호</label>
+          <input
+            type="password"
+            name="user_pw"
+            id="user_pw"
+            class="form-input"
+            placeholder="새 비밀번호"
+            required
+          />
+
+          <label for="user_check_pw" class="form-label">비밀번호 확인</label>
+          <input
+            type="password"
+            name="user_check_pw"
+            id="user_check_pw"
+            class="form-input"
+            placeholder="비밀번호 확인"
+            required
+          />
+
+          <% if (errors && errors.pwError) { %>
+          <p class="caution"><%= errors.pwError %></p>
+          <% } %>
+
+          <div id="btn-div">
+            <button id="change-pw-btn" class="btn">비밀번호 변경</button>
+          </div>
+        </form>
+
+        <div id="items-div">
+          <a href="/login" class="items">로그인</a>
+          <span>|</span>
+          <a href="/find-id" class="items">아이디 찾기</a>
+          <span>|</span>
+          <a href="/join" class="items" id="gotojoin">회원가입</a>
+        </div>
+      </div>
+    </main>
+
+    <%- include("includes/footer") %>
+  </body>
+</html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    const successMessageElement = document.querySelector(".success");
+
+    if (successMessageElement) {
+      document.querySelector('form[action="/find-pw"]').style.display = "none";
+
+      document.querySelector('form[action^="/change-pw"]').style.display =
+        "block";
+    }
+  });
+</script>

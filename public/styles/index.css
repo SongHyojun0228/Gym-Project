@@ -1,0 +1,40 @@
+#main-header, #logo-div {
+    border-block: 0.5px solid white;
+}
+
+main {
+    background-color: black;
+}
+
+main div {
+    padding: 10rem 0;
+}
+
+.main-h1 {
+    text-align: center;
+    font-size: 30rem;
+    color: white;
+}
+
+#h1-1 {
+    font-size: 10rem;
+}
+
+
+@media (max-width: 90rem) {
+    main div {
+        display: flex;
+    }
+    #h1-1 {
+        writing-mode: vertical-lr;
+        font-size: 5rem;
+        margin:auto;
+    }
+    #h1-2 {
+        writing-mode: vertical-lr;
+        text-orientation: upright;
+        font-size: 5rem;
+        margin:auto;
+        margin-left: 10rem;
+    }
+}

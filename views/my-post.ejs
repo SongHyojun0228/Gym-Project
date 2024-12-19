@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include('includes/head') %>
+    <link rel="stylesheet" href="/styles/my-post.css" />
+    <title>내 게시물</title>
+  </head>
+  <body>
+    <%- include('includes/header') %>
+    <%- include('includes/aside')%>
+    <main>
+      <h2>내 게시물</h2>
+      <hr />
+
+      <% for(const post of posts) { %>
+      <div class="post-container">
+        <div class="post-items">
+          <a href="/community/<%= post._id%>" class="title"
+            ><%= post.title %></a
+          >
+          <p class="content"><%= post.shortContent%></p>
+          <p class="post-detail"><%= post.timeAgo%></p>
+          <form action="/delete-post" method="POST">
+            <input type="hidden" name="postId" value="<%= post._id %>"> 
+            <a href="/post/<%= post._id %>/edit" class="edit-btn">수정</a>
+            <button class="delete-btn" onclick="return confirm('정말 삭제하시겠습니까?');">삭제</button>
+          </form>
+        </div>
+      </div>
+      <% } %>
+
+      <div id="gotoadd">
+        <a href="/insert-post">작성하기</a>
+      </div>
+    </main>
+    <%- include('includes/footer') %>
+  </body>
+</html>
