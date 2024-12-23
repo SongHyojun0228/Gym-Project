@@ -7,11 +7,7 @@ let database;
 async function connect() {
     try {
         const client = await MongoClient.connect(
-            'mongodb+srv://thdgywns2300:3k95ZbJxEcAOnz02@gym.4vl2x.mongodb.net/?retryWrites=true&w=majority&appName=Gym',
-            {
-                useNewUrlParser: true, 
-                useUnifiedTopology: true,
-            }
+            'mongodb+srv://thdgywns2300:oF4luy5LHKI7Cah3@gym.4vl2x.mongodb.net/Gym?retryWrites=true&w=majority&appName=Gym'
         );
         database = client.db('Gym'); 
         console.log('MongoDB Atlas 연결 성공');
@@ -19,7 +15,7 @@ async function connect() {
         console.error('MongoDB Atlas 연결 실패:', error);
         throw error;
     }
-}
+}   
 
 function getDb() {
     if (!database) {

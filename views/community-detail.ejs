@@ -3,6 +3,7 @@
   <head>
     <%- include('includes/head') %>
     <link rel="stylesheet" href="/styles/community-detail.css" />
+    <script src="/scripts/comment.js" defer></script>
     <title><%= post.title %></title>
   </head>
   <body>
@@ -38,7 +39,7 @@
         <p id="post-comment"><%= post.content%></p>
         
         <% if (post.img && post.img.length > 0) { %>
-          <div class="img-container">
+          <div class="img-container"> 
             <% post.img.forEach((imgPath) => { %>
               <% if (imgPath) { %> 
                 <div class="img-item">
@@ -60,14 +61,15 @@
             <% } %>
           </ul>
 
-        <form action="/comment" method="POST" id="form-comment">
-            <input type="text" id="comment" name="comment" placeholder="댓글을 입력하세요.">
-            <% if(error) { %>
-                <p id="caution"><%= error.message %></p>
+          <form action="/community/<%= post._id %>/comment" method="POST" id="form-comment" data-post-id="<%= post._id %>"
+            >
+            <input type="text" id="comment" name="comment" placeholder="댓글을 입력하세요." />
+            <% if (error) { %>
+              <p id="caution"><%= error.message %></p>
             <% } %>
-            <input type="hidden" name="postId" value="<%= post._id %>"> 
             <button>작성</button>
-        </form>
+          </form>
+          
 
       </div>
       <div id="gotocommunity">

@@ -5,6 +5,10 @@ const db = require("../data/database");
 const { ObjectId } = require("mongodb");
 const router = express.Router();
 
+const app = express();
+
+app.use(express.json());
+
 const storage = multer.diskStorage({
   destination: "./public/uploads",
   filename: function (req, file, cb) {
@@ -101,62 +105,27 @@ router.get("/community/:id", async function (req, res) {
   }
 });
 
-router.post("/comment", async function (req, res) {
-  const postId = req.body.postId;
-  const comment = req.body.comment;
-
-  const post = await db
-    .getDb()
-    .collection("Post")
-    .findOne({ _id: new ObjectId(postId) });
-
-  const comments = await db
-    .getDb()
-    .collection("Comment")
-    .find({ postId: new ObjectId(postId) })
-    .toArray();
-
-  if (!post) {
-    return res.status(404).render("404");
-  }
-
-  post.timeAgo = timeAgo(post.time);
-  comments.forEach((comment) => {
-    comment.timeAgo = timeAgo(comment.time);
-  });
-
-  if (!req.session.user) {
-    console.log("로그인하지 않은 사용자가 댓글을 시도했습니다.");
-    return res.render("community-detail", {
-      post: post,
-      comments: comments,
-      error: { message: "댓글을 작성하려면 로그인이 필요합니다." },
-    });
-  }
-
-  const user = req.session.user;
-
-  if (!postId || !comment) {
-    return res.status(404).render("404");
-  }
+router.post("/community/:id/comment", async (req, res) => {
+  const postId = req.params.id;
+  const { comment } = req.body;
 
   const newComment = {
     postId: new ObjectId(postId),
     comment: comment,
-    author: user.username,
-    user_id: user.id,
+    author: req.session.user.username,
+    user_id: req.session.user,
     time: new Date(),
   };
 
-  try {
-    const result = await db.getDb().collection("Comment").insertOne(newComment);
-    console.log("댓글 삽입 성공:", newComment);
-    res.redirect(`/community/${postId}`);
-  } catch (error) {
-    console.error("댓글 추가 중 오류:", error);
-    res.status(500).render("500");
-  }
+  await db.getDb().collection("Comment").insertOne(newComment);
+
+  res.status(201).json({
+    comment: newComment.comment,
+    author: newComment.author,
+    timeAgo: timeAgo(newComment.time),
+  });
 });
+
 
 router.get("/insert-post", function (req, res) {
   res.render("insert-post");
