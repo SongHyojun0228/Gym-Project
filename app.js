@@ -39,6 +39,8 @@ app.use((req, res, next) => {
     next();
 });
 
+app.use(express.json());
+
 app.use('/uploads', express.static(path.join(__dirname, 'public/uploads')));
 
 app.set('view engine', 'ejs');
