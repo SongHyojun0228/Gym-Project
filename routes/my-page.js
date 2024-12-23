@@ -12,13 +12,19 @@ const storage = multer.diskStorage({
 });
 
 router.get("/my-page", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
+
   const sessionUser = req.session.user;
 
   const user = await db
     .getDb()
     .collection("User")
     .findOne({ username: sessionUser.username });
-    console.log(user);
+  console.log(user);
 
   res.render("my-page", { user: user });
 });
@@ -52,6 +58,11 @@ router.post(
 
 // 닉네임 수정
 router.get("/change-username", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
   const sessionUser = req.session.user;
 
   const user = await db
@@ -63,6 +74,12 @@ router.get("/change-username", async function (req, res) {
 });
 
 router.post("/change-username", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
+
   const sessionUser = req.session.user;
   const enteredUsername = req.body.username;
   const message = "";
@@ -115,6 +132,11 @@ router.post("/change-username", async function (req, res) {
 
 // 이름 수정
 router.get("/change-name", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
   const sessionUser = req.session.user;
 
   const user = await db
@@ -147,6 +169,11 @@ router.post("/change-name", async function (req, res) {
 
 // 키몸무게 수정
 router.get("/change-body", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
   const sessionUser = req.session.user;
 
   const user = await db
@@ -180,6 +207,11 @@ router.post("/change-body", async function (req, res) {
 
 // 생일 수정
 router.get("/change-birth", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
   const sessionUser = req.session.user;
 
   const user = await db
@@ -212,6 +244,11 @@ router.post("/change-birth", async function (req, res) {
 
 // 이메일 수정
 router.get("/change-email", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
   const sessionUser = req.session.user;
 
   const user = await db

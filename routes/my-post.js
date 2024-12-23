@@ -33,6 +33,11 @@ function timeAgo(time) {
 }
 
 router.get("/my-post", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
   const user = req.session.user.username;
   const posts = await db
     .getDb()
@@ -54,6 +59,11 @@ router.get("/my-post", async function (req, res) {
 });
 
 router.post("/delete-post", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
   const postId = req.body.postId;
 
   if (!ObjectId.isValid(postId)) {
@@ -66,7 +76,7 @@ router.post("/delete-post", async function (req, res) {
       .collection("Post")
       .deleteOne({ _id: new ObjectId(postId) });
     console.log(`게시물 삭제 성공: ${postId}`);
-    res.redirect("/my-post"); 
+    res.redirect("/my-post");
   } catch (error) {
     console.error("게시물 삭제 중 오류:", error);
     res.status(500).render("500");
@@ -74,6 +84,11 @@ router.post("/delete-post", async function (req, res) {
 });
 
 router.get("/post/:id/edit", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
   const postId = req.params.id;
   const post = await db
     .getDb()
@@ -106,7 +121,9 @@ router.post(
         .findOne({ _id: new ObjectId(postId) });
 
       if (!existingPost) {
-        return res.status(404).render("404", { message: "게시물을 찾을 수 없습니다." });
+        return res
+          .status(404)
+          .render("404", { message: "게시물을 찾을 수 없습니다." });
       }
 
       const updatedImages = [];
@@ -134,7 +151,7 @@ router.post(
       const updatedPost = {
         title: req.body.title,
         content: req.body.content,
-        img: updatedImages, 
+        img: updatedImages,
       };
 
       await db
@@ -150,6 +167,5 @@ router.post(
     }
   }
 );
-
 
 module.exports = router;

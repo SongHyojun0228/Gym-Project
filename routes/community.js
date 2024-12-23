@@ -1,6 +1,6 @@
 const express = require("express");
 const multer = require("multer");
-const path = require("path"); 
+const path = require("path");
 const db = require("../data/database");
 const { ObjectId } = require("mongodb");
 const router = express.Router();
@@ -42,7 +42,7 @@ router.get("/community", async function (req, res) {
       .getDb()
       .collection("Post")
       .find()
-      .sort({ time: -1 }) 
+      .sort({ time: -1 })
       .toArray();
 
     const users = await db.getDb().collection("User").find().toArray();
@@ -62,7 +62,6 @@ router.get("/community", async function (req, res) {
     res.status(500).render("500");
   }
 });
-
 
 router.get("/community/:id", async function (req, res) {
   const PostId = req.params.id;
@@ -106,6 +105,12 @@ router.get("/community/:id", async function (req, res) {
 });
 
 router.post("/community/:id/comment", async (req, res) => {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
+
   const postId = req.params.id;
   const { comment } = req.body;
 
@@ -126,38 +131,46 @@ router.post("/community/:id/comment", async (req, res) => {
   });
 });
 
-
 router.get("/insert-post", function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
+
   res.render("insert-post");
 });
 
-router.post("/insert-post", upload.fields([
+router.post(
+  "/insert-post",
+  upload.fields([
     { name: "img1", maxCount: 1 },
     { name: "img2", maxCount: 1 },
     { name: "img3", maxCount: 1 },
     { name: "img4", maxCount: 1 },
     { name: "img5", maxCount: 1 },
-  ]), async function (req, res) {
+  ]),
+  async function (req, res) {
     if (!req.session.user) {
       return res.redirect("/login");
     }
-  
+
     const imgPaths = [];
     ["img1", "img2", "img3", "img4", "img5"].forEach((key) => {
       if (req.files[key]) {
         imgPaths.push(`/uploads/${req.files[key][0].filename}`);
       }
     });
-  
+
     const post = {
       title: req.body.title,
-      img: imgPaths, 
+      img: imgPaths,
       content: req.body.content,
       author: req.session.user.username,
       time: new Date(),
       user_id: req.session.user.id,
     };
-  
+
     try {
       await db.getDb().collection("Post").insertOne(post);
       console.log("게시물 삽입 성공:", post);
@@ -166,7 +179,7 @@ router.post("/insert-post", upload.fields([
       console.error("게시물 등록 중 오류:", error);
       res.status(500).render("500");
     }
-  });
-  
+  }
+);
 
 module.exports = router;

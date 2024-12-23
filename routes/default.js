@@ -1,12 +1,8 @@
-const express = require('express');
+const express = require("express");
 const router = express.Router();
 
-router.get('/', function(req, res) {
-    res.render('index');
-});
-
-router.get('/daily', function(req, res) {
-    res.render('daily');
+router.get("/", function (req, res) {
+  res.render("index");
 });
 
 module.exports = router;

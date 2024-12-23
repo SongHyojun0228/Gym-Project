@@ -6,7 +6,7 @@ const db = require("../data/database");
 const { ObjectId } = require("mongodb");
 
 router.get("/join", function (req, res) {
-  res.render("join", { errors: {} }); 
+  res.render("join", { errors: {} });
 });
 
 router.post("/sign-up", async function (req, res) {
@@ -147,8 +147,8 @@ router.get("/find-id", function (req, res) {
 });
 
 router.post("/find-id", async function (req, res) {
-  const enteredName = req.body.user_name; 
-  const enteredUsername = req.body.user_username; 
+  const enteredName = req.body.user_name;
+  const enteredUsername = req.body.user_username;
 
   const errors = {};
 
@@ -189,17 +189,21 @@ router.post("/find-id", async function (req, res) {
   }
 });
 
-router.get('/find-pw', function(req, res) {
+router.get("/find-pw", function (req, res) {
   const userId = req.query.userId || null;
-  const changePwVisible = !!userId; 
-  res.render('find-pw', { errors: {}, successMessage: null, userId, changePwVisible });
+  const changePwVisible = !!userId;
+  res.render("find-pw", {
+    errors: {},
+    successMessage: null,
+    userId,
+    changePwVisible,
+  });
 });
 
-
 router.post("/find-pw", async function (req, res) {
-  const enteredId = req.body.user_id; 
-  const enteredName = req.body.user_name; 
-  const enteredUsername = req.body.user_username; 
+  const enteredId = req.body.user_id;
+  const enteredName = req.body.user_name;
+  const enteredUsername = req.body.user_username;
 
   const errors = {};
 

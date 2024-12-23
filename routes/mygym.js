@@ -5,19 +5,24 @@ const db = require("../data/database");
 const { ObjectId } = require("mongodb");
 
 router.get("/mygym", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
+
   const user = req.session.user.username;
 
   const gyms = await db
     .getDb()
     .collection("Daily")
     .find({ author: user })
-    .sort({ date: -1 }) 
+    .sort({ date: -1 })
     .toArray();
 
   console.log(gyms);
   res.render("mygym", { gyms: gyms });
 });
-
 
 router.post("/mygym/:id/delete", async function (req, res) {
   const gymId = req.params.id;
@@ -31,6 +36,11 @@ router.post("/mygym/:id/delete", async function (req, res) {
 });
 
 router.get("/mygym/:id", async function (req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
   const gymId = req.params.id;
   const gym = await db
     .getDb()
@@ -40,7 +50,7 @@ router.get("/mygym/:id", async function (req, res) {
   if (!gym) {
     return res.status(404).render("404");
   }
-    
+
   res.render("mygym-detail", { gym: gym });
 });
 
