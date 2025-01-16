@@ -21,7 +21,7 @@ router.get("/mygym", async function (req, res) {
     .toArray();
 
   console.log(gyms);
-  res.render("mygym", { gyms: gyms });
+  res.render("mygym/mygym", { gyms: gyms });
 });
 
 router.post("/mygym/:id/delete", async function (req, res) {
@@ -48,10 +48,10 @@ router.get("/mygym/:id", async function (req, res) {
     .findOne({ _id: new ObjectId(gymId) });
 
   if (!gym) {
-    return res.status(404).render("404");
+    return res.status(404).render("errors/404");
   }
 
-  res.render("mygym-detail", { gym: gym });
+  res.render("mygym/mygym-detail", { gym: gym });
 });
 
 router.post("/mygym/:id/update", async function (req, res) {
@@ -68,7 +68,7 @@ router.post("/mygym/:id/update", async function (req, res) {
       { $set: { exercise_content: updatedContent } }
     );
 
-  res.redirect("/mygym/" + gymId);
+  res.redirect("/mygym/mygym/" + gymId);
 });
 
 module.exports = router;

@@ -9,7 +9,7 @@ router.get("/daily", function (req, res) {
     );
   }
 
-  res.render("daily");
+  res.render("mygym/daily");
 });
 
 router.post("/insert-daily", async function (req, res) {
@@ -31,10 +31,10 @@ router.post("/insert-daily", async function (req, res) {
   try {
     const result = await db.getDb().collection("Daily").insertOne(newDaily);
     console.log("삽입 성공: ", newDaily);
-    res.redirect("/mygym");
+    res.redirect("/mygym/mygym");
   } catch (error) {
     console.error("추가 에러:", error);
-    res.status(500).render("500");
+    res.status(500).render("errors/500");
   }
 });
 

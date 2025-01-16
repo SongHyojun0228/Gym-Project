@@ -55,7 +55,7 @@ router.get("/my-post", async function (req, res) {
     post.timeAgo = timeAgo(post.time);
   });
 
-  res.render("my-post", { posts: posts });
+  res.render("mypage/my-post", { posts: posts });
 });
 
 router.post("/delete-post", async function (req, res) {
@@ -76,10 +76,10 @@ router.post("/delete-post", async function (req, res) {
       .collection("Post")
       .deleteOne({ _id: new ObjectId(postId) });
     console.log(`게시물 삭제 성공: ${postId}`);
-    res.redirect("/my-post");
+    res.redirect("/mypage/my-post");
   } catch (error) {
     console.error("게시물 삭제 중 오류:", error);
-    res.status(500).render("500");
+    res.status(500).render("errors/500");
   }
 });
 
@@ -96,10 +96,10 @@ router.get("/post/:id/edit", async function (req, res) {
     .findOne({ _id: new ObjectId(postId) });
 
   if (!post) {
-    return res.status(404).render("404");
+    return res.status(404).render("errors/404");
   }
 
-  res.render("post-edit", { post: post });
+  res.render("posts/post-edit", { post: post });
 });
 
 router.post(
@@ -123,7 +123,7 @@ router.post(
       if (!existingPost) {
         return res
           .status(404)
-          .render("404", { message: "게시물을 찾을 수 없습니다." });
+          .render("errors/404", { message: "게시물을 찾을 수 없습니다." });
       }
 
       const updatedImages = [];
@@ -160,10 +160,10 @@ router.post(
         .updateOne({ _id: new ObjectId(postId) }, { $set: updatedPost });
 
       console.log("게시물 수정 성공:", updatedPost);
-      res.redirect("/my-post");
+      res.redirect("/mypage/my-post");
     } catch (error) {
       console.error("게시물 수정 중 오류:", error);
-      res.status(500).render("500", { message: "서버 오류가 발생했습니다." });
+      res.status(500).render("errors/500", { message: "서버 오류가 발생했습니다." });
     }
   }
 );

@@ -6,7 +6,7 @@ const db = require("../data/database");
 const { ObjectId } = require("mongodb");
 
 router.get("/join", function (req, res) {
-  res.render("join", { errors: {} });
+  res.render("auth/join", { errors: {} });
 });
 
 router.post("/sign-up", async function (req, res) {
@@ -58,7 +58,7 @@ router.post("/sign-up", async function (req, res) {
   }
 
   if (Object.keys(errors).length > 0) {
-    return res.render("join", { errors });
+    return res.render("auth/join", { errors });
   }
 
   const hashedPassword = await bcrypt.hash(String(enteredPw), 12);
@@ -78,15 +78,15 @@ router.post("/sign-up", async function (req, res) {
   try {
     const result = await db.getDb().collection("User").insertOne(newUser);
     console.log("삽입 성공: ", newUser);
-    res.redirect("/login");
+    res.redirect("/auth/login");
   } catch (error) {
     console.error("추가 에러:", error);
-    res.status(500).render("500");
+    res.status(500).render("errors/500");
   }
 });
 
 router.get("/login", function (req, res) {
-  res.render("login", { errorId: "", errorPw: "" });
+  res.render("auth/login", { errorId: "", errorPw: "" });
 });
 
 router.post("/login", async function (req, res) {
@@ -101,7 +101,7 @@ router.post("/login", async function (req, res) {
 
   if (!existingUser) {
     console.log("해당 유저가 존재하지 않습니다.");
-    return res.render("login", {
+    return res.render("auth/login", {
       errorId: "해당 아이디가 존재하지 않습니다.",
       errorPw: "",
     });
@@ -114,7 +114,7 @@ router.post("/login", async function (req, res) {
 
   if (!passwordsAreEqual) {
     console.log("비밀번호가 일치하지 않습니다");
-    return res.render("login", {
+    return res.render("auth/login", {
       errorId: "",
       errorPw: "비밀번호가 일치하지 않습니다.",
     });
@@ -143,7 +143,7 @@ router.post("/logout", function (req, res) {
 });
 
 router.get("/find-id", function (req, res) {
-  res.render("find-id", { errors: {}, successMessage: null });
+  res.render("mypage/find-id", { errors: {}, successMessage: null });
 });
 
 router.post("/find-id", async function (req, res) {
@@ -161,7 +161,7 @@ router.post("/find-id", async function (req, res) {
   }
 
   if (Object.keys(errors).length > 0) {
-    return res.render("find-id", { errors, successMessage: null });
+    return res.render("mypage/find-id", { errors, successMessage: null });
   }
 
   try {
@@ -171,7 +171,7 @@ router.post("/find-id", async function (req, res) {
     });
 
     if (!existingUser) {
-      return res.render("find-id", {
+      return res.render("mypage/find-id", {
         errors: {
           resultError: "해당 이름과 닉네임에 일치하는 사용자가 없습니다.",
         },
@@ -179,20 +179,20 @@ router.post("/find-id", async function (req, res) {
       });
     }
 
-    res.render("find-id", {
+    res.render("mypage/find-id", {
       successMessage: `아이디는 ${existingUser.id} 입니다.`,
       errors: {},
     });
   } catch (error) {
     console.error("아이디 찾기 중 오류:", error);
-    res.status(500).render("500");
+    res.status(500).render("errors/500");
   }
 });
 
 router.get("/find-pw", function (req, res) {
   const userId = req.query.userId || null;
   const changePwVisible = !!userId;
-  res.render("find-pw", {
+  res.render("mypage/find-pw", {
     errors: {},
     successMessage: null,
     userId,
@@ -220,7 +220,7 @@ router.post("/find-pw", async function (req, res) {
   }
 
   if (Object.keys(errors).length > 0) {
-    return res.render("find-pw", {
+    return res.render("mypage/find-pw", {
       errors,
       successMessage: null,
       changePwVisible: false,
@@ -236,7 +236,7 @@ router.post("/find-pw", async function (req, res) {
     });
 
     if (!existingUser) {
-      return res.render("find-pw", {
+      return res.render("mypage/find-pw", {
         errors: { resultError: "해당 정보와 일치하는 사용자가 없습니다." },
         successMessage: null,
         changePwVisible: false,
@@ -244,7 +244,7 @@ router.post("/find-pw", async function (req, res) {
       });
     }
 
-    res.render("find-pw", {
+    res.render("mypage/find-pw", {
       errors: {},
       successMessage: null,
       changePwVisible: true,
@@ -252,7 +252,7 @@ router.post("/find-pw", async function (req, res) {
     });
   } catch (error) {
     console.error("비밀번호 찾기 중 오류:", error);
-    res.status(500).render("500");
+    res.status(500).render("errors/500");
   }
 });
 
@@ -276,7 +276,7 @@ router.post("/change-pw/:id", async function (req, res) {
   }
 
   if (Object.keys(errors).length > 0) {
-    return res.render("find-pw", {
+    return res.render("mypage/find-pw", {
       errors,
       successMessage: null,
       changePwVisible: true,
@@ -296,10 +296,10 @@ router.post("/change-pw/:id", async function (req, res) {
       );
 
     console.log("비밀번호 변경 성공");
-    res.redirect("/login");
+    res.redirect("/auth/login");
   } catch (error) {
     console.error("비밀번호 변경 중 오류:", error);
-    res.status(500).render("500");
+    res.status(500).render("errors/500");
   }
 });
 

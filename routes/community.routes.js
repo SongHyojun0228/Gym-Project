@@ -56,10 +56,10 @@ router.get("/community", async function (req, res) {
       post.timeAgo = timeAgo(post.time);
     });
 
-    res.render("community", { posts: posts, users: users });
+    res.render("posts/community", { posts: posts, users: users });
   } catch (error) {
     console.error("게시물 로드 중 오류:", error);
-    res.status(500).render("500");
+    res.status(500).render("errors/500");
   }
 });
 
@@ -67,7 +67,7 @@ router.get("/community/:id", async function (req, res) {
   const PostId = req.params.id;
 
   if (!ObjectId.isValid(PostId)) {
-    return res.render("404");
+    return res.render("errors/404");
   }
 
   try {
@@ -79,7 +79,7 @@ router.get("/community/:id", async function (req, res) {
     if (!post) {
       return res
         .status(404)
-        .render("404", { message: "게시물을 찾을 수 없습니다." });
+        .render("errors/404", { message: "게시물을 찾을 수 없습니다." });
     }
 
     const comments = await db
@@ -93,14 +93,14 @@ router.get("/community/:id", async function (req, res) {
       comment.timeAgo = timeAgo(comment.time);
     });
 
-    res.render("community-detail", {
+    res.render("posts/community-detail", {
       post: post,
       comments: comments,
       error: {},
     });
   } catch (error) {
     console.error("에러 발생:", error);
-    res.status(500).render("500");
+    res.status(500).render("errors/500");
   }
 });
 
@@ -138,7 +138,7 @@ router.get("/insert-post", function (req, res) {
     );
   }
 
-  res.render("insert-post");
+  res.render("posts/insert-post");
 });
 
 router.post(
@@ -152,7 +152,7 @@ router.post(
   ]),
   async function (req, res) {
     if (!req.session.user) {
-      return res.redirect("/login");
+      return res.redirect("/auth/login");
     }
 
     const imgPaths = [];
@@ -174,10 +174,10 @@ router.post(
     try {
       await db.getDb().collection("Post").insertOne(post);
       console.log("게시물 삽입 성공:", post);
-      res.redirect("/community");
+      res.redirect("/posts/community");
     } catch (error) {
       console.error("게시물 등록 중 오류:", error);
-      res.status(500).render("500");
+      res.status(500).render("errors/500");
     }
   }
 );

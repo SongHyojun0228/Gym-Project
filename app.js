@@ -2,13 +2,13 @@ const express = require("express");
 const path = require("path");
 const app = express();
 
-const DefaultRouter = require("./routes/default");
-const UserRouter = require("./routes/user");
-const DailyRouter = require("./routes/daily");
-const MygymRouter = require("./routes/mygym");
-const CommunityRouter = require("./routes/community");
-const MyPageRouter = require("./routes/my-page");
-const MyPostRouter = require("./routes/my-post");
+const DefaultRouter = require("./routes/default.routes");
+const UserRouter = require("./routes/user.routes");
+const DailyRouter = require("./routes/daily.routes");
+const MygymRouter = require("./routes/mygym.routes");
+const CommunityRouter = require("./routes/community.routes");
+const MyPageRouter = require("./routes/my-page.routes");
+const MyPostRouter = require("./routes/my-post.routes");
 
 const session = require("express-session");
 const db = require("./data/database");
@@ -16,7 +16,7 @@ const mongodbStore = require("connect-mongodb-session");
 const MongoDBStore = mongodbStore(session);
 
 const sessionStore = new MongoDBStore({
-  uri: "mongodb://localhost:27017",
+  uri: "mongodb+srv://thdgywns2300:oF4luy5LHKI7Cah3@gym.4vl2x.mongodb.net/Gym?retryWrites=true&w=majority&appName=Gym",
   databaseName: "Gym",
   collection: "sessions",
 });
