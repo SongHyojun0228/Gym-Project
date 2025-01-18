@@ -6,17 +6,17 @@
     <nav>
         <div id="navigation">
             <% if (typeof session !== "undefined" && session.isAuthenticated) { %>
-                <li class="nav-item"><a href="/community">커뮤니티</a></li>
-                <li class="nav-item"><a href="/daily">부위로그</a></li>
-                <li class="nav-item"><a href="/mygym">운동기록소</a></li>
+                <li class="nav-item"><a href="/shop">상점</a></li>
+                <li class="nav-item"><a href="/cart">장바구니</a></li>
+                <li class="nav-item"><a href="/community">헬스 뉴스</a></li>
                 <li class="nav-item"><a href="/my-page">마이페이지</a></li>
                 <form action="/logout" method="POST">
                     <li class="nav-item"><button>로그아웃</button></li>
                 </form>
             <% } else { %>
-                <li class="nav-item"><a href="/community">커뮤니티</a></li>
-                <!-- <li class="nav-item"><a href="/daily">부위로그</a></li>
-                <li class="nav-item"><a href="/mygym">운동기록소</a></li> -->
+                <li class="nav-item"><a href="/shop">상점</a></li>
+                <li class="nav-item"><a href="/cart">장바구니</a></li>
+                <li class="nav-item"><a href="/community">헬스 뉴스</a></li>
                 <li class="nav-item"><a href="/join">회원가입</a></li>
                 <li class="nav-item"><a href="/login">로그인</a></li>
             <% } %>

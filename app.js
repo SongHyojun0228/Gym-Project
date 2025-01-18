@@ -3,12 +3,11 @@ const path = require("path");
 const app = express();
 
 const DefaultRouter = require("./routes/default.routes");
-const UserRouter = require("./routes/user.routes");
-const DailyRouter = require("./routes/daily.routes");
-const MygymRouter = require("./routes/mygym.routes");
+const UserRouter = require("./routes/auth.routes");
 const CommunityRouter = require("./routes/community.routes");
 const MyPageRouter = require("./routes/my-page.routes");
 const MyPostRouter = require("./routes/my-post.routes");
+const ShopRouter = require("./routes/shop.routes");
 
 const session = require("express-session");
 const db = require("./data/database");
@@ -51,19 +50,18 @@ app.use(express.urlencoded({ extended: true }));
 
 app.use("/", DefaultRouter);
 app.use("/", UserRouter);
-app.use("/", DailyRouter);
-app.use("/", MygymRouter);
 app.use("/", CommunityRouter);
 app.use("/", MyPageRouter);
 app.use("/", MyPostRouter);
+app.use("/", ShopRouter);
 
 app.use((req, res) => {
-  res.status(404).render("404");
+  res.status(404).render("errors/404");
 });
 
 app.use((err, req, res, next) => {
   console.error(err.stack);
-  res.status(500).render("500");
+  res.status(500).render("errors/500");
 });
 
 db.connectToDatabase().then(function () {

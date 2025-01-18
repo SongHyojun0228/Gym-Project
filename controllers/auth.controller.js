@@ -1,15 +1,13 @@
-const express = require("express");
-const router = express.Router();
 const bcrypt = require("bcrypt");
-
 const db = require("../data/database");
 const { ObjectId } = require("mongodb");
+const Auth = require("../models/auth.model");
 
-router.get("/join", function (req, res) {
+function getSignup(req, res) {
   res.render("auth/join", { errors: {} });
-});
+}
 
-router.post("/sign-up", async function (req, res) {
+async function Signup(req, res) {
   const userData = req.body;
   const enteredId = userData.user_id || "";
   const enteredPw = userData.user_pw || "";
@@ -21,10 +19,6 @@ router.post("/sign-up", async function (req, res) {
   const enteredEmail = userData.user_email;
   const enteredHeight = userData.user_height;
   const enteredWeight = userData.user_weight;
-
-  const existingUser = await db.getDb().collection("User").findOne({
-    user_id: enteredId,
-  });
 
   const errors = {};
 
@@ -61,43 +55,56 @@ router.post("/sign-up", async function (req, res) {
     return res.render("auth/join", { errors });
   }
 
-  const hashedPassword = await bcrypt.hash(String(enteredPw), 12);
-  console.log("암호화된 비밀번호:", hashedPassword);
+  const auth = new Auth(
+    enteredId,
+    enteredPw,
+    enteredName,
+    enteredUserName,
+    enteredBirth,
+    enteredEmail,
+    enteredHeight,
+    enteredWeight
+  );
 
-  const newUser = {
-    id: enteredId,
-    password: hashedPassword,
-    name: enteredName,
-    username: enteredUserName,
-    birth: enteredBirth,
-    email: enteredEmail,
-    height: enteredHeight,
-    weight: enteredWeight,
-  };
+  const existingUser = await Auth.findById(enteredId);
+  if (enteredId === existingUser.id) {
+    errors.userId = "(해당 아이디의 유저가 존재합니다.)";
+  }
+
+  if (enteredUserName === existingUser.id) {
+    errors.userId = "(해당 닉네임의 유저가 존재합니다.)";
+  }
 
   try {
-    const result = await db.getDb().collection("User").insertOne(newUser);
-    console.log("삽입 성공: ", newUser);
-    res.redirect("/auth/login");
+    auth.save(
+      enteredId,
+      enteredPw,
+      enteredName,
+      enteredUserName,
+      enteredBirth,
+      enteredEmail,
+      enteredHeight,
+      enteredWeight
+    );
+
+    console.log("회원가입 성공");
+    res.redirect("/login");
   } catch (error) {
-    console.error("추가 에러:", error);
+    console.error("회원가입 에러:", error);
     res.status(500).render("errors/500");
   }
-});
+}
 
-router.get("/login", function (req, res) {
+function getLogin(req, res) {
   res.render("auth/login", { errorId: "", errorPw: "" });
-});
+}
 
-router.post("/login", async function (req, res) {
+async function Login(req, res) {
   const userData = req.body;
   const enteredId = userData.user_id;
   const enteredPw = userData.user_pw;
 
-  const existingUser = await db
-    .getDb()
-    .collection("User")
-    .findOne({ id: enteredId });
+  const existingUser = await Auth.findById(enteredId);
 
   if (!existingUser) {
     console.log("해당 유저가 존재하지 않습니다.");
@@ -134,19 +141,19 @@ router.post("/login", async function (req, res) {
     console.log("로그인 성공!");
     res.redirect("/");
   });
-});
+}
 
-router.post("/logout", function (req, res) {
+function Logout(req, res) {
   req.session.destroy(() => {
     res.redirect("/");
   });
-});
+}
 
-router.get("/find-id", function (req, res) {
+function getFindId(req, res) {
   res.render("mypage/find-id", { errors: {}, successMessage: null });
-});
+}
 
-router.post("/find-id", async function (req, res) {
+async function FindId(req, res) {
   const enteredName = req.body.user_name;
   const enteredUsername = req.body.user_username;
 
@@ -165,10 +172,7 @@ router.post("/find-id", async function (req, res) {
   }
 
   try {
-    const existingUser = await db.getDb().collection("User").findOne({
-      name: enteredName,
-      username: enteredUsername,
-    });
+    const existingUser = await Auth.findByNameAndUsername(enteredName, enteredUsername);
 
     if (!existingUser) {
       return res.render("mypage/find-id", {
@@ -187,9 +191,9 @@ router.post("/find-id", async function (req, res) {
     console.error("아이디 찾기 중 오류:", error);
     res.status(500).render("errors/500");
   }
-});
+}
 
-router.get("/find-pw", function (req, res) {
+function getFindPw(req, res) {
   const userId = req.query.userId || null;
   const changePwVisible = !!userId;
   res.render("mypage/find-pw", {
@@ -198,9 +202,9 @@ router.get("/find-pw", function (req, res) {
     userId,
     changePwVisible,
   });
-});
+}
 
-router.post("/find-pw", async function (req, res) {
+async function FindPw(req, res) {
   const enteredId = req.body.user_id;
   const enteredName = req.body.user_name;
   const enteredUsername = req.body.user_username;
@@ -229,11 +233,7 @@ router.post("/find-pw", async function (req, res) {
   }
 
   try {
-    const existingUser = await db.getDb().collection("User").findOne({
-      id: enteredId,
-      name: enteredName,
-      username: enteredUsername,
-    });
+    const existingUser = await Auth.findByIdAndDetails(enteredId, enteredName, enteredUsername);
 
     if (!existingUser) {
       return res.render("mypage/find-pw", {
@@ -254,9 +254,9 @@ router.post("/find-pw", async function (req, res) {
     console.error("비밀번호 찾기 중 오류:", error);
     res.status(500).render("errors/500");
   }
-});
+}
 
-router.post("/change-pw/:id", async function (req, res) {
+async function ChangePw(req, res) {
   const userId = req.params.id;
   const enteredPw = req.body.user_pw;
   const enteredPwCheck = req.body.user_check_pw;
@@ -285,22 +285,25 @@ router.post("/change-pw/:id", async function (req, res) {
   }
 
   try {
-    const hashedPassword = await bcrypt.hash(String(enteredPw), 12);
-
-    await db
-      .getDb()
-      .collection("User")
-      .updateOne(
-        { _id: new ObjectId(userId) },
-        { $set: { password: hashedPassword } }
-      );
+    Auth.update(userId, enteredPw);
 
     console.log("비밀번호 변경 성공");
-    res.redirect("/auth/login");
+    res.redirect("/login");
   } catch (error) {
     console.error("비밀번호 변경 중 오류:", error);
     res.status(500).render("errors/500");
   }
-});
+}
 
-module.exports = router;
+module.exports = {
+  getSignup,
+  Signup,
+  getLogin,
+  Login,
+  Logout,
+  getFindId,
+  FindId,
+  getFindPw,
+  FindPw,
+  ChangePw,
+};
