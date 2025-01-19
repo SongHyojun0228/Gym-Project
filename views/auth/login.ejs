@@ -9,8 +9,7 @@
     <%- include('../includes/header')%>
     <%- include('../includes/aside')%>
     <main>
-      <h2 id="login-h2">로그인</h2>
-      <hr>
+      <h2>Panata</h2>
       <div id="form-div">
         <form action="/login" method="POST">
           <label for="user_id" class="form-label">아이디</label>
@@ -24,8 +23,8 @@
           <% if (errorId) { %>
             <p class="caution"><%= errorId %></p>
           <% } %>
-  
-          <label for="user_pw" class="form-label">비밀번호</label>
+    
+          <label for="user_pw" class="form-label" id="user_pw_label">비밀번호</label>
           <input
             type="password"
             name="user_pw"

@@ -1,104 +1,150 @@
 const bcrypt = require("bcrypt");
-const db = require("../data/database");
-const { ObjectId } = require("mongodb");
 const Auth = require("../models/auth.model");
 
+// 🔥회원가입 페이지
 function getSignup(req, res) {
   res.render("auth/join", { errors: {} });
 }
 
-async function Signup(req, res) {
-  const userData = req.body;
-  const enteredId = userData.user_id || "";
-  const enteredPw = userData.user_pw || "";
-  const enteredConfirmPw = userData.user_pw_check || "";
-  const enteredName = userData.user_name || "";
+const { printTokenResult } = require("../utils/send_sms");
+const authTokens = {};
 
-  const enteredUserName = userData.user_username;
-  const enteredBirth = userData.user_birth;
-  const enteredEmail = userData.user_email;
-  const enteredHeight = userData.user_height;
-  const enteredWeight = userData.user_weight;
+async function sendVerificationCode(req, res) {
+  const { phone } = req.body;
+  if (!phone) {
+    return res.status(400).json({ message: "전화번호를 입력하세요." });
+  }
+
+  const token = Math.floor(100000 + Math.random() * 900000).toString();
+  authTokens[phone] = token;
+
+  try {
+    await printTokenResult(phone, token);
+    res.status(200).json({ message: "인증번호가 발송되었습니다." });
+  } catch (error) {
+    console.error("SMS 발송 오류:", error);
+    res.status(500).json({ message: "SMS 발송에 실패했습니다." });
+  }
+}
+
+function verifyCode(req, res) {
+  const { phone, code } = req.body;
+  if (authTokens[phone] === code) {
+    delete authTokens[phone]; // 인증 후 제거
+    res.status(200).json({ message: "인증되었습니다." });
+  } else {
+    res.status(400).json({ message: "인증번호가 올바르지 않습니다." });
+  }
+}
+
+// 🔥회원가입
+async function Signup(req, res) {
+  const {
+    user_id,
+    user_pw,
+    user_pw_check,
+    user_name,
+    user_phone,
+    user_username,
+    verification_code,
+  } = req.body;
 
   const errors = {};
 
   // 아이디 검사
   const userIdPattern = /^[a-z0-9]{4,16}$/;
-  if (!enteredId) {
+  if (!user_id) {
     errors.userId = "(아이디를 입력하세요)";
-  } else if (!userIdPattern.test(enteredId)) {
+  } else if (!userIdPattern.test(user_id)) {
     errors.userId = "(영소문자/숫자 4-16자만 가능합니다)";
   }
 
   // 비밀번호 검사
   const userPwPattern =
     /^(?=.*[a-zA-Z].*)(?=.*[0-9].*|.*[!@#$%^&*].*).*|(?=.*[0-9].*)(?=.*[!@#$%^&*].*).{8,16}$/;
-  if (!enteredPw) {
+  if (!user_pw) {
     errors.userPw = "(비밀번호를 입력하세요)";
-  } else if (!userPwPattern.test(enteredPw)) {
+  } else if (!userPwPattern.test(user_pw)) {
     errors.userPw = "(영문, 숫자, 특수문자 포함 8~16자로 입력하세요)";
   }
 
   // 비밀번호 확인 검사
-  if (!enteredConfirmPw) {
+  if (!user_pw_check) {
     errors.userPwCheck = "(비밀번호를 확인해주세요)";
-  } else if (enteredConfirmPw !== enteredPw) {
+  } else if (user_pw_check !== user_pw) {
     errors.userPwCheck = "(비밀번호가 일치하지 않습니다)";
   }
 
   // 이름 검사
-  if (!enteredName) {
+  if (!user_name) {
     errors.userName = "(이름을 입력하세요)";
   }
+
+  // 전화번호 인증 확인
+  if (!user_phone || !verification_code) {
+    errors.phone = "(전화번호와 인증번호를 입력하세요)";
+  } else if (authTokens[user_phone] !== verification_code) {
+    errors.phone = "(인증번호가 올바르지 않습니다)";
+  }
+
+  // 다른 유효성 검사 필요 시 추가
+  // 예: 이메일, 키, 몸무게 검사 등
 
   if (Object.keys(errors).length > 0) {
     return res.render("auth/join", { errors });
   }
 
-  const auth = new Auth(
-    enteredId,
-    enteredPw,
-    enteredName,
-    enteredUserName,
-    enteredBirth,
-    enteredEmail,
-    enteredHeight,
-    enteredWeight
+  // 기존 유저 중복 체크
+  const existingUser = await Auth.findById(user_id);
+  if (existingUser) {
+    errors.userId = "(해당 아이디의 유저가 존재합니다)";
+    return res.render("auth/join", { errors });
+  }
+
+  const existingUsername = await Auth.findByNameAndUsername(
+    user_name,
+    user_username
   );
-
-  const existingUser = await Auth.findById(enteredId);
-  if (enteredId === existingUser.id) {
-    errors.userId = "(해당 아이디의 유저가 존재합니다.)";
+  if (existingUsername) {
+    errors.userUsername = "(해당 닉네임의 유저가 존재합니다)";
+    return res.render("auth/join", { errors });
   }
 
-  if (enteredUserName === existingUser.id) {
-    errors.userId = "(해당 닉네임의 유저가 존재합니다.)";
-  }
-
+  // 유효성 검사 통과 후 유저 생성
   try {
-    auth.save(
-      enteredId,
-      enteredPw,
-      enteredName,
-      enteredUserName,
-      enteredBirth,
-      enteredEmail,
-      enteredHeight,
-      enteredWeight
+    const newUser = new Auth(
+      user_id,
+      user_pw,
+      user_name,
+      user_phone,
+      user_username,
     );
+    
+    await newUser.save(
+      user_id,
+      user_pw,
+      user_name,
+      user_phone,
+      user_username,
+    );
+
+    // 인증 토큰 삭제
+    delete authTokens[user_phone];
 
     console.log("회원가입 성공");
     res.redirect("/login");
   } catch (error) {
-    console.error("회원가입 에러:", error);
+    console.error("회원가입 중 오류 발생:", error);
     res.status(500).render("errors/500");
   }
 }
 
+// 🔥로그인 페이지
 function getLogin(req, res) {
   res.render("auth/login", { errorId: "", errorPw: "" });
 }
 
+// 🔥로그인
 async function Login(req, res) {
   const userData = req.body;
   const enteredId = userData.user_id;
@@ -143,16 +189,19 @@ async function Login(req, res) {
   });
 }
 
+// 🔥로그아웃
 function Logout(req, res) {
   req.session.destroy(() => {
     res.redirect("/");
   });
 }
 
+// 🔥아이디찾기 페이지
 function getFindId(req, res) {
   res.render("mypage/find-id", { errors: {}, successMessage: null });
 }
 
+// 🔥아이디 찾기
 async function FindId(req, res) {
   const enteredName = req.body.user_name;
   const enteredUsername = req.body.user_username;
@@ -172,7 +221,10 @@ async function FindId(req, res) {
   }
 
   try {
-    const existingUser = await Auth.findByNameAndUsername(enteredName, enteredUsername);
+    const existingUser = await Auth.findByNameAndUsername(
+      enteredName,
+      enteredUsername
+    );
 
     if (!existingUser) {
       return res.render("mypage/find-id", {
@@ -233,7 +285,11 @@ async function FindPw(req, res) {
   }
 
   try {
-    const existingUser = await Auth.findByIdAndDetails(enteredId, enteredName, enteredUsername);
+    const existingUser = await Auth.findByIdAndDetails(
+      enteredId,
+      enteredName,
+      enteredUsername
+    );
 
     if (!existingUser) {
       return res.render("mypage/find-pw", {
@@ -296,6 +352,8 @@ async function ChangePw(req, res) {
 }
 
 module.exports = {
+  sendVerificationCode,
+  verifyCode,
   getSignup,
   Signup,
   getLogin,

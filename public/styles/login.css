@@ -1,76 +1,54 @@
-#login-h2 {
-  text-align: center;
-  font-size: 2rem;
-  color: rgb(152, 41, 50);
-  font-weight: bold;
-  margin: 4rem;
-}
-
-hr {
-  margin-bottom: 2rem;
-  border: 1px solid black;
-}
-
 #form-div {
-  width: 27rem;
+  width: 25rem;
   margin: 0 auto;
-  margin-bottom: 4rem;
-  padding: 1.5rem;
-  /* border: 5px solid rgb(152, 41, 50); */
 }
 
 .form-label {
   display: block;
   font-size: 1.2rem;
-  margin-top: 2rem;
-  margin-left: 0.1rem;
-  margin-bottom: 0.8rem;
+  margin: 0 0 0.8rem 0.1rem;
 }
 
 .form-input {
   font-size: 1.2rem;
   width: 25rem;
   padding: 1rem;
+  border: 1px solid black;
+  border-radius: 4px;
 }
 
 .form-input:focus {
   outline: 2px solid rgb(152, 41, 50);
 }
 
+#user_pw_label {
+  margin-top: 2rem;
+}
+
 .caution {
   color: red;
   font-size: 0.9rem;
-  margin-top: 0.5rem;
-  margin-left: 0.1rem;
+  margin: 0.5rem 0 0 0.1rem;
 }
 
 #login-btn {
-  display: "block";
+  display: block;
   background-color: black;
   color: white;
   padding: 0.5rem 2rem;
   margin-top: 2rem;
-  width: 27rem;
+  width: 25rem;
   height: 3.5rem;
   font-size: 1.5rem;
   border: 2px solid black;
   border-radius: 4px;
-  color: white;
-  /* box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5); */
 }
 
 #login-btn:hover {
   cursor: pointer;
   background-color: rgb(152, 41, 50);
-  border: 2px solid rgb(152, 41, 50);
-  /* transform: translateY(-2px); */
-  /* box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.8); */
+  border-color: rgb(152, 41, 50);
 }
-
-/* #login-btn:active {
-  transform: translateY(2px);
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-} */
 
 #items-div {
   margin-top: 1rem;
@@ -83,16 +61,16 @@ hr {
   color: rgba(0, 0, 0, 0.4);
 }
 
-#gotojoin {
-  color: rgb(0,0,0,0.65);
-}
-
-#gotojoin:hover {
+.items:hover {
   color: rgb(152, 41, 50);
   font-weight: bolder;
 }
 
-.items:hover {
+#gotojoin {
+  color: rgba(0, 0, 0, 0.65);
+}
+
+#gotojoin:hover {
   color: rgb(152, 41, 50);
   font-weight: bolder;
 }

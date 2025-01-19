@@ -1,17 +1,18 @@
 <div id="aside-container">
   <% if (typeof session !== "undefined" && session.isAuthenticated) { %>
-    <li class="aside-item" id="first"><a href="/community">커뮤니티</a></li>
-    <li class="aside-item"><a href="/daily">부위로그</a></li>
-    <li class="aside-item"><a href="/mygym">운동기록소</a></li>
+    <li class="aside-item" id="first"><a href="/shop">싱점</a></li>
+    <li class="aside-item"><a href="/cart">장바구니</a></li>
+    <li class="aside-item"><a href="/community">커뮤니티</a></li>
     <li class="aside-item"><a href="/my-page">마이페이지</a></li>
     <form action="/logout" method="POST">
         <li class="aside-item"><button>로그아웃</button></li>
     </form>
 
   <% } else { %>
+    <li class="aside-item"><a href="/shop">싱점</a></li>
+    <li class="aside-item"><a href="/cart">장바구니</a></li>
     <li class="aside-item"><a href="/community">커뮤니티</a></li>
-    <li class="aside-item"><a href="/daily">부위로그</a></li>
-    <li class="aside-item"><a href="/mygym">운동기록소</a></li>
+    <li class="aside-item"><a href="/join">회원가입</a></li>
     <li class="aside-item"><a href="/login">로그인</a></li>
   <% } %>
 </div>

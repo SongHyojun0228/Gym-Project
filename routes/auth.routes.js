@@ -4,7 +4,10 @@ const router = express.Router();
 const authController = require("../controllers/auth.controller");
 
 router.get("/join", authController.getSignup);
+router.post("/send-code", authController.sendVerificationCode);
+router.post("/verify-code", authController.verifyCode);
 router.post("/sign-up", authController.Signup);
+
 router.get("/login", authController.getLogin);
 router.post("/login", authController.Login);
 router.post("/logout", authController.Logout);

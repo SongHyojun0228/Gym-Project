@@ -1,28 +1,17 @@
-// 클릭했을 떄
-document.querySelectorAll(".form-input").forEach((input) => {
-  input.addEventListener("focus", () => {
-    document.querySelector(`label[for="${input.id}"]`).style.color =
-      "rgb(152, 41, 50)";
-  });
-  input.addEventListener("blur", () => {
-    document.querySelector(`label[for="${input.id}"]`).style.color = "black";
-  });
-});
+document.getElementById("send-code-btn").addEventListener("click", async () => {
+  const phone = document.getElementById("user_phone").value;
 
-const allAgreeCheckbox = document.getElementById("all-agree");
-const agreeItems = document.querySelectorAll(".agree-item");
+  if (!phone) {
+    alert("전화번호를 입력하세요.");
+    return;
+  }
 
-allAgreeCheckbox.addEventListener("change", (event) => {
-  const isChecked = event.target.checked;
-
-  agreeItems.forEach((checkbox) => {
-    checkbox.checked = isChecked;
+  const response = await fetch("/send-code", {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ phone }),
   });
-});
 
-agreeItems.forEach((checkbox) => {
-  checkbox.addEventListener("change", () => {
-    const allChecked = Array.from(agreeItems).every((item) => item.checked);
-    allAgreeCheckbox.checked = allChecked;
-  });
+  const result = await response.json();
+  alert(result.message); // 인증번호 발송 결과 표시
 });
