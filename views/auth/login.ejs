@@ -53,15 +53,3 @@
     <%- include('../includes/footer')%>
   </body>
 </html>
-
-<script>
-  document.querySelectorAll(".form-input").forEach((input) => {
-    input.addEventListener("focus", () => {
-      document.querySelector(`label[for="${input.id}"]`).style.color =
-        "rgb(152, 41, 50)";
-    });
-    input.addEventListener("blur", () => {
-      document.querySelector(`label[for="${input.id}"]`).style.color = "black";
-    });
-  });
-</script>

@@ -1,9 +1,9 @@
 const express = require("express");
-const db = require("../data/database");
-const { ObjectId } = require("mongodb");
 
 const app = express();
 app.use(express.json());
+
+const community = require('../models/community.model');
 
 function timeAgo(time) {
   const now = new Date();
@@ -25,14 +25,7 @@ function timeAgo(time) {
 
 async function getCommunity(req, res) {
   try {
-    const posts = await db
-      .getDb()
-      .collection("Post")
-      .find()
-      .sort({ time: -1 })
-      .toArray();
-
-    const users = await db.getDb().collection("User").find().toArray();
+    const posts = await community.getAllPost();
 
     posts.forEach((post) => {
       if (post.content.length > 30) {
@@ -43,7 +36,7 @@ async function getCommunity(req, res) {
       post.timeAgo = timeAgo(post.time);
     });
 
-    res.render("posts/community", { posts: posts, users: users });
+    res.render("posts/community", { posts: posts });
   } catch (error) {
     console.error("게시물 로드 중 오류:", error);
     res.status(500).render("errors/500");
@@ -58,10 +51,7 @@ async function getCommunityDetail(req, res) {
   }
 
   try {
-    const post = await db
-      .getDb()
-      .collection("Post")
-      .findOne({ _id: new ObjectId(PostId) });
+    const post = await community.getOnePost(PostId);
 
     if (!post) {
       return res
@@ -69,11 +59,7 @@ async function getCommunityDetail(req, res) {
         .render("errors/404", { message: "게시물을 찾을 수 없습니다." });
     }
 
-    const comments = await db
-      .getDb()
-      .collection("Comment")
-      .find({ postId: new ObjectId(PostId) })
-      .toArray();
+    const comments = await community.getCommunity();
 
     post.timeAgo = timeAgo(post.time);
     comments.forEach((comment) => {
@@ -109,7 +95,7 @@ async function Comment(req, res) {
     time: new Date(),
   };
 
-  await db.getDb().collection("Comment").insertOne(newComment);
+  await community.writeComment(newComment);
 
   res.status(201).json({
     comment: newComment.comment,
@@ -149,7 +135,7 @@ async function InsertPost(req, res) {
   };
 
   try {
-    await db.getDb().collection("Post").insertOne(post);
+    await community.writePost(post);
     console.log("게시물 삽입 성공:", post);
     res.redirect("/community");
   } catch (error) {

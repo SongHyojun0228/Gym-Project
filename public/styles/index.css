@@ -1,11 +1,3 @@
-#main-header, #logo-div {
-    border-block: 0.5px solid white;
-}
-
-main {
-    background-color: black;
-}
-
 main div {
     padding: 10rem 0;
 }

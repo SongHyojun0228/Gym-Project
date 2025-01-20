@@ -1,8 +1,9 @@
 const express = require("express");
 const multer = require("multer");
 const path = require("path");
-const db = require("../data/database");
 const router = express.Router();
+
+const mypageController = require('../controllers/mypage.controller');
 
 const storage = multer.diskStorage({
   destination: "./public/uploads",
@@ -11,284 +12,22 @@ const storage = multer.diskStorage({
   },
 });
 
-router.get("/my-page", async function (req, res) {
-  if (!req.session || !req.session.user) {
-    return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
-    );
-  }
-
-  const sessionUser = req.session.user;
-
-  const user = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: sessionUser.username });
-  console.log(user);
-
-  res.render("mypage/my-page", { user: user });
-});
-
 const upload = multer({ storage: storage });
+
+router.get("/my-page", mypageController.getMypage);
+
 router.post(
   "/upload-profile-photo",
   upload.single("profilePhoto"),
-  async function (req, res) {
-    try {
-      const sessionUser = req.session.user;
-      const profileImgPath = `/uploads/${req.file.filename}`;
-
-      await db
-        .getDb()
-        .collection("User")
-        .updateOne(
-          { username: sessionUser.username },
-          { $set: { user_img: profileImgPath } }
-        );
-
-      req.session.user.user_img = profileImgPath;
-
-      return res.redirect("/mypage/my-page");
-    } catch (error) {
-      console.error("프로필 이미지 업데이트 중 오류 발생:", error);
-      return res.redirect("/errors/404");
-    }
-  }
+  mypageController.uploadProfileImg
 );
 
 // 닉네임 수정
-router.get("/change-username", async function (req, res) {
-  if (!req.session || !req.session.user) {
-    return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
-    );
-  }
-  const sessionUser = req.session.user;
-
-  const user = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: sessionUser.username });
-  console.log(user);
-  res.render("mypage/change-username", { user: user, message: "" });
-});
-
-router.post("/change-username", async function (req, res) {
-  if (!req.session || !req.session.user) {
-    return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
-    );
-  }
-
-  const sessionUser = req.session.user;
-  const enteredUsername = req.body.username;
-  const message = "";
-
-  const user = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: sessionUser.username });
-
-  const existingUser = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: enteredUsername });
-
-  if (existingUser) {
-    return res.render("mypage/change-username", {
-      user: user,
-      message: "이미 사용 중인 닉네임입니다.",
-    });
-  }
-
-  await db
-    .getDb()
-    .collection("User")
-    .updateOne(
-      { username: sessionUser.username },
-      { $set: { username: enteredUsername } }
-    );
-
-  await db
-    .getDb()
-    .collection("Posts")
-    .updateMany(
-      { author: sessionUser.username },
-      { $set: { author: enteredUsername } }
-    );
-
-  await db
-    .getDb()
-    .collection("Comments")
-    .updateMany(
-      { author: sessionUser.username },
-      { $set: { author: enteredUsername } }
-    );
-
-  req.session.user.username = enteredUsername;
-
-  res.redirect("/mypage/my-page");
-});
+router.get("/change-username", mypageController.getChangeNickname);
+router.post("/change-username", mypageController.changeNickname);
 
 // 이름 수정
-router.get("/change-name", async function (req, res) {
-  if (!req.session || !req.session.user) {
-    return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
-    );
-  }
-  const sessionUser = req.session.user;
-
-  const user = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: sessionUser.username });
-  console.log(user);
-  res.render("mypage/change-name", { user: user });
-});
-
-router.post("/change-name", async function (req, res) {
-  const sessionUser = req.session.user;
-  const enteredName = req.body.name;
-
-  const user = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: sessionUser.username });
-
-  await db
-    .getDb()
-    .collection("User")
-    .updateOne(
-      { username: sessionUser.username },
-      { $set: { name: enteredName } }
-    );
-
-  res.redirect("/mypage/my-page");
-});
-
-// 키몸무게 수정
-router.get("/change-body", async function (req, res) {
-  if (!req.session || !req.session.user) {
-    return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
-    );
-  }
-  const sessionUser = req.session.user;
-
-  const user = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: sessionUser.username });
-  console.log(user);
-  res.render("mypage/change-body", { user: user });
-});
-
-router.post("/change-body", async function (req, res) {
-  const sessionUser = req.session.user;
-  const enteredHeight = req.body.height;
-  const enteredWeight = req.body.weight;
-
-  const user = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: sessionUser.username });
-
-  await db
-    .getDb()
-    .collection("User")
-    .updateOne(
-      { username: sessionUser.username },
-      { $set: { height: enteredHeight, weight: enteredWeight } }
-    );
-
-  res.redirect("/mypage/my-page");
-});
-
-// 생일 수정
-router.get("/change-birth", async function (req, res) {
-  if (!req.session || !req.session.user) {
-    return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
-    );
-  }
-  const sessionUser = req.session.user;
-
-  const user = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: sessionUser.username });
-  console.log(user);
-  res.render("mypage/change-birth", { user: user });
-});
-
-router.post("/change-birth", async function (req, res) {
-  const sessionUser = req.session.user;
-  const enteredBirth = req.body.birth;
-
-  const user = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: sessionUser.username });
-
-  await db
-    .getDb()
-    .collection("User")
-    .updateOne(
-      { username: sessionUser.username },
-      { $set: { birth: enteredBirth } }
-    );
-
-  res.redirect("/mypage/my-page");
-});
-
-// 이메일 수정
-router.get("/change-email", async function (req, res) {
-  if (!req.session || !req.session.user) {
-    return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
-    );
-  }
-  const sessionUser = req.session.user;
-
-  const user = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: sessionUser.username });
-  console.log(user);
-  res.render("mypage/change-email", { user: user, message: "" });
-});
-
-router.post("/change-email", async function (req, res) {
-  const sessionUser = req.session.user;
-  const enteredEmail = req.body.email;
-
-  const user = await db
-    .getDb()
-    .collection("User")
-    .findOne({ username: sessionUser.username });
-
-  const existingUser = await db
-    .getDb()
-    .collection("User")
-    .findOne({ email: enteredEmail });
-
-  if (existingUser) {
-    return res.render("mypage/change-username", {
-      user: user,
-      message: "이미 사용 중인 메일입니다.",
-    });
-  }
-
-  await db
-    .getDb()
-    .collection("User")
-    .updateOne(
-      { username: sessionUser.username },
-      { $set: { email: enteredEmail } }
-    );
-
-  res.redirect("/mypage/my-page");
-});
+router.get("/change-name",mypageController.getChangeName);
+router.post("/change-name", mypageController.changeName);
 
 module.exports = router;

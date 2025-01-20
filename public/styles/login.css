@@ -5,20 +5,33 @@
 
 .form-label {
   display: block;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin: 0 0 0.8rem 0.1rem;
+  color: rgb(240, 240, 240);
 }
 
 .form-input {
-  font-size: 1.2rem;
+  font-size: 1rem;
   width: 25rem;
   padding: 1rem;
-  border: 1px solid black;
+  border: 1px solid rgb(63, 63, 63);
   border-radius: 4px;
+  background-color: rgb(63, 63, 63);
+  color: rgb(240, 240, 240);
 }
 
 .form-input:focus {
   outline: 2px solid rgb(152, 41, 50);
+}
+
+.form-input::placeholder {
+  color: rgb(240, 240, 240);
+  font-size: 1rem;
+}
+
+.form-input:-webkit-autofill {
+  box-shadow: 0 0 0 1000px rgb(63, 63, 63) inset !important;
+  -webkit-text-fill-color: rgb(240, 240, 240) !important;
 }
 
 #user_pw_label {
@@ -26,21 +39,22 @@
 }
 
 .caution {
-  color: red;
+  color: rgb(152, 41, 50);
   font-size: 0.9rem;
   margin: 0.5rem 0 0 0.1rem;
 }
 
 #login-btn {
   display: block;
-  background-color: black;
-  color: white;
+  background-color: rgb(240, 240, 240);
+  color: rgb(63, 63, 63);
   padding: 0.5rem 2rem;
   margin-top: 2rem;
   width: 25rem;
   height: 3.5rem;
-  font-size: 1.5rem;
-  border: 2px solid black;
+  font-size: 1.2rem;
+  font-weight: 700;
+  border: 2px solid blrgb(240, 240, 240)ack;
   border-radius: 4px;
 }
 
@@ -48,6 +62,8 @@
   cursor: pointer;
   background-color: rgb(152, 41, 50);
   border-color: rgb(152, 41, 50);
+  color: rgb(240, 240, 240);  
+  font-weight: 900;
 }
 
 #items-div {
@@ -57,8 +73,8 @@
 
 .items {
   text-decoration: none;
-  font-size: 1.2rem;
-  color: rgba(0, 0, 0, 0.4);
+  font-size: 1rem;
+  color: rgb(240, 240, 240);
 }
 
 .items:hover {
@@ -66,17 +82,8 @@
   font-weight: bolder;
 }
 
-#gotojoin {
-  color: rgba(0, 0, 0, 0.65);
-}
-
-#gotojoin:hover {
-  color: rgb(152, 41, 50);
-  font-weight: bolder;
-}
-
 span {
   font-size: 1.5rem;
-  color: rgba(0, 0, 0, 0.1);
+  color: rgb(63, 63, 63);
   padding-inline: 1rem;
 }

@@ -1,12 +1,23 @@
+body {
+  background-color: rgb(15, 15, 15);
+}
+
+#main-header,
+#logo-div {
+  border-block: 0.5px solid rgb(240, 240, 240);
+}
+
 #caution-container {
   width: 50rem;
   margin: 4rem auto;
-  border: 1px solid rgb(0, 0, 0, 0.5);
-  border-radius: 4px;
+  /* border: 1px solid rgb(0, 0, 0, 0.5); */
+  border: 1px solid rgb(63, 63, 63);
+  border-radius: 1rem;
 }
 
 .caution {
-  color: rgb(0, 0, 0, 0.5);
+  /* color: rgb(0, 0, 0, 0.5); */
+  color: rgb(152, 41, 50);
   text-align: start;
   margin-left: 1rem;
   margin-bottom: 0.3rem;
@@ -29,22 +40,46 @@
 .post-items {
   padding: 1rem;
   margin: 2rem auto;
-  border: 1.5px solid rgb(0, 0, 0, 0.5);
+  border: 1px solid rgb(63, 63, 63);
   border-radius: 1rem;
 }
 
 .post-detail {
   font-size: 1rem;
+  padding: 0 4rem;
+  color: rgb(240, 240, 240);
 }
 
 .post-time {
-  color: rgb(0, 0, 0, 0.5);
+  color: rgb(240, 240, 240);
+  font-size: 0.8rem;
   margin-left: 1.5rem;
 }
 
 .content {
+  color: rgb(240, 240, 240);
   font-size: 1rem;
   margin-bottom: 0.5rem;
+  padding: 0 4rem;
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  display: -webkit-box; /* Flexbox와 유사한 레이아웃 */
+  -webkit-line-clamp: 4; /* 최대 4줄까지 표시 */
+  -webkit-box-orient: vertical; /* 수직 방향으로 정렬 */
+}
+
+.toggle-btn {
+  padding: 0 4rem;
+  border: none;
+  color: rgb(63, 63, 63);
+  background: none;
+  cursor: pointer;
+}
+
+.toggle-btn:hover {
+  color: rgb(152, 41, 50);
 }
 
 .carousel {
@@ -66,7 +101,8 @@
   align-items: center;
   width: 40rem;
   height: 40rem;
-  margin: 2rem auto;
+  margin: 1rem auto 2rem auto;
+  border-radius: 1rem;
 }
 
 .carousel-item img {
@@ -84,7 +120,7 @@
 }
 
 .carousel-control-prev-icon {
-  transform: rotate(180deg); /* 왼쪽 화살표로 회전 */
+  transform: rotate(180deg);
 }
 
 #gotoadd {
@@ -95,7 +131,7 @@
 #gotoadd a {
   text-decoration: none;
   font-size: 1.2rem;
-  color: white;
+  color: rgb(240, 240, 240);
   background-color: black;
   border: 2px solid black;
   border-radius: 4px;
@@ -106,7 +142,7 @@
 #gotoadd a:hover {
   background-color: rgb(152, 41, 50);
   border: 2px solid rgb(152, 41, 50);
-  color: white;
+  color: rgb(240, 240, 240);
   /* transform: translateY(-2px); */
   /* box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.8); */
 }

@@ -19,34 +19,47 @@
 .form-label {
   display: block;
   font-weight: 400;
-  font-size: 1.2rem;
+  font-size: 1rem;
   margin: 0 0 0.8rem 0.1rem;
+  color: rgb(240, 240, 240);
 }
 
 /* ✅입력 필드 스타일 */
 .form-input {
   padding: 1rem;
-  font-size: 1.2rem;
+  font-size: 1rem;
   width: 25rem;
-  border: 1px solid black;
+  border: 1px solid rgb(63, 63, 63);
   border-radius: 4px;
+  background-color: rgb(63, 63, 63);
+  color: rgb(240, 240, 240);
+}
+
+.form-input::placeholder {
+  color: rgb(240, 240, 240);
+  font-size: 1rem;
 }
 
 .form-input:focus {
   outline: 2px solid rgb(152, 41, 50);
 }
 
+.form-input:-webkit-autofill {
+  box-shadow: 0 0 0 1000px rgb(63, 63, 63) inset !important;
+  -webkit-text-fill-color: rgb(240, 240, 240) !important;
+}
+
 /* ✅경고 및 주의 사항 */
 .caution {
   margin-top: 0.8rem;
   margin-left: 0.1rem;
-  color: rgba(0, 0, 0, 0.5);
+  color: rgb(240, 240, 240);
 }
 
 .red-caution {
   margin-top: 0.5rem;
   margin-left: 0.1rem;
-  color: red;
+  color: rgb(152, 41, 50);
 }
 
 #userIdWarning,
@@ -57,34 +70,37 @@
 }
 
 #send-code-btn {
-    background-color: white;    
-    padding: 0.5rem;
-    margin-top: 0.5rem;
-    border: 1px solid black;
-    border-radius: 4px;
+  background-color: rgb(240, 240, 240);
+  padding: 0.5rem;
+  margin-top: 0.5rem;
+  border: 1px solid rgb(240, 240, 240);
+  border-radius: 4px;
 }
 
 #send-code-btn:hover {
-    border: 1px solid rgb(152, 41, 50);
-    color: rgb(152, 41, 50);
+  border: 1px solid rgb(152, 41, 50);
+  color: rgb(152, 41, 50);
 }
 
 /* ✅버튼 스타일 */
 #join-btn {
-  background-color: black;
-  color: white;
+  background-color: rgb(240, 240, 240);
+  color: rgb(63, 63, 63);
   margin: auto;
   margin-top: 2rem;
   padding: 1rem 2rem;
   width: 25rem;
   font-size: 1.2rem;
-  border: 2px solid black;
+  font-weight: 700;
+  border: 2px solid rgb(240, 240, 240);
   border-radius: 4px;
 }
 
 #join-btn:hover {
   background-color: rgb(152, 41, 50);
   border-color: rgb(152, 41, 50);
+  font-weight: 900;
+  color: rgb(240, 240, 240);
 }
 
 #join-btn:active {

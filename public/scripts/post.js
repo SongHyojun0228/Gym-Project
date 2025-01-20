@@ -1,30 +1,27 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const track = document.querySelector(".carousel-track");
-  const slides = Array.from(track.children);
-  const nextButton = document.querySelector(".carousel-btn.next");
-  const prevButton = document.querySelector(".carousel-btn.prev");
-
-  let currentSlide = 0;
-
-  const updateSlidePosition = () => {
-    const slideWidth = slides[0].getBoundingClientRect().width;
-    track.style.transform = `translateX(-${currentSlide * slideWidth}px)`;
-  };
-
-  nextButton.addEventListener("click", () => {
-    if (currentSlide < slides.length - 1) {
-      currentSlide++;
-      updateSlidePosition();
-    }
+    const buttons = document.querySelectorAll(".toggle-btn");
+  
+    buttons.forEach((button) => {
+      const postId = button.getAttribute("data-post-id");
+      const contentElement = document.querySelector(`.content[data-post-id="${postId}"]`);
+  
+      // 초기 상태 강제 설정
+      contentElement.style.webkitLineClamp = 4;
+      contentElement.style.overflow = "hidden";
+  
+      button.addEventListener("click", () => {
+        const isCollapsed = contentElement.style.webkitLineClamp === "4" || !contentElement.style.webkitLineClamp;
+  
+        if (isCollapsed) {
+          contentElement.style.webkitLineClamp = "none"; // 모든 줄 표시
+          contentElement.style.overflow = "visible"; // 넘침 해제
+          button.textContent = "간략히 보기";
+        } else {
+          contentElement.style.webkitLineClamp = 4; // 4줄 제한
+          contentElement.style.overflow = "hidden";
+          button.textContent = "자세히 보기";
+        }
+      });
+    });
   });
-
-  prevButton.addEventListener("click", () => {
-    if (currentSlide > 0) {
-      currentSlide--;
-      updateSlidePosition();
-    }
-  });
-
-  // 초기 슬라이드 위치 설정
-  updateSlidePosition();
-});
+  

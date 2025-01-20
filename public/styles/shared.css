@@ -8,8 +8,17 @@
   margin: 0;
   padding: 0;
   /* font-family: "Oswald"; */
-  font-family: "무신사";
+  font-family: "Roboto, Arial, sans-serif";
   box-sizing: border-box;
+}
+
+body {
+  background-color:  rgb(15,15,15);
+}
+
+#main-header,
+#logo-div {
+  border-block: 0.5px solid white;
 }
 
 h2 {
@@ -21,13 +30,12 @@ h2 {
   font-weight: 900;
 }
 
-
 a {
   text-decoration: none;
 }
 
 button {
-  font-family: inherit;
+  font-family: "Roboto, Arial, sans-serif";
 }
 
 #main-header {
@@ -38,7 +46,7 @@ button {
   align-items: center;
   padding: 0;
   box-sizing: border-box;
-  background-color: black;
+  background-color: rgb(15,15,15);
   position: sticky;
   top: 0;
   z-index: 1000;
@@ -62,7 +70,7 @@ button {
 
 #logo {
   text-decoration: none;
-  font-size: 2.5rem;
+  font-size: 2rem;
   font-weight: bold;
   font-family: 'IAMAPLAYER';
   color: rgb(152, 41, 50);
@@ -85,7 +93,7 @@ button {
   font-family: "무신사";
   text-decoration: none;
   color: white;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-right: 3rem;
 }
 
@@ -94,10 +102,11 @@ button {
 }
 
 .nav-item button {
-  background-color: black;
+  font-family: "무신사";
+  background-color: rgb(15,15,15);
   border: none;
   color: white;
-  font-size: 1.3rem;
+  font-size: 1.2rem;
   margin-right: 3rem;
 }
 
@@ -128,7 +137,7 @@ button {
   right: -20rem;
   height: 100vh;
   width: 20rem;
-  background-color: black;
+  background-color: rgb(15,15,15);
   box-shadow: -2px 0 5px rgba(0, 0, 0, 0.2);
   z-index: 1000;
   transition: right 0.3s ease-in-out;
@@ -141,31 +150,6 @@ button {
 
 #aside-container.active {
   right: 0;
-}
-
-#my {
-  background-color: white;
-  height: 10rem;
-  margin-bottom: 2rem;
-  text-align: center;
-  border-bottom: 2px dashed rgb(152, 41, 50);
-}
-
-#my p {
-  color: black;
-  font-size: 1.5rem;
-  margin-block: 2.5rem 2rem;
-}
-
-#my a {
-  color: black;
-  font-size: 1.5rem;
-  text-decoration: none;
-}
-
-#my a:hover {
-  color: rgb(152, 41, 50);
-  font-weight: bold;
 }
 
 .aside-item {
@@ -186,7 +170,7 @@ button {
 }
 
 .aside-item button {
-  background-color: black;
+  background-color: rgb(15,15,15);
   border: none;
   color: white;
   font-size: 1.5rem;
@@ -228,9 +212,10 @@ header.blurred {
 
 footer {
   margin-top: 6rem;
-  border-top: 1.5px solid black;
+  border-top: 2px solid rgb(152, 41, 50);
   display: flex;
   justify-content: space-between;
+  background-color: white;
 }
 
 footer div p,
@@ -259,7 +244,7 @@ footer div a:hover {
 }
 
 #name {
-  color: black;
+  color: rgb(15,15,15);
   font-size: 1.3rem;
   font-weight: bold;
   margin: 1rem 0 0 0;
@@ -274,7 +259,7 @@ footer div p:hover {
 }
 
 #info {
-  margin: 3rem 12rem 1rem 1rem;
+  margin: 2rem 12rem 2rem 1rem;
 }
 
 @media (max-width: 100rem) {

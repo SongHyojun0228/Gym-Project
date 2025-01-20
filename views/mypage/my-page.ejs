@@ -25,12 +25,10 @@
             <div id="high-right-container">
                 <h3 id="profile-username"><%= user.username %></h3>
                 <p id="profile-name"><%= user.name %></p>
-                <p id="profile-body"><%= user.height %>cm / <%= user.weight %>kg</p>
             </div>
         </div>
 
         <div id="low-container">
-            
             <div class="low-items-container">
                 <p class="title">이름</p>
                 <p class="itmes"><%= user.name %></p>
@@ -42,26 +40,11 @@
                 <p class="itmes"><%= user.username %></p>
                 <a href="/change-username" class="change-btn" id="change-username-btn">변경</a>
             </div>
+            <a id="gotopw">비밀번호 변경</a>
+        </div>
 
-            <div class="low-items-container">
-                <p class="title">키 / 몸무게</p>
-                <p class="itmes"><%= user.height %>cm / <%= user.weight %>kg</p>
-                <a href="/change-body" class="change-btn" id="change-height-btn">변경</a>
-            </div>
-
-            <div class="low-items-container">
-                <p class="title">생일</p>
-                <p class="itmes"><%= user.birth %></p>
-                <a href="/change-birth"  class="change-btn" id="change-birth-btn">변경</a>
-            </div>
-
-            <div class="low-items-container">
-                <p class="title">이메일</p>
-                <p class="itmes"><%= user.email %></p>
-                <a href="/change-email" class="change-btn" id="change-email-btn">변경</a>
-            </div>
-            <a class="gotopw">비밀번호 변경</a>
-            <a href="/my-post" class="gotopost">내 게시물</a>
+        <div id="posts-container">
+            
         </div>
     </main>
     <%-include('../includes/footer')%>

@@ -1,11 +1,13 @@
 #high-container {
-  width: 100%;
+  width: 90%;
   height: 20rem;
-  background-color: rgb(152, 41, 50);
+  /* background-color: rgb(152, 41, 50); */
 
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  margin: auto;
+  border-bottom: 2px solid rgb(63, 63, 63);
+  border: 90%;
 }
 
 #high-left-container {
@@ -13,23 +15,23 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-left: 10rem;
+  margin-inline: 10rem 1rem;
 }
 
 #profile-img-container {
-  /* height: 15rem; */
-  background-color: white;
+  background-color: rgb(240, 240, 240);
+  border: 1px solid rgb(63, 63, 63);
   border-radius: 100%;
-  width: 15rem;
-  height: 15rem;
+  width: 11rem;
+  height: 11rem;
   overflow: hidden;
   box-sizing: border-box;
 }
 
 #profile-img-container img {
   display: block;
-  width: 15rem;
-  height: 15rem;
+  width: 11rem;
+  height: 11rem;
   object-fit: cover;
 }
 
@@ -40,66 +42,71 @@
 #save-profile-btn {
   font-size: 0.8rem;
   margin-top: 1rem;
-  background-color: white;
-  border: 1px solid white;
+  background-color: rgb(240, 240, 240);
+  border: 1px solid rgb(240, 240, 240);
+  font-weight: 700;
   border-radius: 4px;
   padding: 0.3rem 0.5rem;
 }
 
 #save-profile-btn:hover {
   color: rgb(152, 41, 50);
-  font-weight: bold;
+  font-weight: 900;
 }
 
 #change-profile-img {
   cursor: pointer;
   display: block;
   font-size: 0.8rem;
+  font-weight: 700;
   margin-top: 1rem;
-  background-color: white;
-  border: 1px solid white;
+  background-color: rgb(240, 240, 240);
+  border: 1px solid rgb(240, 240, 240);
   border-radius: 4px;
   padding: 0.3rem 0.5rem;
 }
 
 #change-profile-img:hover {
   color: rgb(152, 41, 50);
-  font-weight: bold;
+  font-weight: 900;
 }
 
 #high-right-container {
-  /* height: 15rem; */
-  margin-right: 10rem;
+  height: 15rem;
 }
 
 #profile-username {
-  color: white;
-  font-size: 3rem;
+  margin-top: 0.8rem;
+  color: rgb(240, 240, 240);
+  font-size: 2.5rem;  
+  font-weight: 700;
   transition: font-size 0.5s ease-in-out;
 }
 
 #profile-name {
-  color: white;
+  color: rgb(240, 240, 240);
   font-size: 1.5rem;
-  margin-top: 0.5rem;
+  font-weight: 500;
+  margin-left: 0.2rem;
 }
 
 #profile-body {
-  color: white;
+  color: rgb(240, 240, 240);
   font-size: 1.5rem;
   margin-top: 0.5rem;
 }
 
 #low-container {
-  margin: 8rem auto;
-  border: 2px solid rgb(0, 0, 0, 0.5);
+  margin: 3rem auto;
+  border: 2px solid rgb(63, 63, 63);
+  border-radius: 1rem;
   width: 50rem;
 }
 
 .low-items-container {
   display: flex;
   align-items: center;
-  border-bottom: 2px solid rgb(0, 0, 0, 0.5);
+  border-bottom: 2px solid rgb(63, 63, 63);
 }
 
 .low-items-container:last-child {
@@ -108,15 +115,19 @@
 
 .title {
   width: 10rem;
+  margin: 0;
   padding-block: 1.5rem;
-  border-right: 2px solid rgb(0, 0, 0, 0.5);
+  border-right: 2px solid rgb(63, 63, 63);
   text-align: center;
+  color: rgb(240, 240, 240);
 }
 
 .itmes {
   width: 35rem;
+  margin: 0.7rem auto;
   text-align: center;
   padding-block: 1.5rem;
+  color: rgb(240, 240, 240);
 }
 
 .change-btn {
@@ -126,9 +137,9 @@
   text-align: center;
   box-sizing: border-box;
   width: 5rem;
-  color: black;
+  color: rgb(240, 240, 240);
   padding-block: 1.5rem;
-  border-left: 2px solid rgb(0, 0, 0, 0.5);
+  border-left: 2px solid rgb(63, 63, 63);
   font-size: 1rem;
 }
 
@@ -137,25 +148,23 @@
   font-weight: bold;
 }
 
-.gotopost,
-.gotopw {
-  color: black;
+#gotopw {
+  color: rgb(240, 240, 240);
   display: block;
   text-align: center;
   text-decoration: none;
-  padding: 1.5rem 2rem;
+  padding: 1rem 0;
 }
 
-.gotopw {
-  border-bottom: 2px solid rgb(0, 0, 0, 0.5);
+#gotopw {
+  border-bottom: 2px solid rgb(63, 63, 63);
 }
 
-.gotopost:hover,
-.gotopw:hover {
+#gotopw:hover {
   font-weight: bold;
   color: rgb(152, 41, 50);
 }
-    
+
 #high-left-container,
 #high-right-container {
   transition: margin 0.5s ease-in-out;
@@ -176,15 +185,6 @@
   }
   #high-right-container {
     margin-right: 1rem;
-  }
-
-  #profile-img-container {
-    width: 13rem;
-    height: 13rem;
-  }
-
-  #profile-username {
-    font-size: 2rem;
   }
 
   #low-container {
