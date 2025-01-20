@@ -130,18 +130,17 @@ function getInsertPost(req, res) {
 
 async function InsertPost(req, res) {
   if (!req.session.user) {
-    return res.redirect("/auth/login");
+    return res.redirect("/login");
   }
 
   const imgPaths = [];
   ["img1", "img2", "img3", "img4", "img5"].forEach((key) => {
     if (req.files[key]) {
-      imgPaths.push(`/uploads/${req.files[key][0].filename}`);
+      imgPaths.push(`/uploads/posts/${req.files[key][0].filename}`);
     }
   });
 
   const post = {
-    title: req.body.title,
     img: imgPaths,
     content: req.body.content,
     author: req.session.user.username,
@@ -152,7 +151,7 @@ async function InsertPost(req, res) {
   try {
     await db.getDb().collection("Post").insertOne(post);
     console.log("게시물 삽입 성공:", post);
-    res.redirect("/posts/community");
+    res.redirect("/community");
   } catch (error) {
     console.error("게시물 등록 중 오류:", error);
     res.status(500).render("errors/500");

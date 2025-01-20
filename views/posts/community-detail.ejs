@@ -3,6 +3,7 @@
   <head>
     <%- include('../includes/head') %>
     <link rel="stylesheet" href="/styles/community-detail.css" />
+    <script src="/scripts/post.js" defer></script>
     <script src="/scripts/comment.js" defer></script>
     <title><%= post.title %></title>
   </head>
@@ -10,8 +11,6 @@
     <%- include('../includes/header') %>
     <%- include('../includes/aside')%>
     <main>
-      <h2>커뮤니티</h2>
-      <hr />
       <div id="caution-container">
         <h3 class="caution">***주의사항***</h3>
         <p class="caution">
@@ -39,15 +38,19 @@
         <p id="post-comment"><%= post.content%></p>
         
         <% if (post.img && post.img.length > 0) { %>
-          <div class="img-container"> 
-            <% post.img.forEach((imgPath) => { %>
-              <% if (imgPath) { %> 
-                <div class="img-item">
-                  <img src="<%= imgPath %>" alt="게시물 이미지" style="max-width: 100%; height: auto; border-radius: 4px;" />
-                </div>
-              <% } %>
-            <% }); %>
-          </div>
+          <div class="carousel">
+            <button class="carousel-btn prev">&lt;</button>
+            <div class="carousel-track-container">
+              <div class="carousel-track">
+                <% post.img.forEach((imgPath) => { %>
+                  <div class="carousel-item">
+                    <img src="<%= imgPath %>" alt="게시물 이미지" />
+                  </div>
+                <% }); %>
+              </div>
+            </div>
+            <button class="carousel-btn next">&gt;</button>
+          </div>          
         <% } %> 
       
         <hr>

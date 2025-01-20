@@ -1,21 +1,9 @@
-h2 {
-  margin: 4rem auto;
-  color: rgb(152, 41, 50);
-  font-size: 2rem;
-  text-align: center;
-}
-
-hr {
-  border: 1px solid black;
-  margin-bottom: 4rem;
-}
-
 #caution-container {
   width: 50rem;
-  margin: 2rem auto;
+  margin: 4rem auto;
   border: 1px solid rgb(0, 0, 0, 0.5);
   border-radius: 4px;
-  transition: width 0.5s ease-in-out; 
+  transition: width 0.5s ease-in-out;
 }
 
 .caution {
@@ -39,7 +27,7 @@ hr {
   border-radius: 4px;
   margin: 4rem auto;
   margin-bottom: 0;
-  transition: width 0.5s ease-in-out; 
+  transition: width 0.5s ease-in-out;
 }
 
 #title-container {
@@ -56,49 +44,61 @@ h3 {
   color: rgb(0, 0, 0, 0.5);
 }
 
-.img-container {
-  display: flex;
-  flex-wrap: wrap; 
-  gap: 1rem; 
-  padding: 1rem 2rem;
-  justify-content: start; 
-  overflow-x: auto; 
-  scroll-behavior: smooth; 
-  border-radius: 4px;
+.carousel {
+  position: relative;
+  overflow: hidden;
+  width: 48rem;
+  margin: 2rem auto;
 }
 
-.img-item {
-  flex: 0 0 auto; 
-  width: 20rem; 
-  text-align: center;
-  border-radius: 12px; 
-  overflow: hidden; 
-}
-
-.img-item img {
+.carousel-track-container {
+  overflow: hidden;
   width: 100%;
-  object-fit: cover;
-  border-radius: 12px; 
 }
 
-.no-image {
+.carousel-track {
+  display: flex;
+  transition: transform 0.5s ease;
+}
+
+.carousel-item {
+  flex: 0 0 100%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
   text-align: center;
+}
+
+.carousel-item img {
+  width: 40rem;
+  height: auto;
+  object-fit: cover;
+  border-radius: 6px;
+}
+
+.carousel-btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  color: black;
+  border: none;
+  cursor: pointer;
+  padding: 0.5rem 1rem;
+  z-index: 10;
+  font-size: 1.5rem;
+}
+
+.carousel-btn.prev {
+  left: 0;
+}
+
+.carousel-btn.next {
+  right: 0;
+}
+
+.carousel-btn:hover {
   color: rgb(152, 41, 50);
-  font-style: italic;
-  margin: 2rem 0;
-}
-
-.img-container::-webkit-scrollbar {
-  height: 8px;
-}
-
-.img-container::-webkit-scrollbar-thumb {
-  background-color: rgb(152, 41, 50);
-  border-radius: 4px;
-}
-
-.img-container::-webkit-scrollbar-track {
-  background: rgb(240, 240, 240);
 }
 
 hr {
@@ -185,7 +185,7 @@ hr {
 
 @media (max-width: 50rem) {
   .img-item {
-    width: calc(50% - 1rem); 
+    width: calc(50% - 1rem);
   }
 
   .img-item img {
