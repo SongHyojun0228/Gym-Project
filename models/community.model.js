@@ -9,8 +9,19 @@ class Community {
       .find()
       .sort({ time: -1 })
       .toArray();
-      
+
     return posts;
+  }
+
+  static async getPostByNickName(nickname) {
+    const post = await db
+      .getDb()
+      .collection("posts")
+      .find({ author: nickname })
+      .sort({ time: -1 })
+      .toArray();
+
+    return post;
   }
 
   static async getOnePost(postid) {
@@ -26,6 +37,13 @@ class Community {
     await db.getDb().collection("posts").insertOne(post);
   }
 
+  static async changePostAuthor(nickname, changename) {
+    await db
+      .getDb()
+      .collection("posts")
+      .updateMany({ author: nickname }, { $set: { author: changename } });
+  }
+
   static async getComments() {
     const comments = await db
       .getDb()
@@ -38,6 +56,13 @@ class Community {
 
   static async writeComment(newComment) {
     await db.getDb().collection("comments").insertOne(newComment);
+  }
+
+  static async changeCommentAuthor(nickname, changename) {
+    await db
+      .getDb()
+      .collection("comments")
+      .updateMany({ author: nickname }, { $set: { author: changename } });
   }
 }
 

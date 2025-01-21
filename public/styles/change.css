@@ -1,97 +1,98 @@
 #form-container {
-    margin: 5rem auto;
-    width: 40rem;
-    border: 2px solid rgb(0,0,0,0.5);
-    border-radius: 6px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-}
-
-h2 {
-    margin: 4rem;
-    color: rgb(152, 41, 50);
-    font-size: 2rem;
-    text-align: center;
-}
-
-hr {
-    border: 1px solid black;
+  margin: 5rem auto;
+  width: 40rem;
+  border: 2px solid rgb(63, 63, 63);
+  border-radius: 6px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 label {
-    display: block;
-    text-align: center;
-    font-size: 1.2rem;
-    margin-block: 2rem 0.5rem;
+  display: block;
+  font-size: 1rem;
+  font-weight: 700;
+  margin-block: 2rem 0.5rem;
+  color: rgb(240, 240, 240);
 }
 
 input {
-    width: 30rem;
-    padding: 1rem 1.4rem;   
-    font-size: 1.2rem;
-    display: block;
-    margin: auto;
+  width: 30rem;
+  padding: 1rem;
+  font-size: 1rem;
+  color: rgb(240, 240, 240);
+  background-color: rgb(63, 63, 63);
+  border: 1px solid rgb(63, 63, 63);
+  border-radius: 4px;
+  display: block;
+  margin: auto;
 
-    transition: width 0.5s ease-in-out; 
+  transition: width 0.5s ease-in-out;
 }
 
 input:focus {
-    border: none;
-    outline: 2px solid rgb(152, 41, 50);
+  border: none;
+  outline: 2px solid rgb(152, 41, 50);
+}
+
+input::placeholder {
+  color: rgb(240, 240, 240);
+  font-family: inherit;
+  font-size: 1rem;
 }
 
 #caution {
-    margin-top: 0.5rem;
-    color: red;
-    text-align: center;
+  margin-top: 0.5rem;
+  color: red;
+  text-align: center;
+}
+
+#button-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1rem auto;
+}
+
+#cancel,
+#save-btn {
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.5rem 1.2rem;
 }
 
 #cancel {
-    text-decoration: none;
-    font-size: 1rem;
-    width: 5rem;
-    font-size: 1rem;
-    padding: 0.7rem 1.4rem;   
-    background-color: white;
-    color: black;
-    border: 1px solid black;
-    border-radius: 4px;
-    margin-right: 1rem;
+  text-decoration: none;
+  background-color: rgb(63, 63, 63);
+  color: rgb(240, 240, 240);
+  border: 1px solid rgb(63, 63, 63);
+  border-radius: 4px;
+  margin-right: 1rem;
 }
 
-#cancel:hover {
-    border: 2px solid rgb(152, 41, 50);
-    color: rgb(152, 41, 50);
-    font-weight: bold;
-}
 #save-btn {
-    margin: 1rem auto;
-    width: 5rem;
-    font-size: 1rem;
-    padding: 0.7rem 1.4rem;   
-
-    background-color: black;
-    color: white;
-    border: 1px solid black;
-    border-radius: 4px;
+  background-color: rgb(240, 240, 240);
+  color: rgb(63, 63, 63);
+  border: 1px solid rgb(240, 240, 240);
+  border-radius: 4px;
 }
 
+#cancel:hover,
 #save-btn:hover {
-    font-weight: bold;
-    cursor: pointer;
-    background-color: rgb(152, 41, 50);
-    color: white;
-    border: 1px solid rgb(152, 41, 50);
+  font-weight: 900;
+  cursor: pointer;
+  background-color: rgb(152, 41, 50);
+  color: white;
+  border: 1px solid rgb(152, 41, 50);
 }
 
 @media (max-width: 40rem) {
-    #form-container {
-        width: 100%;
-    }
+  #form-container {
+    width: 100%;
+  }
 
-    input {
-        width: 80%;
-    }
+  input {
+    width: 80%;
+  }
 }

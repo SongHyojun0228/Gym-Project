@@ -8,8 +8,7 @@
   <body>
     <%- include("../includes/header") %> <%- include("../includes/aside")%>
     <main>
-      <h2>아이디 찾기</h2>
-      <hr />
+      <h2>PANATA</h2>
       <div id="form-div">
         <form action="/find-id" method="POST">
           <label for="user_name" class="form-label">이름</label>
@@ -24,7 +23,7 @@
             <p class="caution"><%= errors.nameError %></p>
           <% } %>
 
-          <label for="user_username" class="form-label">닉네임</label>
+          <label for="user_username" id="username_label" class="form-label">닉네임</label>
           <input
             type="text"
             name="user_username"

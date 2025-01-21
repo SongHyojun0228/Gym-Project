@@ -243,14 +243,14 @@ footer div a:hover {
   margin: 3rem 1rem 1rem 12rem;
 }
 
-#name {
+#footer-name {
   color: rgb(15,15,15);
   font-size: 1.3rem;
   font-weight: bold;
   margin: 1rem 0 0 0;
 }
 
-#name2 {
+#footer-name2 {
   color: rgb(152, 41, 50);
 }
 

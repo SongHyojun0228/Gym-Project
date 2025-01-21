@@ -156,10 +156,6 @@
   padding: 1rem 0;
 }
 
-#gotopw {
-  border-bottom: 2px solid rgb(63, 63, 63);
-}
-
 #gotopw:hover {
   font-weight: bold;
   color: rgb(152, 41, 50);
@@ -168,6 +164,98 @@
 #high-left-container,
 #high-right-container {
   transition: margin 0.5s ease-in-out;
+}
+
+#post-container {
+  width: 50rem;
+  margin: 0 auto;
+  border-radius: 4px; 
+}
+
+.post-items {
+  padding: 1rem;
+  margin: 2rem auto;
+  border: 1px solid rgb(63, 63, 63);
+  border-radius: 1rem;
+}
+
+.post-detail {
+  font-size: 1rem;
+  padding: 0 4rem;
+  color: rgb(240, 240, 240);
+}
+
+.post-time {
+  color: rgb(240, 240, 240);
+  font-size: 0.8rem;
+  margin-left: 1.5rem;
+}
+
+.content {
+  color: rgb(240, 240, 240);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  padding: 0 4rem;
+  white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  display: -webkit-box; /* Flexbox와 유사한 레이아웃 */
+  -webkit-line-clamp: 4; /* 최대 4줄까지 표시 */
+  -webkit-box-orient: vertical; /* 수직 방향으로 정렬 */
+}
+
+.toggle-btn {
+  padding: 0 4rem;
+  border: none;
+  color: rgb(63, 63, 63);
+  background: none;
+  cursor: pointer;
+}
+
+.toggle-btn:hover {
+  color: rgb(152, 41, 50);
+}
+
+.carousel {
+  width: 47rem;
+  margin: auto;
+}
+
+.carousel-indicators [data-bs-target] {
+  background-color: rgb(152, 41, 50);
+}
+
+.carousel-item {
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.carousel-inner {
+  display: flex;
+  align-items: center;
+  width: 40rem;
+  height: 40rem;
+  margin: 1rem auto 2rem auto;
+  border-radius: 1rem;
+}
+
+.carousel-item img {
+  object-fit: cover;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: url("/images/black-arrow.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.carousel-control-prev-icon {
+  transform: rotate(180deg);
 }
 
 @media (max-width: 75rem) {

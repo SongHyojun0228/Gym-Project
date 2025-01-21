@@ -54,7 +54,7 @@
   height: 3.5rem;
   font-size: 1.2rem;
   font-weight: 700;
-  border: 2px solid blrgb(240, 240, 240)ack;
+  border: 2px solid rgb(240, 240, 240);
   border-radius: 4px;
 }
 

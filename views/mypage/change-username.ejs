@@ -6,11 +6,9 @@
     <title>닉네임 수정</title>
   </head>
   <body>
-    <%- include('../includes/header') %>
-    <%- include('../includes/aside')%>
+    <%- include('../includes/header') %> <%- include('../includes/aside')%>
     <main>
-      <h2>닉네임 수정</h2>
-      <hr>
+      <h2>PANATA</h2>
       <form action="/change-username" method="POST">
         <div id="form-container">
           <label for="username">닉네임</label>
@@ -18,12 +16,15 @@
             type="text"
             name="username"
             id="username"
-            placeholder="<%= user.username%>"
+            placeholder="<%= user.username %>"
           />
           <% if (message !== "") { %>
-            <p id="caution"><%= message %></p>
+          <p id="caution"><%= message %></p>
           <% } %>
-          <button id="save-btn">저장</button>
+          <div id="button-container">
+            <a id="cancel" href="/my-page">취소</a>
+            <button id="save-btn">저장</button>
+          </div>
         </div>
       </form>
     </main>

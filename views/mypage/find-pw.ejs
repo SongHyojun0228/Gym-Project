@@ -8,8 +8,7 @@
   <body>
     <%- include("../includes/header") %> <%- include("../includes/aside")%>
     <main>
-      <h2>비밀번호 찾기</h2>
-      <hr />
+      <h2>PANATA</h2>
       <div id="form-div">
         <form
           action="/find-pw"
@@ -28,7 +27,7 @@
           <p class="caution"><%= errors.nameError %></p>
           <% } %>
 
-          <label for="user_name" class="form-label">이름</label>
+          <label for="user_name" id="name_label" class="form-label">이름</label>
           <input
             type="text"
             name="user_name"
@@ -37,7 +36,7 @@
             placeholder="이름"
           />
 
-          <label for="user_username" class="form-label">닉네임</label>
+          <label for="user_username" id="username_label" class="form-label">닉네임</label>
           <input
             type="text"
             name="user_username"
@@ -76,7 +75,7 @@
             required
           />
 
-          <label for="user_check_pw" class="form-label">비밀번호 확인</label>
+          <label for="user_check_pw" id="pw_check_label" class="form-label">비밀번호 확인</label>
           <input
             type="password"
             name="user_check_pw"

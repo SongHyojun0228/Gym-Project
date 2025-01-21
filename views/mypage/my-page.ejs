@@ -1,53 +1,150 @@
 <!DOCTYPE html>
 <html lang="en">
-<head>
+  <head>
     <%-include('../includes/head')%>
-    <link rel="stylesheet" href="/styles/my-page.css">
+    <link rel="stylesheet" href="/styles/my-page.css" />
     <script src="/scripts/mypage.js" defer></script>
+    <script src="/scripts/post.js" defer></script>
     <title>마이페이지</title>
-</head>
-<body>
-    <%-include('../includes/header')%>
-    <%-include('../includes/aside')%>
+  </head>
+  <body>
+    <%-include('../includes/header')%> <%-include('../includes/aside')%>
     <main>
-        <div id="high-container">
-            <div id="high-left-container">
-                <div id="profile-img-container">
-                    <img src="<%= user.user_img ? user.user_img : '/images/profile.png' %>" alt="프로필 사진" id="profile-img-preview">
-                </div>
-                <form id="profile-form" action="/upload-profile-photo" method="post" enctype="multipart/form-data">
-                    <input type="file" name="profilePhoto" id="profile-img" style="display: none;" onchange="previewImage(event)">
-                    <button type="submit" id="save-profile-btn" style="display: none;">프로필 저장</button>
-                    <a id="change-profile-img" onclick="document.getElementById('profile-img').click();">프로필 사진 선택</a>
-                </form>
-            </div>
-
-            <div id="high-right-container">
-                <h3 id="profile-username"><%= user.username %></h3>
-                <p id="profile-name"><%= user.name %></p>
-            </div>
+      <div id="high-container">
+        <div id="high-left-container">
+          <div id="profile-img-container">
+            <img
+              src="<%= user.user_img ? user.user_img : '/images/profile.png' %>"
+              alt="프로필 사진"
+              id="profile-img-preview"
+            />
+          </div>
+          <form
+            id="profile-form"
+            action="/upload-profile-photo"
+            method="post"
+            enctype="multipart/form-data"
+          >
+            <input
+              type="file"
+              name="profilePhoto"
+              id="profile-img"
+              style="display: none"
+              onchange="previewImage(event)"
+            />
+            <button type="submit" id="save-profile-btn" style="display: none">
+              프로필 저장
+            </button>
+            <a
+              id="change-profile-img"
+              onclick="document.getElementById('profile-img').click();"
+              >프로필 사진 선택</a
+            >
+          </form>
         </div>
 
-        <div id="low-container">
-            <div class="low-items-container">
-                <p class="title">이름</p>
-                <p class="itmes"><%= user.name %></p>
-                <a  href="/change-name" class="change-btn" id="change-name-btn">변경</a>
-            </div>
+        <div id="high-right-container">
+          <h3 id="profile-username"><%= user.username %></h3>
+          <p id="profile-name"><%= user.name %></p>
+        </div>
+      </div>
 
-            <div class="low-items-container">
-                <p class="title">닉네임</p>
-                <p class="itmes"><%= user.username %></p>
-                <a href="/change-username" class="change-btn" id="change-username-btn">변경</a>
-            </div>
-            <a id="gotopw">비밀번호 변경</a>
+      <div id="low-container">
+        <div class="low-items-container">
+          <p class="title">이름</p>
+          <p class="itmes"><%= user.name %></p>
+          <a href="/change-name" class="change-btn" id="change-name-btn"
+            >변경</a
+          >
         </div>
 
-        <div id="posts-container">
-            
+        <div class="low-items-container">
+          <p class="title">닉네임</p>
+          <p class="itmes"><%= user.username %></p>
+          <a href="/change-username" class="change-btn" id="change-username-btn"
+            >변경</a
+          >
         </div>
+        <a id="gotopw">비밀번호 변경</a>
+      </div>
+      <div id="post-container">
+        <% posts.forEach((post) => { %>
+        <div class="post-items">
+          <p class="post-detail">
+            <%= post.author %><span class="post-time"><%= post.timeAgo %></span>
+          </p>
+
+          <p class="content" data-post-id="<%= post._id %>"><%= post.content %>
+          </p>
+
+          <!-- 버튼 -->
+          <button
+            class="toggle-btn"
+            data-post-id="<%= post._id %>"
+            onclick="toggleContent('<%= post._id %>')"
+          >
+            [자세히 보기]
+          </button>
+
+          <% if (post.img && post.img.length > 0) { %>
+          <div
+            class="carousel slide"
+            data-post-id="<%= post._id %>"
+            id="carousel-<%= post._id %>"
+          >
+            <div class="carousel-indicators">
+              <% post.img.forEach((imgPath, imgIndex) => { %>
+              <button
+                type="button"
+                data-bs-target="#carousel-<%= post._id %>"
+                data-bs-slide-to="<%= imgIndex %>"
+                class="<%= imgIndex === 0 ? 'active' : '' %>"
+                aria-current="<%= imgIndex === 0 ? 'true' : 'false' %>"
+                aria-label="Slide <%= imgIndex + 1 %>"
+              ></button>
+              <% }); %>
+            </div>
+            <div class="carousel-inner">
+              <% post.img.forEach((imgPath, imgIndex) => { %>
+              <div class="carousel-item <%= imgIndex === 0 ? 'active' : '' %>">
+                <img
+                  src="<%= imgPath %>"
+                  class="d-block w-100"
+                  alt="Image <%= imgIndex + 1 %>"
+                />
+              </div>
+              <% }); %>
+            </div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carousel-<%= post._id %>"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carousel-<%= post._id %>"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+          <% } %>
+        </div>
+        <% }); %>
+      </div>
     </main>
     <%-include('../includes/footer')%>
-</body>
+  </body>
 </html>
-

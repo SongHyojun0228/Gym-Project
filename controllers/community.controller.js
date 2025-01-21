@@ -142,6 +142,8 @@ async function InsertPost(req, res) {
     console.error("게시물 등록 중 오류:", error);
     res.status(500).render("errors/500");
   }
+
+  
 }
 
 module.exports = {

@@ -1,7 +1,7 @@
 const bcrypt = require("bcrypt");
 const Auth = require("../models/auth.model");
 
-// 🔥회원가입 페이지
+// 🔥회원가입 페이지🔥
 function getSignup(req, res) {
   res.render("auth/join", { errors: {} });
 }
@@ -9,6 +9,7 @@ function getSignup(req, res) {
 const { printTokenResult } = require("../utils/send_sms");
 const authTokens = {};
 
+// 🔥전화번호 인증🔥
 async function sendVerificationCode(req, res) {
   const { phone } = req.body;
   if (!phone) {
@@ -27,6 +28,7 @@ async function sendVerificationCode(req, res) {
   }
 }
 
+// 🔥인증코드 입력🔥
 function verifyCode(req, res) {
   const { phone, code } = req.body;
   if (authTokens[phone] === code) {
@@ -37,7 +39,7 @@ function verifyCode(req, res) {
   }
 }
 
-// 🔥회원가입
+// 🔥회원가입🔥
 async function Signup(req, res) {
   const {
     user_id,
@@ -87,14 +89,10 @@ async function Signup(req, res) {
     errors.phone = "(인증번호가 올바르지 않습니다)";
   }
 
-  // 다른 유효성 검사 필요 시 추가
-  // 예: 이메일, 키, 몸무게 검사 등
-
   if (Object.keys(errors).length > 0) {
     return res.render("auth/join", { errors });
   }
 
-  // 기존 유저 중복 체크
   const existingUser = await Auth.findById(user_id);
   if (existingUser) {
     errors.userId = "(해당 아이디의 유저가 존재합니다)";
@@ -110,25 +108,17 @@ async function Signup(req, res) {
     return res.render("auth/join", { errors });
   }
 
-  // 유효성 검사 통과 후 유저 생성
   try {
     const newUser = new Auth(
       user_id,
       user_pw,
       user_name,
       user_phone,
-      user_username,
-    );
-    
-    await newUser.save(
-      user_id,
-      user_pw,
-      user_name,
-      user_phone,
-      user_username,
+      user_username
     );
 
-    // 인증 토큰 삭제
+    await newUser.save(user_id, user_pw, user_name, user_phone, user_username);
+
     delete authTokens[user_phone];
 
     console.log("회원가입 성공");
@@ -139,12 +129,12 @@ async function Signup(req, res) {
   }
 }
 
-// 🔥로그인 페이지
+// 🔥로그인 페이지🔥
 function getLogin(req, res) {
   res.render("auth/login", { errorId: "", errorPw: "" });
 }
 
-// 🔥로그인
+// 🔥로그인🔥
 async function Login(req, res) {
   const userData = req.body;
   const enteredId = userData.user_id;
@@ -176,6 +166,7 @@ async function Login(req, res) {
   req.session.user = {
     id: existingUser._id.toString(),
     username: existingUser.username.toString(),
+    name: existingUser.name.toString(),
   };
 
   req.session.isAuthenticated = true;
