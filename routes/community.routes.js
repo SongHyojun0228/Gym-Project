@@ -3,7 +3,7 @@ const router = express.Router();
 const multer = require("multer");
 const path = require("path");
 
-const communiytController = require('../controllers/community.controller');
+const communiytController = require("../controllers/community.controller");
 
 const storage = multer.diskStorage({
   destination: "./public/uploads/posts",

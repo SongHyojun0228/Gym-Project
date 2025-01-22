@@ -1,13 +1,12 @@
 #caution-container {
   width: 50rem;
   margin: 4rem auto;
-  border: 1px solid rgb(0, 0, 0, 0.5);
-  border-radius: 4px;
-  transition: width 0.5s ease-in-out;
+  border: 1px solid rgb(63, 63, 63);
+  border-radius: 1rem;
 }
 
 .caution {
-  color: rgb(0, 0, 0, 0.5);
+  color: rgb(152, 41, 50);
   text-align: start;
   margin-left: 1rem;
   margin-bottom: 0.3rem;
@@ -21,192 +20,340 @@
   margin-bottom: 1rem;
 }
 
-#post-conatiner {
+#post-container {
   width: 50rem;
-  border: 2px solid rgb(0, 0, 0, 0.5);
-  border-radius: 4px;
-  margin: 4rem auto;
-  margin-bottom: 0;
+  border: 1px solid rgb(63, 63, 63);
+  border-radius: 1rem;
+  margin: 0 auto;
+  padding: 1rem;
   transition: width 0.5s ease-in-out;
 }
 
-#title-container {
-  margin: 2rem;
-}
-
-h3 {
-  font-size: 2rem;
-  margin-top: 0.5rem;
-  color: rgb(152, 41, 50);
-}
-
-.post-detail {
-  color: rgb(0, 0, 0, 0.5);
-}
-
-.carousel {
-  position: relative;
-  overflow: hidden;
-  width: 48rem;
-  margin: 2rem auto;
-}
-
-.carousel-track-container {
-  overflow: hidden;
-  width: 100%;
-}
-
-.carousel-track {
-  display: flex;
-  transition: transform 0.5s ease;
-}
-
-.carousel-item {
-  flex: 0 0 100%;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-align: center;
-}
-
-.carousel-item img {
-  width: 40rem;
-  height: auto;
-  object-fit: cover;
-  border-radius: 6px;
-}
-
-.carousel-btn {
-  position: absolute;
-  top: 50%;
-  transform: translateY(-50%);
-  background: none;
-  color: black;
-  border: none;
-  cursor: pointer;
-  padding: 0.5rem 1rem;
-  z-index: 10;
-  font-size: 1.5rem;
-}
-
-.carousel-btn.prev {
-  left: 0;
-}
-
-.carousel-btn.next {
-  right: 0;
-}
-
-.carousel-btn:hover {
-  color: rgb(152, 41, 50);
-}
-
-hr {
+#post-detail {
+  font-size: 1rem;
+  padding: 0 4rem;
   margin: 0;
-  margin-top: 2rem;
-  border-color: rgb(0, 0, 0, 0.5);
+  margin-bottom: 1rem;
+  color: rgb(240, 240, 240);
+}
+
+#post-time {
+  color: rgb(240, 240, 240);
+  font-size: 0.8rem;
+  margin-left: 1.5rem;
 }
 
 #post-comment {
-  padding: 0 2rem 2rem 2rem;
-  font-size: 1.2rem;
+  color: rgb(240, 240, 240);
+  font-size: 1rem;
+  margin-bottom: 0.5rem;
+  padding: 0 4rem;
   white-space: pre-wrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+
+  display: -webkit-box; /* Flexbox와 유사한 레이아웃 */
+  -webkit-line-clamp: 4; /* 최대 4줄까지 표시 */
+  -webkit-box-orient: vertical; /* 수직 방향으로 정렬 */
 }
 
-.comment-item {
-  list-style: none;
-  padding: 1rem 2rem;
-  border-bottom: 2px solid rgb(0, 0, 0, 0.5);
+.toggle-btn {
+  padding: 0 4rem;
+  border: none;
+  color: rgb(63, 63, 63);
+  background: none;
+  cursor: pointer;
 }
 
-.comment {
-  padding-bottom: 0.3rem;
+.toggle-btn:hover {
+  color: rgb(152, 41, 50);
 }
 
-.user-info {
-  color: rgb(0, 0, 0, 0.5);
+.carousel {
+  width: 47rem;
+  margin: auto;
+}
+
+.carousel-indicators [data-bs-target] {
+  background-color: rgb(152, 41, 50);
+}
+
+.carousel-inner {
+  display: flex;
+  align-items: center;
+  width: 40rem;
+  height: 40rem;
+  margin: 1rem auto;
+  border-radius: 1rem;
+}
+
+.carousel-item {
+  overflow: hidden;
+  border-radius: 1rem;
+}
+
+.carousel-item img {
+  object-fit: cover;
+}
+
+.carousel-control-prev-icon,
+.carousel-control-next-icon {
+  background-image: url("/images/black-arrow.png");
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center;
+  width: 2.5rem;
+  height: 2.5rem;
+}
+
+.carousel-control-prev-icon {
+  transform: rotate(180deg);
+}
+
+.post-detail-container {
+  display: flex;
+  align-items: center;
+  padding-inline: 4rem;
+}
+
+.icon-container,
+.number-of-likes-container {
+  margin-inline: 0.5rem;
+}
+
+.number-of-likes-container,
+.number-of-comments-container {
+  margin: 0;
+}
+
+.number-of-likes,
+.number-of-comments {
+  color: rgb(240, 240, 240);
+  margin: 0;
+}
+
+.icon-container img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.hate-icon {
+  transform: rotate(180deg);
+  margin-inline: 1rem;
+}
+
+#comment-container {
+  width: 50rem;
+  margin: 2rem auto 0 auto;
+}
+
+#comment-line {
+  color: rgb(240, 240, 240);
+  font-size: 1.3rem;
+  font-weight: 600;
 }
 
 #form-comment {
   display: flex;
+  justify-content: space-between;
   align-items: center;
+  margin-bottom: 1.2rem;
 }
 
 #form-comment input {
+  background: none;
   border: none;
-  width: 40rem;
-  padding: 0.5rem 2rem;
-  padding-right: 0;
+  border-bottom: 1.5px solid rgb(63, 63, 63);
+  width: 45rem;
+  padding: 0.4rem 0;
   font-size: 1rem;
+  color: rgb(240, 240, 240);
 }
 
 #form-comment input:focus {
   outline: none;
+  border-bottom: 2px solid rgb(240, 240, 240);
+  transition: border-color 0.5s;
 }
 
 #form-comment button {
-  background-color: rgb(0, 0, 0);
-  color: white;
-  border: 1px solid rgb(0, 0, 0, 0.5);
-  font-size: 1.2rem;
-  width: 6rem;
-  height: 4rem;
+  font-weight: 500;
+  background-color: rgb(63, 63, 63);
+  color: rgb(240, 240, 240);
+  border: 1px solid rgb(63, 63, 63);
+  border-radius: 1rem;
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
 }
 
 #form-comment button:hover {
+  font-weight: 900;
   background-color: rgb(152, 41, 50);
   border: 1px solid rgb(152, 41, 50);
 }
 
-#caution {
-  color: red;
-  width: 23rem;
+#comment-list {
+  padding: 0;
+  list-style: none;
 }
 
-#gotocommunity {
+.comment-item {
+  margin-top: 2rem;
+}
+
+.comment,
+.user-info {
+  color: rgb(240, 240, 240);
+  padding: 0;
+  margin: 0;
+}
+
+.user-info {
+  margin-bottom: 0.2rem;
+}
+
+.comment-time {
+  color: rgb(240, 240, 240, 0.7);
+  font-size: 0.9rem;
+  margin-left: 0.5rem;
+}
+
+.comment-detail-container {
+  display: flex;
+  justify-items: baseline;
   align-items: center;
-  margin-block: 2rem 4rem;
-  text-align: center;
 }
 
-#gotocommunity a {
-  text-decoration: none;
-  font-size: 1.2rem;
-  color: black;
-  border: 2px solid black;
-  padding: 0.8rem 0.8rem;
+.comment-number-of-likes {
+  color: rgb(240, 240, 240);
+  margin-inline: 0.5rem 1rem;
 }
 
-#gotocommunity a:hover {
-  font-weight: bold;
-  color: rgb(152, 41, 50);
-  border: 3px solid rgb(152, 41, 50);
+.comment-icon-container img {
+  width: 1.2rem;
+  height: 1.2rem;
+}
+
+.comment-hate-icon {
+  margin-left: 1rem;
+  transform: rotate(180deg);
+}
+
+.comment-comment-icon {
+  margin-left: 3rem;
+}
+
+.comment-number-of-likes-container,
+.comment-number-of-likes,
+.reply-comment-line-container,
+.reply-comment-line {
+  margin: 0;
+}
+
+.comment-number-of-likes {
+  margin-left: 0.5rem;
+}
+
+.reply-comment-line {
+  margin-left: 1rem;
+  padding: 0.2rem 0.4rem;
+  color: rgb(240, 240, 240);
+}
+
+.reply-comment-line:hover {
+  background-color: rgb(63, 63, 63);
+  border-radius: 1rem;
+  padding: 0.2rem 0.4rem;
+}
+
+.form-reply-comment {
+  display: flex;
+  width: 40rem;
+  height: 2rem;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.hidden {
+  display: none; 
+}
+
+
+.form-reply-comment input {
+  background: none;
+  border: none;
+  border-bottom: 1.5px solid rgb(63, 63, 63);
+  width: 35rem;
+  padding: 0.4rem 0;
+  font-size: 0.8rem;
+  color: rgb(240, 240, 240);
+}
+
+.form-reply-comment input:focus {
+  outline: none;
+  border-bottom: 2px solid rgb(240, 240, 240);
+  transition: border-color 0.5s;
+}
+
+.form-reply-comment button {
+  font-weight: 500;
+  background-color: rgb(63, 63, 63);
+  color: rgb(240, 240, 240);
+  border: 1px solid rgb(63, 63, 63);
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  padding: 0.4rem 0.8rem;
+}
+
+.form-reply-comment button:hover {
+  font-weight: 900;
+  background-color: rgb(152, 41, 50);
+  border: 1px solid rgb(152, 41, 50);
 }
 
 @media (max-width: 50rem) {
-  .img-item {
-    width: calc(50% - 1rem);
-  }
-
-  .img-item img {
-    height: 14rem;
-  }
-
-  #caution-container {
+  #caution-container,
+  #post-container {
     width: 100%;
   }
 
-  #post-conatiner {
+  .carousel {
+    width: 40rem;
+  }
+
+  .carousel-inner,
+  .carousel-item {
+    width: 35rem;
+  }
+
+  .carousel-item img {
     width: 100%;
+    height: 100%;
+  }
+
+  #comment-container {
+    padding: 1rem;
+    width: 30rem;
+  }
+
+  #form-comment input {
+    width: 20rem;
   }
 }
 
-@media (max-width: 30rem) {
-  .img-item {
-    width: calc(100% - 1rem);
+@media (max-width: 40rem) {
+  .carousel {
+    width: 30rem;
   }
 
-  .img-item img {
-    height: 16rem;
+  .carousel-inner,
+  .carousel-item {
+    width: 25rem;
+    height: 25rem;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
   }
 }

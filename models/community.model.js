@@ -33,7 +33,17 @@ class Community {
     return post;
   }
 
-  static async writePost(post) {
+  static async writePost(img, content, author, time, id, like, hate) {
+    const post = {
+      img: img,
+      content: content,
+      author: author,
+      time: time,
+      user_id: id,
+      like: like,
+      hate: hate,
+    };
+    console.log("게시물 삽입 : \n", post);
     await db.getDb().collection("posts").insertOne(post);
   }
 
@@ -44,11 +54,11 @@ class Community {
       .updateMany({ author: nickname }, { $set: { author: changename } });
   }
 
-  static async getComments() {
+  static async getComments(postid) {
     const comments = await db
       .getDb()
       .collection("comments")
-      .find({ postId: new ObjectId(PostId) })
+      .find({ postId: postid })
       .toArray();
 
     return comments;

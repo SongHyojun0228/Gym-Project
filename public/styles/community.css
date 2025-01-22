@@ -1,22 +1,11 @@
-body {
-  background-color: rgb(15, 15, 15);
-}
-
-#main-header,
-#logo-div {
-  border-block: 0.5px solid rgb(240, 240, 240);
-}
-
 #caution-container {
   width: 50rem;
   margin: 4rem auto;
-  /* border: 1px solid rgb(0, 0, 0, 0.5); */
   border: 1px solid rgb(63, 63, 63);
   border-radius: 1rem;
 }
 
 .caution {
-  /* color: rgb(0, 0, 0, 0.5); */
   color: rgb(152, 41, 50);
   text-align: start;
   margin-left: 1rem;
@@ -34,7 +23,7 @@ body {
 #post-container {
   width: 50rem;
   margin: 0 auto;
-  border-radius: 4px;
+  transition: width 0.5s ease-in-out;
 }
 
 .post-items {
@@ -91,22 +80,26 @@ body {
   background-color: rgb(152, 41, 50);
 }
 
-.carousel-item {
-  overflow: hidden;
-  border-radius: 1rem;
-}
-
 .carousel-inner {
   display: flex;
   align-items: center;
+  margin: 1rem auto;
+  border-radius: 1rem;
   width: 40rem;
   height: 40rem;
-  margin: 1rem auto 2rem auto;
+}
+
+.carousel-item {
+  overflow: hidden;
   border-radius: 1rem;
+  width: 40rem;
+  height: 40rem;
 }
 
 .carousel-item img {
   object-fit: cover;
+  width: 40rem;
+  height: 40rem;
 }
 
 .carousel-control-prev-icon,
@@ -123,6 +116,42 @@ body {
   transform: rotate(180deg);
 }
 
+.post-detail-container {
+  display: flex;
+  align-items: center;
+  padding-inline: 4rem;
+}
+
+.icon-container,
+.number-of-likes-container {
+  margin-inline: 0.5rem;
+}
+
+.number-of-likes-container,
+.number-of-comments-container {
+  margin: 0;
+}
+
+.number-of-likes,
+.number-of-comments {
+  color: rgb(240, 240, 240);
+  margin: 0;
+}
+
+.icon-container img {
+  width: 1.5rem;
+  height: 1.5rem;
+}
+
+.hate-icon {
+  transform: rotate(180deg);
+  margin-inline: 1rem;
+}
+
+.comment-icon {
+  margin-left: 2rem;
+}
+
 #gotoadd {
   margin: 4rem 0;
   text-align: center;
@@ -136,25 +165,52 @@ body {
   border: 2px solid black;
   border-radius: 4px;
   padding: 0.8rem 3rem;
-  /* box-shadow: 2px 2px 1px rgba(0, 0, 0, 0.5); */
 }
 
 #gotoadd a:hover {
   background-color: rgb(152, 41, 50);
   border: 2px solid rgb(152, 41, 50);
   color: rgb(240, 240, 240);
-  /* transform: translateY(-2px); */
-  /* box-shadow: 3px 3px 1px rgba(0, 0, 0, 0.8); */
 }
-
-/* #gotoadd a:active {
-  transform: translateY(2px);
-  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.2);
-} */
 
 @media (max-width: 50rem) {
   #caution-container,
   #post-container {
     width: 100%;
+  }
+
+  .post-item {
+    width: 100%;
+  }
+
+  .carousel {
+    width: 40rem;
+  }
+
+  .carousel-inner,
+  .carousel-item {
+    width: 35rem;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+  }
+}
+
+@media (max-width: 40rem) {
+  .carousel {
+    width: 30rem;
+  }
+
+  .carousel-inner,
+  .carousel-item {
+    width: 25rem;
+    height: 25rem;
+  }
+
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
   }
 }

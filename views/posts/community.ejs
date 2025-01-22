@@ -100,6 +100,26 @@
                 </button>
               </div>
             <% } %>
+
+            <div class="post-detail-container">
+              <div class="icon-container">
+                <img src="/images/basic-like.png" class="like-icon" alt="">
+              </div>
+              <div class="number-of-likes-container">
+                <p class="number-of-likes"><%= post.like%></p>
+              </div>
+              <div class="icon-container">
+                <img src="/images/basic-like.png" class="hate-icon" alt="">
+              </div>
+              <div class="icon-container">
+                <a href="/community/<%= post._id%>">
+                  <img src="/images/comment.png" class="comment-icon" alt="">
+                </a>
+              </div>
+              <div class="number-of-comments-container">
+                <p class="number-of-comments"><%= post.commentCount %></p>
+              </div>
+            </div>
           </div>
         <% }); %>
       </div>      

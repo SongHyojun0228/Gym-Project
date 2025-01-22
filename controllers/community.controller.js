@@ -3,7 +3,8 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-const community = require('../models/community.model');
+const { ObjectId } = require("mongodb");
+const community = require("../models/community.model");
 
 function timeAgo(time) {
   const now = new Date();
@@ -27,16 +28,19 @@ async function getCommunity(req, res) {
   try {
     const posts = await community.getAllPost();
 
-    posts.forEach((post) => {
-      if (post.content.length > 30) {
-        post.shortContent = post.content.substring(0, 30) + "...";
-      } else {
-        post.shortContent = post.content;
-      }
-      post.timeAgo = timeAgo(post.time);
-    });
+    for (const post of posts) {
+      const comments = await community.getComments(post._id);
 
-    res.render("posts/community", { posts: posts });
+      post.shortContent =
+        post.content.length > 30
+          ? post.content.substring(0, 30) + "..."
+          : post.content;
+      post.timeAgo = timeAgo(post.time);
+      post.commentCount = comments.length;
+      console.log(post.commentCount);
+    }
+
+    res.render("posts/community", { posts });
   } catch (error) {
     console.error("게시물 로드 중 오류:", error);
     res.status(500).render("errors/500");
@@ -59,7 +63,8 @@ async function getCommunityDetail(req, res) {
         .render("errors/404", { message: "게시물을 찾을 수 없습니다." });
     }
 
-    const comments = await community.getCommunity();
+    const comments = await community.getComments(new ObjectId(PostId));
+    const commentCount = comments.length;
 
     post.timeAgo = timeAgo(post.time);
     comments.forEach((comment) => {
@@ -69,7 +74,7 @@ async function getCommunityDetail(req, res) {
     res.render("posts/community-detail", {
       post: post,
       comments: comments,
-      error: {},
+      commentCount: commentCount,
     });
   } catch (error) {
     console.error("에러 발생:", error);
@@ -126,30 +131,27 @@ async function InsertPost(req, res) {
     }
   });
 
-  const post = {
-    img: imgPaths,
-    content: req.body.content,
-    author: req.session.user.username,
-    time: new Date(),
-    user_id: req.session.user.id,
-  };
-
   try {
-    await community.writePost(post);
-    console.log("게시물 삽입 성공:", post);
+    await community.writePost(
+      imgPaths,
+      req.body.content,
+      req.session.user.username,
+      new Date(),
+      req.session.user.id,
+      0,
+      0
+    );
     res.redirect("/community");
   } catch (error) {
-    console.error("게시물 등록 중 오류:", error);
+    console.error("게시물 등록 오류 : \n", error);
     res.status(500).render("errors/500");
   }
-
-  
 }
 
 module.exports = {
-    getCommunity,
-    getCommunityDetail,
-    Comment,
-    getInsertPost,
-    InsertPost
+  getCommunity,
+  getCommunityDetail,
+  Comment,
+  getInsertPost,
+  InsertPost
 };

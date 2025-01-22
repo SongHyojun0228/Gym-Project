@@ -1,27 +1,49 @@
 document.addEventListener("DOMContentLoaded", () => {
-    const buttons = document.querySelectorAll(".toggle-btn");
-  
-    buttons.forEach((button) => {
-      const postId = button.getAttribute("data-post-id");
-      const contentElement = document.querySelector(`.content[data-post-id="${postId}"]`);
-  
-      // 초기 상태 강제 설정
-      contentElement.style.webkitLineClamp = 4;
-      contentElement.style.overflow = "hidden";
-  
-      button.addEventListener("click", () => {
-        const isCollapsed = contentElement.style.webkitLineClamp === "4" || !contentElement.style.webkitLineClamp;
-  
-        if (isCollapsed) {
-          contentElement.style.webkitLineClamp = "none"; // 모든 줄 표시
-          contentElement.style.overflow = "visible"; // 넘침 해제
-          button.textContent = "간략히 보기";
-        } else {
-          contentElement.style.webkitLineClamp = 4; // 4줄 제한
-          contentElement.style.overflow = "hidden";
-          button.textContent = "자세히 보기";
-        }
-      });
+  const buttons = document.querySelectorAll(".toggle-btn");
+
+  buttons.forEach((button) => {
+    const postId = button.getAttribute("data-post-id");
+    const contentElement = document.querySelector(
+      `.content[data-post-id="${postId}"], #post-comment`
+    );
+
+    // 콘텐츠가 존재하지 않으면 넘어감
+    if (!contentElement) return;
+
+    // 초기 상태 강제 설정
+    contentElement.style.webkitLineClamp = 4;
+    contentElement.style.overflow = "hidden";
+
+    button.addEventListener("click", () => {
+      const isCollapsed =
+        contentElement.style.webkitLineClamp === "4" ||
+        !contentElement.style.webkitLineClamp;
+
+      if (isCollapsed) {
+        contentElement.style.webkitLineClamp = "none"; // 모든 줄 표시
+        contentElement.style.overflow = "visible"; // 넘침 해제
+        button.textContent = "간략히 보기";
+      } else {
+        contentElement.style.webkitLineClamp = 4; // 4줄 제한
+        contentElement.style.overflow = "hidden";
+        button.textContent = "자세히 보기";
+      }
     });
   });
-  
+});
+
+document.addEventListener("DOMContentLoaded", () => {
+  const replyButtons = document.querySelectorAll(".reply-comment-line");
+  replyButtons.forEach((button) => {
+    button.addEventListener("click", () => {
+      const commentId = button.getAttribute("data-comment-id");
+      const replyForm = document.querySelector(
+        `.form-reply-comment[data-comment-id="${commentId}"]`
+      );
+
+      if (replyForm) {
+        replyForm.classList.toggle("hidden");
+      }
+    });
+  });
+});
