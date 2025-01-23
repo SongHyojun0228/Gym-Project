@@ -32,6 +32,9 @@
 
       <div id="post-container">
         <div id="title-container">
+            <div id="post-author-profile">
+              <img src="<%= post.authorProfile%>" alt="">
+            </div>
             <p id="post-detail"><%= post.author%><span id="post-time"><%= post.timeAgo%></span></p>
             <h3><%= post.title%></h3>
         </div>
@@ -132,8 +135,13 @@
         <ul id="comment-list">
             <% for(const comment of comments) { %>
               <li class="comment-item">
-                <p class="user-info"><%= comment.author %><span class="comment-time"><%= comment.timeAgo %></span></p>
-                <p class="comment"><%= comment.comment %></p>
+                <div class="comment-author-profile">
+                  <img src="<%= comment.authorProfile%>" alt="">
+                </div>
+                <div>
+                  <p class="user-info"><%= comment.author %><span class="comment-time"><%= comment.timeAgo %></span></p>
+                  <p class="comment"><%= comment.comment %></p>
+                </div>
               </li>
 
               <div class="comment-detail-container">
@@ -170,8 +178,13 @@
               <ul class="reply-list hidden" id="reply-list-<%= comment._id %>">
                 <% for (const reply of comment.replies) { %>
                   <li class="reply-item">
-                    <p class="user-info"><%= reply.author %><span class="reply-time"><%= reply.timeAgo %></span></p>
-                    <p class="reply-comment"><%= reply.comment %></p>
+                    <div class="reply-author-profile">
+                      <img src="<%= comment.authorProfile%>" alt="">
+                    </div>
+                    <div>
+                      <p class="user-info"><%= reply.author %><span class="reply-time"><%= reply.timeAgo %></span></p>
+                      <p class="reply-comment"><%= reply.comment %></p>
+                    </div>
                   </li>
                 <% } %>
               </ul>

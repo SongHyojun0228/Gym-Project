@@ -37,7 +37,6 @@ async function getCommunity(req, res) {
           : post.content;
       post.timeAgo = timeAgo(post.time);
       post.commentCount = comments.length;
-      console.log(post.commentCount);
     }
 
     res.render("posts/community", { posts });
@@ -56,6 +55,8 @@ async function getCommunityDetail(req, res) {
 
   try {
     const post = await community.getOnePost(PostId);
+    const postAuthorProfile = await community.getPostAuthor(post.author);
+    post.authorProfile = postAuthorProfile.user_img;
 
     if (!post) {
       return res
@@ -65,18 +66,24 @@ async function getCommunityDetail(req, res) {
 
     const comments = await community.getComments(new ObjectId(PostId));
     const commentCount = comments.length;
-
     post.timeAgo = timeAgo(post.time);
 
     for (const comment of comments) {
       comment.timeAgo = timeAgo(comment.time);
-      const replies = await community.getReplyComments(comment._id); 
+      const replies = await community.getReplyComments(comment._id);
       const replyCommentCount = replies.length;
-      replies.forEach((reply) => {
-        reply.timeAgo = timeAgo(reply.time); 
-      }); 
+      const commentAuthor = await community.getCommentAuthor(comment.author);
+      const commentAuthorProfile = commentAuthor.user_img;
+
+      for(const reply of replies) {
+        const replyAuthor = await community.getReplyAuthor(comment.author);
+        const replyAuthorProfile = replyAuthor.user_img;
+        reply.timeAgo = timeAgo(reply.time);
+        reply.authorProfile = replyAuthorProfile;
+      };
       comment.replies = replies;
       comment.repliesCount = replyCommentCount;
+      comment.authorProfile = commentAuthorProfile;
     }
 
     res.render("posts/community-detail", {
@@ -192,7 +199,6 @@ async function ReplyComment(req, res) {
     res.status(500).render("errors/500");
   }
 }
-
 
 module.exports = {
   getCommunity,

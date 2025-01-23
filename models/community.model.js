@@ -88,6 +88,26 @@ class Community {
   static async writeReplyComment(newReplyComment) {
     await db.getDb().collection("replies").insertOne(newReplyComment);
   }
+
+  static async getPostAuthor(a) {
+    const postAuthor = await db.getDb().collection('posts').findOne({author: a});
+    const Author = await db.getDb().collection('users').findOne({author: postAuthor.username});
+    return Author;
+  }
+
+  static async getCommentAuthor(a) {
+    const commentAuthor = await db.getDb().collection('comments').findOne({author: a});
+    const Author = await db.getDb().collection('users').findOne({author: commentAuthor.username});
+
+    return Author;
+  }
+
+  static async getReplyAuthor(a) {
+    const replyAuthor = await db.getDb().collection('replies').findOne({author: a});
+    const Author = await db.getDb().collection('users').findOne({author: replyAuthor.username});
+
+    return Author;
+  }
 }
 
 module.exports = Community;
