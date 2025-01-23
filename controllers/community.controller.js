@@ -67,9 +67,17 @@ async function getCommunityDetail(req, res) {
     const commentCount = comments.length;
 
     post.timeAgo = timeAgo(post.time);
-    comments.forEach((comment) => {
+
+    for (const comment of comments) {
       comment.timeAgo = timeAgo(comment.time);
-    });
+      const replies = await community.getReplyComments(comment._id); 
+      const replyCommentCount = replies.length;
+      replies.forEach((reply) => {
+        reply.timeAgo = timeAgo(reply.time); 
+      }); 
+      comment.replies = replies;
+      comment.repliesCount = replyCommentCount;
+    }
 
     res.render("posts/community-detail", {
       post: post,
@@ -80,33 +88,6 @@ async function getCommunityDetail(req, res) {
     console.error("에러 발생:", error);
     res.status(500).render("errors/500");
   }
-}
-
-async function Comment(req, res) {
-  if (!req.session || !req.session.user) {
-    return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
-    );
-  }
-
-  const postId = req.params.id;
-  const { comment } = req.body;
-
-  const newComment = {
-    postId: new ObjectId(postId),
-    comment: comment,
-    author: req.session.user.username,
-    user_id: req.session.user,
-    time: new Date(),
-  };
-
-  await community.writeComment(newComment);
-
-  res.status(201).json({
-    comment: newComment.comment,
-    author: newComment.author,
-    timeAgo: timeAgo(newComment.time),
-  });
 }
 
 function getInsertPost(req, res) {
@@ -148,10 +129,76 @@ async function InsertPost(req, res) {
   }
 }
 
+async function Comment(req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
+
+  const postId = req.params.id;
+  const { comment } = req.body;
+
+  const newComment = {
+    postId: new ObjectId(postId),
+    comment: comment,
+    author: req.session.user.username,
+    user_id: req.session.user,
+    time: new Date(),
+  };
+
+  await community.writeComment(newComment);
+
+  res.status(201).json({
+    comment: newComment.comment,
+    author: newComment.author,
+    timeAgo: timeAgo(newComment.time),
+  });
+}
+
+async function ReplyComment(req, res) {
+  if (!req.session || !req.session.user) {
+    return res.send(
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+    );
+  }
+
+  const commentId = req.params.id; // 클라이언트에서 전달된 댓글 ID
+  const { replyComment } = req.body; // 클라이언트에서 전달된 답글 내용
+
+  // commentId 유효성 검사
+  if (!ObjectId.isValid(commentId)) {
+    return res.status(400).json({ error: "잘못된 댓글 ID입니다." });
+  }
+
+  const newReplyComment = {
+    commentId: new ObjectId(commentId), // 유효한 ObjectId로 변환
+    comment: replyComment,
+    author: req.session.user.username,
+    user_id: req.session.user.id,
+    time: new Date(),
+  };
+
+  try {
+    await community.writeReplyComment(newReplyComment);
+
+    res.status(201).json({
+      comment: newReplyComment.comment,
+      author: newReplyComment.author,
+      timeAgo: timeAgo(newReplyComment.time),
+    });
+  } catch (error) {
+    console.error("답글 등록 오류 : ", error);
+    res.status(500).render("errors/500");
+  }
+}
+
+
 module.exports = {
   getCommunity,
   getCommunityDetail,
   Comment,
   getInsertPost,
-  InsertPost
+  InsertPost,
+  ReplyComment,
 };

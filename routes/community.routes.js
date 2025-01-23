@@ -34,4 +34,6 @@ router.post(
   communiytController.InsertPost
 );
 
+router.post("/community/comment/:id/reply", communiytController.ReplyComment);
+
 module.exports = router;

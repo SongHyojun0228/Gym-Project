@@ -54,11 +54,18 @@ class Community {
       .updateMany({ author: nickname }, { $set: { author: changename } });
   }
 
+  static async changeCommentAuthor(nickname, changename) {
+    await db
+      .getDb()
+      .collection("comments")
+      .updateMany({ author: nickname }, { $set: { author: changename } });
+  }
+
   static async getComments(postid) {
     const comments = await db
       .getDb()
       .collection("comments")
-      .find({ postId: postid })
+      .find({ postId: postid})
       .toArray();
 
     return comments;
@@ -68,11 +75,18 @@ class Community {
     await db.getDb().collection("comments").insertOne(newComment);
   }
 
-  static async changeCommentAuthor(nickname, changename) {
-    await db
+  static async getReplyComments(commentId) {
+    const replies = await db
       .getDb()
-      .collection("comments")
-      .updateMany({ author: nickname }, { $set: { author: changename } });
+      .collection("replies")
+      .find({ commentId: commentId })
+      .toArray();
+
+    return replies;
+  }
+
+  static async writeReplyComment(newReplyComment) {
+    await db.getDb().collection("replies").insertOne(newReplyComment);
   }
 }
 

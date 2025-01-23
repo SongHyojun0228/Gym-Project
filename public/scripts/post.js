@@ -31,19 +31,3 @@ document.addEventListener("DOMContentLoaded", () => {
     });
   });
 });
-
-document.addEventListener("DOMContentLoaded", () => {
-  const replyButtons = document.querySelectorAll(".reply-comment-line");
-  replyButtons.forEach((button) => {
-    button.addEventListener("click", () => {
-      const commentId = button.getAttribute("data-comment-id");
-      const replyForm = document.querySelector(
-        `.form-reply-comment[data-comment-id="${commentId}"]`
-      );
-
-      if (replyForm) {
-        replyForm.classList.toggle("hidden");
-      }
-    });
-  });
-});

@@ -151,22 +151,33 @@
                 </div>
               </div>
 
-                <form 
-                  action="/community/<%= post._id %>/reply-comment" 
-                  method="POST" 
-                  class="form-reply-comment hidden" 
-                  data-comment-id="<%= comment._id %>"> 
-                  <input 
-                    type="text" 
-                    class="reply-comment" 
-                    name="reply-comment" 
-                    placeholder="답글 추가..." 
-                  />
-                  <button>작성</button>
-                </form>
+              <form 
+                action="/community/comment/<%= comment._id %>/reply" 
+                method="POST" 
+                class="form-reply-comment hidden" 
+                data-comment-id="<%= comment._id %>">
+                <input type="text" class="reply-comment" name="replyComment" placeholder="답글 추가..." />
+                <button>작성</button>
+              </form>
+
+              <% if (comment.replies && comment.replies.length > 0) { %>
+                <button class="reply-show-btn" data-comment-id="<%= comment._id %>">
+                  답글 <%= comment.replies.length %>개
+                </button>
+              <% } %>
+
+              <!-- 답글 리스트 -->
+              <ul class="reply-list hidden" id="reply-list-<%= comment._id %>">
+                <% for (const reply of comment.replies) { %>
+                  <li class="reply-item">
+                    <p class="user-info"><%= reply.author %><span class="reply-time"><%= reply.timeAgo %></span></p>
+                    <p class="reply-comment"><%= reply.comment %></p>
+                  </li>
+                <% } %>
+              </ul>
             <% } %>
           </ul>
-      </div>
-    <%- include('../includes/footer') %>
+      </div>  
+     <%- include('../includes/footer') %>
   </body>
 </html>
