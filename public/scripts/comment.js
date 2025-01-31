@@ -15,120 +15,128 @@ document.addEventListener("DOMContentLoaded", () => {
       return;
     }
 
-    const response = await fetch(`/community/${postId}/comment`, {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ comment }),
-    });
+    try {
+      const response = await fetch(`/community/${postId}/comment`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ comment }),
+      });
 
-    const newComment = await response.json();
-    const li = document.createElement("li");
-    li.className = "comment-item";
-    li.innerHTML = `
-      <p class="user-info">${newComment.author} <span class="comment-time">${newComment.timeAgo}</span></p>
-      <p class="comment">${newComment.comment}</p>
+      if (!response.ok) {
+        throw new Error("댓글 작성 중 오류가 발생했습니다.");
+      }
 
-      <div class="comment-detail-container">
-        <div class="comment-icon-container">
-          <img src="/images/basic-like.png" class="comment-like-icon" alt="like">
+      const newComment = await response.json();
+      if (!newComment._id) {
+        throw new Error("서버에서 올바른 응답을 받지 못했습니다.");
+      }
+
+      const li = document.createElement("li");
+      li.className = "comment-li";
+      li.innerHTML = `
+        <li class="comment-item">
+          <div class="comment-author-profile">
+            <img src="${newComment.authorProfile}" alt="프로필 이미지">
+          </div>
+          <div>
+            <p class="user-info">${newComment.author} <span class="comment-time">${newComment.timeAgo}</span></p>
+            <p class="comment">${newComment.comment}</p>
+          </div>
+        </li>
+        <div class="comment-detail-container">
+          <div class="comment-icon-container">
+            <img src="/images/basic-like.png" class="comment-like-icon" alt="좋아요">
+          </div>
+          <div class="comment-number-of-likes-container">
+            <p class="comment-number-of-likes">${newComment.like || 0}</p>
+          </div>
+          <div class="comment-icon-container">
+            <img src="/images/basic-like.png" class="comment-hate-icon" alt="싫어요">
+          </div>
+          <div class="reply-comment-line-container">
+            <p class="reply-comment-line" data-comment-id="${newComment._id}">답글</p>
+          </div>
         </div>
 
-        <div class="comment-number-of-likes-container">
-          <p class="comment-number-of-likes">${newComment.like || 0}</p>
-        </div>
+        <!-- 답글 입력 폼 -->
+        <form class="form-reply-comment hidden" data-comment-id="${newComment._id}">
+          <input type="text" class="reply-comment" name="replyComment" placeholder="답글 추가..." />
+          <button>작성</button>
+        </form>
 
-        <div class="comment-icon-container">
-          <img src="/images/basic-like.png" class="comment-hate-icon" alt="hate">
-        </div>
+        <!-- 답글 리스트 -->
+        <ul class="reply-list hidden" id="reply-list-${newComment._id}"></ul>
+      `;
 
-        <div class="reply-comment-line-container">
-          <p class="reply-comment-line" data-comment-id="${newComment._id}">답글</p>
-        </div>
-      </div>
+      commentList.appendChild(li);
+      commentInput.value = "";
 
-      <form
-        action="/community/${newComment.postId}/reply-comment"
-        method="POST"
-        class="form-reply-comment hidden"
-        data-comment-id="${newComment._id}">
-        <input type="text" class="reply-comment" name="reply-comment" placeholder="답글 추가..." />
-        <button>작성</button>
-      </form>
-    `;
-    commentList.appendChild(li);
-    commentInput.value = "";
+    } catch (error) {
+      alert(error.message);
+    }
   });
 
-  // 답글 폼 보기
+  // 답글 버튼 클릭 시 입력 폼 표시
   document.addEventListener("click", (event) => {
     if (event.target.classList.contains("reply-comment-line")) {
-      const commentId = event.target.getAttribute("data-comment-id");
-      const replyForm = document.querySelector(
-        `.form-reply-comment[data-comment-id="${commentId}"]`
-      );
-
+      const commentId = event.target.dataset.commentId;
+      const replyForm = document.querySelector(`.form-reply-comment[data-comment-id="${commentId}"]`);
+      
       if (replyForm) {
         replyForm.classList.toggle("hidden");
       }
     }
   });
 
-  // 답글 보기 
-  document.addEventListener("click", (event) => {
-    if (event.target.classList.contains("reply-show-btn")) {
-
-      const commentId = event.target.closest(".reply-show-btn").getAttribute("data-comment-id");
-      const replyList = document.getElementById(`reply-list-${commentId}`);
-  
-      if (replyList) {
-        replyList.classList.toggle("hidden");
-  
-        if (replyList.classList.contains("hidden")) {
-          event.target.textContent = `답글 ${replyCount}개`;
-        } else {
-          const replyCount = replyList.querySelectorAll(".reply-item").length;
-          event.target.textContent = `답글 ${replyCount}개`;
-        }
-      }
-    }
-  });
-  
-
-  // 답글 작성 처리
+  // 답글 작성 후 즉시 반영
   document.addEventListener("submit", async (event) => {
     if (event.target.classList.contains("form-reply-comment")) {
-      event.preventDefault(); // 기본 동작 막기
-      console.log("답글 폼 제출 이벤트 감지됨"); // 디버깅용 로그
-      
+      event.preventDefault();
+
       const replyCommentInput = event.target.querySelector(".reply-comment");
       const replyComment = replyCommentInput.value.trim();
       const commentId = event.target.dataset.commentId;
-  
+
       if (!replyComment) {
         alert("답글을 입력하세요.");
         return;
       }
-  
-      const response = await fetch(`/community/comment/${commentId}/reply`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ replyComment }),
-      });
-  
-      if (response.ok) {
+
+      try {
+        const response = await fetch(`/community/comment/${commentId}/reply`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ replyComment }),
+        });
+
+        if (!response.ok) {
+          throw new Error("답글 등록 중 오류가 발생했습니다.");
+        }
+
         const newReply = await response.json();
+        if (!newReply._id) {
+          throw new Error("서버에서 올바른 응답을 받지 못했습니다.");
+        }
+
         const replyList = document.getElementById(`reply-list-${commentId}`);
         const li = document.createElement("li");
         li.className = "reply-item";
         li.innerHTML = `
-          <p class="user-info">${newReply.author} <span class="reply-time">${newReply.timeAgo}</span></p>
-          <p class="reply-comment">${newReply.comment}</p>
+          <div class="reply-author-profile">
+            <img src="${newReply.authorProfile}" alt="프로필 이미지">
+          </div>
+          <div>
+            <p class="user-info">${newReply.author} <span class="reply-time">${newReply.timeAgo}</span></p>
+            <p class="reply-comment">${newReply.comment}</p>
+          </div>
         `;
+
         replyList.appendChild(li);
         replyCommentInput.value = "";
-      } else {
-        const error = await response.json();
-        alert(error.error || "답글 등록 중 오류가 발생했습니다.");
+        replyList.classList.remove("hidden"); // 답글 리스트 즉시 표시
+
+      } catch (error) {
+        alert(error.message);
       }
     }
   });

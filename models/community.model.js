@@ -72,8 +72,10 @@ class Community {
   }
 
   static async writeComment(newComment) {
-    await db.getDb().collection("comments").insertOne(newComment);
+    const result = await db.getDb().collection("comments").insertOne(newComment);
+    return result; 
   }
+  
 
   static async getReplyComments(commentId) {
     const replies = await db
@@ -86,8 +88,9 @@ class Community {
   }
 
   static async writeReplyComment(newReplyComment) {
-    await db.getDb().collection("replies").insertOne(newReplyComment);
-  }
+    const result = await db.getDb().collection("replies").insertOne(newReplyComment);
+    return result; 
+  }  
 
   static async getPostAuthor(a) {
     const postAuthor = await db.getDb().collection('posts').findOne({author: a});

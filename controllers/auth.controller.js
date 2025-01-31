@@ -167,6 +167,7 @@ async function Login(req, res) {
     id: existingUser._id.toString(),
     username: existingUser.username.toString(),
     name: existingUser.name.toString(),
+    profileImg : existingUser.user_img
   };
 
   req.session.isAuthenticated = true;

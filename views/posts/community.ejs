@@ -31,9 +31,14 @@
       <div id="post-container">
         <% posts.forEach((post) => { %>
           <div class="post-items">
-            <p class="post-detail">
-              <%= post.author %><span class="post-time"><%= post.timeAgo %></span>
-            </p>
+            <div class="title-container">
+              <div class="post-author-profile">
+                <img src="<%= post.authorProfile%>" alt="">
+              </div>
+              <p class="post-detail">
+                <%= post.author %><span class="post-time"><%= post.timeAgo %></span>
+              </p>
+            </div>
       
             <p class="content" data-post-id="<%= post._id %>"><%= post.content %></p>
       

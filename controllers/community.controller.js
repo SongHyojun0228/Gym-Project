@@ -37,6 +37,8 @@ async function getCommunity(req, res) {
           : post.content;
       post.timeAgo = timeAgo(post.time);
       post.commentCount = comments.length;
+      const postAuthorProfile = await community.getPostAuthor(post.author);
+      post.authorProfile = postAuthorProfile.user_img;
     }
 
     res.render("posts/community", { posts });
@@ -146,22 +148,36 @@ async function Comment(req, res) {
   const postId = req.params.id;
   const { comment } = req.body;
 
+  if (!comment) {
+    return res.status(400).json({ error: "댓글 내용을 입력하세요." });
+  }
+
   const newComment = {
     postId: new ObjectId(postId),
     comment: comment,
     author: req.session.user.username,
-    user_id: req.session.user,
+    user_id: req.session.user.id,
     time: new Date(),
+    authorProfile: req.session.user.profileImg
   };
 
-  await community.writeComment(newComment);
+  try {
+    const result = await community.writeComment(newComment);
+    newComment._id = result.insertedId;
 
-  res.status(201).json({
-    comment: newComment.comment,
-    author: newComment.author,
-    timeAgo: timeAgo(newComment.time),
-  });
+    res.status(201).json({
+      _id: newComment._id,
+      comment: newComment.comment,
+      author: newComment.author,
+      authorProfile: req.session.user.profileImg || "/images/default-profile.png",
+      timeAgo: timeAgo(newComment.time),
+    });
+  } catch (error) {
+    console.error("댓글 등록 오류 : ", error);
+    res.status(500).json({ error: "서버 오류 발생" });
+  }
 }
+
 
 async function ReplyComment(req, res) {
   if (!req.session || !req.session.user) {
@@ -170,16 +186,15 @@ async function ReplyComment(req, res) {
     );
   }
 
-  const commentId = req.params.id; // 클라이언트에서 전달된 댓글 ID
-  const { replyComment } = req.body; // 클라이언트에서 전달된 답글 내용
+  const commentId = req.params.id;
+  const { replyComment } = req.body;
 
-  // commentId 유효성 검사
   if (!ObjectId.isValid(commentId)) {
     return res.status(400).json({ error: "잘못된 댓글 ID입니다." });
   }
 
   const newReplyComment = {
-    commentId: new ObjectId(commentId), // 유효한 ObjectId로 변환
+    commentId: new ObjectId(commentId),
     comment: replyComment,
     author: req.session.user.username,
     user_id: req.session.user.id,
@@ -187,18 +202,22 @@ async function ReplyComment(req, res) {
   };
 
   try {
-    await community.writeReplyComment(newReplyComment);
+    const result = await community.writeReplyComment(newReplyComment);
+    newReplyComment._id = result.insertedId;
 
     res.status(201).json({
+      _id: newReplyComment._id,
       comment: newReplyComment.comment,
       author: newReplyComment.author,
+      authorProfile: req.session.user.profileImg || "/images/default-profile.png",
       timeAgo: timeAgo(newReplyComment.time),
     });
   } catch (error) {
-    console.error("답글 등록 오류 : ", error);
-    res.status(500).render("errors/500");
+    console.error("답글 등록 오류: ", error);
+    res.status(500).json({ error: "서버 오류 발생" });
   }
 }
+
 
 module.exports = {
   getCommunity,
