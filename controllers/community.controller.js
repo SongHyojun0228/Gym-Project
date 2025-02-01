@@ -26,6 +26,7 @@ function timeAgo(time) {
 
 async function getCommunity(req, res) {
   try {
+    const user = req.session.user;
     const posts = await community.getAllPost();
 
     for (const post of posts) {
@@ -41,7 +42,7 @@ async function getCommunity(req, res) {
       post.authorProfile = postAuthorProfile.user_img;
     }
 
-    res.render("posts/community", { posts });
+    res.render("posts/community", { posts, user });
   } catch (error) {
     console.error("게시물 로드 중 오류:", error);
     res.status(500).render("errors/500");
@@ -77,12 +78,12 @@ async function getCommunityDetail(req, res) {
       const commentAuthor = await community.getCommentAuthor(comment.author);
       const commentAuthorProfile = commentAuthor.user_img;
 
-      for(const reply of replies) {
+      for (const reply of replies) {
         const replyAuthor = await community.getReplyAuthor(comment.author);
         const replyAuthorProfile = replyAuthor.user_img;
         reply.timeAgo = timeAgo(reply.time);
         reply.authorProfile = replyAuthorProfile;
-      };
+      }
       comment.replies = replies;
       comment.repliesCount = replyCommentCount;
       comment.authorProfile = commentAuthorProfile;
@@ -102,7 +103,7 @@ async function getCommunityDetail(req, res) {
 function getInsertPost(req, res) {
   if (!req.session || !req.session.user) {
     return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
     );
   }
 
@@ -129,7 +130,7 @@ async function InsertPost(req, res) {
       new Date(),
       req.session.user.id,
       0,
-      0
+      0,
     );
     res.redirect("/community");
   } catch (error) {
@@ -141,7 +142,7 @@ async function InsertPost(req, res) {
 async function Comment(req, res) {
   if (!req.session || !req.session.user) {
     return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
     );
   }
 
@@ -158,7 +159,7 @@ async function Comment(req, res) {
     author: req.session.user.username,
     user_id: req.session.user.id,
     time: new Date(),
-    authorProfile: req.session.user.profileImg
+    authorProfile: req.session.user.profileImg,
   };
 
   try {
@@ -169,7 +170,8 @@ async function Comment(req, res) {
       _id: newComment._id,
       comment: newComment.comment,
       author: newComment.author,
-      authorProfile: req.session.user.profileImg || "/images/default-profile.png",
+      authorProfile:
+        req.session.user.profileImg || "/images/default-profile.png",
       timeAgo: timeAgo(newComment.time),
     });
   } catch (error) {
@@ -178,11 +180,10 @@ async function Comment(req, res) {
   }
 }
 
-
 async function ReplyComment(req, res) {
   if (!req.session || !req.session.user) {
     return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
     );
   }
 
@@ -209,7 +210,8 @@ async function ReplyComment(req, res) {
       _id: newReplyComment._id,
       comment: newReplyComment.comment,
       author: newReplyComment.author,
-      authorProfile: req.session.user.profileImg || "/images/default-profile.png",
+      authorProfile:
+        req.session.user.profileImg || "/images/default-profile.png",
       timeAgo: timeAgo(newReplyComment.time),
     });
   } catch (error) {
@@ -217,7 +219,6 @@ async function ReplyComment(req, res) {
     res.status(500).json({ error: "서버 오류 발생" });
   }
 }
-
 
 module.exports = {
   getCommunity,

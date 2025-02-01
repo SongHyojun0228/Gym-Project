@@ -101,7 +101,7 @@ async function Signup(req, res) {
 
   const existingUsername = await Auth.findByNameAndUsername(
     user_name,
-    user_username
+    user_username,
   );
   if (existingUsername) {
     errors.userUsername = "(해당 닉네임의 유저가 존재합니다)";
@@ -114,7 +114,7 @@ async function Signup(req, res) {
       user_pw,
       user_name,
       user_phone,
-      user_username
+      user_username,
     );
 
     await newUser.save(user_id, user_pw, user_name, user_phone, user_username);
@@ -152,7 +152,7 @@ async function Login(req, res) {
 
   const passwordsAreEqual = await bcrypt.compare(
     String(enteredPw),
-    existingUser.password
+    existingUser.password,
   );
 
   if (!passwordsAreEqual) {
@@ -167,7 +167,8 @@ async function Login(req, res) {
     id: existingUser._id.toString(),
     username: existingUser.username.toString(),
     name: existingUser.name.toString(),
-    profileImg : existingUser.user_img
+    profileImg: existingUser.user_img,
+    isAdmin: existingUser.isAdmin,
   };
 
   req.session.isAuthenticated = true;
@@ -215,7 +216,7 @@ async function FindId(req, res) {
   try {
     const existingUser = await Auth.findByNameAndUsername(
       enteredName,
-      enteredUsername
+      enteredUsername,
     );
 
     if (!existingUser) {
@@ -280,7 +281,7 @@ async function FindPw(req, res) {
     const existingUser = await Auth.findByIdAndDetails(
       enteredId,
       enteredName,
-      enteredUsername
+      enteredUsername,
     );
 
     if (!existingUser) {

@@ -1,13 +1,11 @@
 #high-container {
-  width: 90%;
+  width: 50rem;
   height: 20rem;
-  /* background-color: rgb(152, 41, 50); */
-
   display: flex;
   align-items: center;
-  margin: auto;
   border-bottom: 2px solid rgb(63, 63, 63);
   border: 90%;
+  margin: auto;
 }
 
 #high-left-container {
@@ -15,7 +13,7 @@
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  margin-inline: 10rem 1rem;
+  margin-right: 4rem;
 }
 
 #profile-img-container {
@@ -78,7 +76,7 @@
 #profile-username {
   margin-top: 0.8rem;
   color: rgb(240, 240, 240);
-  font-size: 2.5rem;  
+  font-size: 2.5rem;
   font-weight: 700;
   transition: font-size 0.5s ease-in-out;
 }
@@ -169,7 +167,7 @@
 #post-container {
   width: 50rem;
   margin: 0 auto;
-  border-radius: 4px; 
+  border-radius: 4px;
 }
 
 .post-items {
@@ -256,15 +254,6 @@
 
 .carousel-control-prev-icon {
   transform: rotate(180deg);
-}
-
-@media (max-width: 75rem) {
-  #high-left-container {
-    margin-left: 3rem;
-  }
-  #high-right-container {
-    margin-right: 3rem;
-  }
 }
 
 @media (max-width: 50rem) {

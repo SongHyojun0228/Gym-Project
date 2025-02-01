@@ -4,7 +4,7 @@ async function printTokenResult(phone, token) {
   const mysms = coolsms.default;
   const messageService = new mysms(
     "NCSAUWWQH30RY84J",
-    "EWXKIAEMKR8XGWKFBIJT5CV7CMWD0MCM"
+    "EWXKIAEMKR8XGWKFBIJT5CV7CMWD0MCM",
   );
   const result = await messageService.sendOne({
     to: `${phone}`,

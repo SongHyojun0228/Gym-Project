@@ -29,7 +29,7 @@ function timeAgo(time) {
 async function getMypage(req, res) {
   if (!req.session || !req.session.user) {
     return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
     );
   }
 
@@ -78,7 +78,7 @@ async function uploadProfileImg(req, res) {
 async function getChangeNickname(req, res) {
   if (!req.session || !req.session.user) {
     return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
     );
   }
   const sessionUser = req.session.user;
@@ -92,7 +92,7 @@ async function getChangeNickname(req, res) {
 async function changeNickname(req, res) {
   if (!req.session || !req.session.user) {
     return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
     );
   }
 
@@ -128,7 +128,7 @@ async function changeNickname(req, res) {
 async function getChangeName(req, res) {
   if (!req.session || !req.session.user) {
     return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
     );
   }
   const sessionUser = req.session.user;

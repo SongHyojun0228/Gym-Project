@@ -71,10 +71,9 @@
   cursor: pointer;
   background-color: rgb(152, 41, 50);
   border-color: rgb(152, 41, 50);
-  color: rgb(240, 240, 240);  
+  color: rgb(240, 240, 240);
   font-weight: 900;
 }
-
 
 #items-div {
   margin-top: 1rem;

@@ -31,7 +31,7 @@ router.post(
     { name: "img4", maxCount: 1 },
     { name: "img5", maxCount: 1 },
   ]),
-  communiytController.InsertPost
+  communiytController.InsertPost,
 );
 
 router.post("/community/comment/:id/reply", communiytController.ReplyComment);

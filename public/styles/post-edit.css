@@ -1,5 +1,5 @@
 h2 {
-  font-family: '무신사';
+  font-family: "무신사";
   font-weight: 500;
   font-size: 2rem;
   color: rgb(152, 41, 50);
@@ -32,14 +32,14 @@ h2 {
 .label-container {
   width: 10rem;
   height: 4.5rem;
-  background-color: rgb(0,0,0,0.1);
+  background-color: rgb(0, 0, 0, 0.1);
   display: flex;
   justify-content: baseline;
   align-items: center;
 }
 
 .form-label {
-  font-family: '무신사';
+  font-family: "무신사";
   font-size: 1.2rem;
   margin-left: 2rem;
 }
@@ -58,16 +58,16 @@ h2 {
 .input-container input {
   width: 27rem;
   height: 2rem;
-  font-family: '무신사';
+  font-family: "무신사";
   font-size: 1.1rem;
   padding: 0.5rem;
   margin-left: 1rem;
-  border: 1px solid rgb(0,0,0,0.3);
+  border: 1px solid rgb(0, 0, 0, 0.3);
   border-radius: 4px;
 }
 
 .input-container input[type="file"] {
-  font-family: '무신사';
+  font-family: "무신사";
   font-size: 1.1rem;
   color: rgb(0, 0, 0, 0.3);
 }
@@ -75,11 +75,11 @@ h2 {
 .input-container textarea {
   width: 27rem;
   height: 22.5rem;
-  font-family: '무신사';
+  font-family: "무신사";
   font-size: 1.1rem;
   padding: 0.5rem;
   margin-left: 1rem;
-  border: 1px solid rgb(0,0,0,0.3);
+  border: 1px solid rgb(0, 0, 0, 0.3);
   border-radius: 4px;
 }
 
@@ -96,7 +96,7 @@ h2 {
 .section-divide {
   width: 40rem;
   margin: 0;
-  border: 1px solid rgb(0,0,0,0.2);
+  border: 1px solid rgb(0, 0, 0, 0.2);
 }
 
 #button-container {
@@ -118,7 +118,7 @@ h2 {
   margin-inline: 0.5rem;
   background-color: white;
   border: 2px solid black;
-  color: black;   
+  color: black;
 }
 
 #cancel-btn:hover {

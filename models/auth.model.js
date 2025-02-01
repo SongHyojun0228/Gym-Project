@@ -39,7 +39,7 @@ class Auth {
       .collection("users")
       .updateOne(
         { _id: new ObjectId(id) },
-        { $set: { password: hashedPassword } }
+        { $set: { password: hashedPassword } },
       );
   }
 

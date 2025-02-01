@@ -317,9 +317,8 @@
 }
 
 .hidden {
-  display: none; 
+  display: none;
 }
-
 
 .form-reply-comment input {
   background: none;
@@ -361,7 +360,7 @@
   background: none;
   font-size: 0.9rem;
   font-weight: 500;
-  margin-top: 0.5rem; 
+  margin-top: 0.5rem;
   margin-left: 3.5rem;
 }
 

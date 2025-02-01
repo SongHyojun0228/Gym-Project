@@ -9,12 +9,11 @@ document.querySelectorAll(".itemts").forEach((input) => {
   });
 });
 
+document.addEventListener("DOMContentLoaded", () => {
+  const imgContainer = document.getElementById("img-container");
+  const imgInput = document.getElementById("img-input");
 
-document.addEventListener('DOMContentLoaded', () => {
-    const imgContainer = document.getElementById('img-container');
-    const imgInput = document.getElementById('img-input');
-
-    imgContainer.addEventListener('click', () => {
-        imgInput.click();
-    });
+  imgContainer.addEventListener("click", () => {
+    imgInput.click();
+  });
 });

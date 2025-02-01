@@ -65,17 +65,19 @@ class Community {
     const comments = await db
       .getDb()
       .collection("comments")
-      .find({ postId: postid})
+      .find({ postId: postid })
       .toArray();
 
     return comments;
   }
 
   static async writeComment(newComment) {
-    const result = await db.getDb().collection("comments").insertOne(newComment);
-    return result; 
+    const result = await db
+      .getDb()
+      .collection("comments")
+      .insertOne(newComment);
+    return result;
   }
-  
 
   static async getReplyComments(commentId) {
     const replies = await db
@@ -88,26 +90,47 @@ class Community {
   }
 
   static async writeReplyComment(newReplyComment) {
-    const result = await db.getDb().collection("replies").insertOne(newReplyComment);
-    return result; 
-  }  
+    const result = await db
+      .getDb()
+      .collection("replies")
+      .insertOne(newReplyComment);
+    return result;
+  }
 
   static async getPostAuthor(a) {
-    const postAuthor = await db.getDb().collection('posts').findOne({author: a});
-    const Author = await db.getDb().collection('users').findOne({author: postAuthor.username});
+    const postAuthor = await db
+      .getDb()
+      .collection("posts")
+      .findOne({ author: a });
+    const Author = await db
+      .getDb()
+      .collection("users")
+      .findOne({ author: postAuthor.username });
     return Author;
   }
 
   static async getCommentAuthor(a) {
-    const commentAuthor = await db.getDb().collection('comments').findOne({author: a});
-    const Author = await db.getDb().collection('users').findOne({author: commentAuthor.username});
+    const commentAuthor = await db
+      .getDb()
+      .collection("comments")
+      .findOne({ author: a });
+    const Author = await db
+      .getDb()
+      .collection("users")
+      .findOne({ author: commentAuthor.username });
 
     return Author;
   }
 
   static async getReplyAuthor(a) {
-    const replyAuthor = await db.getDb().collection('replies').findOne({author: a});
-    const Author = await db.getDb().collection('users').findOne({author: replyAuthor.username});
+    const replyAuthor = await db
+      .getDb()
+      .collection("replies")
+      .findOne({ author: a });
+    const Author = await db
+      .getDb()
+      .collection("users")
+      .findOne({ author: replyAuthor.username });
 
     return Author;
   }

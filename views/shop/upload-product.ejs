@@ -1,0 +1,126 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <%- include("../includes/head") %>
+    <link rel="stylesheet" href="/styles/upload-product.css">
+    <title>상품 등록</title>
+</head>
+<body>
+    <%- include("../includes/header") %>
+    <%- include('../includes/aside')%>
+    <main>
+        <h2>상품 등록</h2>
+        <hr id="headline-divide" />
+        <div id="form-container">
+
+        <form action="/insert-post" method="POST" enctype="multipart/form-data">
+            <div class="container-section">
+                <div class="label-container">
+                    <label for="product_name" class="form-label">상품명</label>
+                </div>
+    
+                <div class="input-container">
+                    <input
+                      name="product_name"
+                      id="product_name"
+                      class="input-container"
+                      required
+                    ></input>
+                </div>
+            </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container" id="textarea-container">
+              <label for="product_content" class="form-label">상품 설명</label>
+            </div>
+
+            <div class="input-container">
+              <textarea
+                name="product_content"
+                id="product_content"
+                class="input-container"
+                required
+              ></textarea>
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container">
+              <label for="product_main_img" class="form-label">메인 사진</label>
+            </div>
+            <div class="input-container">
+              <input type="file" name="product_main_img" id="product_main_img" accept="image/*" />
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container">
+              <label for="product_img1" class="form-label">추가 사진1</label>
+            </div>
+            <div class="input-container">
+              <input type="file" name="product_img1" id="product_img1" accept="image/*" />
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container">
+              <label for="product_img2" class="form-label">추가 사진2</label>
+            </div>
+            <div class="input-container">
+              <input type="file" name="product_img2" id="product_img2" accept="image/*" />
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container">
+              <label for="product_img3" class="form-label">추가 사진3</label>
+            </div>
+            <div class="input-container">
+              <input type="file" name="product_img3" id="product_img3" accept="image/*" />
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container">
+              <label for="product_img4" class="form-label">추가 사진4</label>
+            </div>
+            <div class="input-container">
+              <input type="file" name="product_img4" id="product_img4" accept="image/*" />
+            </div>
+          </div>
+
+          <hr class="section-divide" />
+
+          <div class="container-section">
+            <div class="label-container">
+              <label for="product_img5" class="form-label">추가 사진5</label>
+            </div>
+            <div class="input-container">
+              <input type="file" name="product_img5" id="product_img5" accept="image/*" />
+            </div>
+          </div>
+
+          <div id="button-container">
+            <a href="/community" id="cancel-btn">취소</a>
+            <button id="save-btn">등록</button>
+          </div>
+        </form>
+      </div>
+    </main>
+
+    <%- include("../includes/footer") %>
+</body>
+
+</html>

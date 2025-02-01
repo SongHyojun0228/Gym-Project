@@ -1,0 +1,125 @@
+h2 {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: rgb(152, 41, 50);
+  text-align: center;
+  margin: 4rem;
+}
+
+#headline-divide {
+  border: 1px solid rgb(240, 240, 240);
+  margin: 4rem 0;
+}
+
+#form-container {
+  width: 40rem;
+  margin: 0 auto;
+  margin-bottom: 2rem;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.container-section {
+  width: 40rem;
+  display: flex;
+}
+
+.label-container {
+  width: 10rem;
+  background-color: rgb(63, 63, 63);
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+  border-radius: 6px;
+}
+
+.form-label {
+  font-size: 1rem;
+  color: rgb(240, 240, 240);
+  font-weight: 600;
+  margin: 0 auto;
+}
+
+.input-container {
+  width: 30rem;
+  display: flex;
+  justify-content: baseline;
+  align-items: center;
+}
+
+.input-container input {
+  width: 29rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  border: 1px solid rgb(63, 63, 63);
+  border-radius: 6px;
+}
+
+.input-container input[type="file"] {
+  font-family: "무신사";
+  font-size: 1rem;
+  color: rgb(240, 240, 240);
+}
+
+.input-container textarea {
+  width: 29rem;
+  height: 22.5rem;
+  font-size: 1rem;
+  padding: 0.5rem;
+  margin-left: 1rem;
+  border: 1px solid rgb(240, 240, 240);
+  border-radius: 6px;
+  resize: none;
+}
+
+.input-container input:focus,
+.input-container textarea:focus {
+  border: 1px solid rgb(152, 41, 50);
+  outline: 0.5px solid rgb(152, 41, 50);
+}
+
+.section-divide {
+  width: 40rem;
+  margin: 1rem 0;
+  border: 1px solid rgb(240, 240, 240);
+}
+
+#button-container {
+  margin-top: 2rem;
+  text-align: end;
+}
+
+#cancel-btn,
+#save-btn {
+  font-family: inherit;
+  font-size: 1rem;
+  font-weight: 500;
+  padding: 0.7rem 3.3rem;
+  border-radius: 6px;
+  margin-bottom: 4rem;
+}
+
+#cancel-btn {
+  text-decoration: none;
+  margin-inline: 0.5rem;
+  background-color: white;
+  border: 2px solid black;
+  color: black;
+}
+
+#cancel-btn:hover {
+  background-color: white;
+  border: 2px solid rgb(152, 41, 50);
+  color: rgb(152, 41, 50);
+}
+
+#save-btn {
+  background-color: rgb(63, 63, 63);
+  color: white;
+  border: 2px solid black;
+}
+
+#save-btn:hover {
+  background-color: rgb(152, 41, 50);
+}

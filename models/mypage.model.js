@@ -35,10 +35,7 @@ class Mypage {
     await db
       .getDb()
       .collection("users")
-      .updateOne(
-        { name: name },
-        { $set: { name: changename } }
-      );
+      .updateOne({ name: name }, { $set: { name: changename } });
   }
 }
 

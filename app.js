@@ -30,7 +30,7 @@ app.use(
       maxAge: 12 * 60 * 60 * 1000,
       httpOnly: true,
     },
-  })
+  }),
 );
 
 app.use((req, res, next) => {
@@ -65,5 +65,5 @@ app.use((err, req, res, next) => {
 });
 
 db.connectToDatabase().then(function () {
-    app.listen(3000);
+  app.listen(3000);
 });

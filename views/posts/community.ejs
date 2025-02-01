@@ -28,6 +28,12 @@
         <p class="caution">※ 스포일러, 공포, 속임, 놀라게 하는 행위 금지</p>
       </div>
 
+      <% if(user.isAdmin) { %>
+        <div id="gotoadd">
+          <a href="/insert-post">글쓰기</a>
+        </div>
+      <% } %>
+
       <div id="post-container">
         <% posts.forEach((post) => { %>
           <div class="post-items">
@@ -127,11 +133,7 @@
             </div>
           </div>
         <% }); %>
-      </div>      
-
-      <div id="gotoadd">
-        <a href="/insert-post">글쓰기</a>
-      </div>
+      </div>     
     </main>
     <%- include('../includes/footer') %>
   </body>

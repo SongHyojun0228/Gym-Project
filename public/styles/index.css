@@ -1,41 +1,40 @@
 main div {
-    padding: 10rem 0;
+  padding: 10rem 0;
 }
 
 .main-h1 {
-    padding: 5rem;
-    text-align: center;
-    font-size: 10rem;
-    color: white;
+  padding: 5rem;
+  text-align: center;
+  font-size: 10rem;
+  color: white;
 }
 
 #h1-1 {
-    margin-bottom: 10rem;
+  margin-bottom: 10rem;
 }
 
 #h1-2 {
-    font-size: 8rem;
+  font-size: 8rem;
 }
 
 footer {
-    margin: 0;
+  margin: 0;
 }
 
-
 @media (max-width: 90rem) {
-    main div {
-        display: flex;
-    }
-    #h1-1 {
-        writing-mode: vertical-lr;
-        font-size: 5rem;
-        margin:auto;
-    }
-    #h1-2 {
-        writing-mode: vertical-lr;
-        text-orientation: upright;
-        font-size: 5rem;
-        margin:auto;
-        margin-left: 10rem;
-    }
+  main div {
+    display: flex;
+  }
+  #h1-1 {
+    writing-mode: vertical-lr;
+    font-size: 5rem;
+    margin: auto;
+  }
+  #h1-2 {
+    writing-mode: vertical-lr;
+    text-orientation: upright;
+    font-size: 5rem;
+    margin: auto;
+    margin-left: 10rem;
+  }
 }

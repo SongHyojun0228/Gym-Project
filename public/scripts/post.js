@@ -4,7 +4,7 @@ document.addEventListener("DOMContentLoaded", () => {
   buttons.forEach((button) => {
     const postId = button.getAttribute("data-post-id");
     const contentElement = document.querySelector(
-      `.content[data-post-id="${postId}"], #post-comment`
+      `.content[data-post-id="${postId}"], #post-comment`,
     );
 
     // 콘텐츠가 존재하지 않으면 넘어감

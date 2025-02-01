@@ -70,7 +70,6 @@ document.addEventListener("DOMContentLoaded", () => {
 
       commentList.appendChild(li);
       commentInput.value = "";
-
     } catch (error) {
       alert(error.message);
     }
@@ -80,10 +79,23 @@ document.addEventListener("DOMContentLoaded", () => {
   document.addEventListener("click", (event) => {
     if (event.target.classList.contains("reply-comment-line")) {
       const commentId = event.target.dataset.commentId;
-      const replyForm = document.querySelector(`.form-reply-comment[data-comment-id="${commentId}"]`);
-      
+      const replyForm = document.querySelector(
+        `.form-reply-comment[data-comment-id="${commentId}"]`,
+      );
+
       if (replyForm) {
         replyForm.classList.toggle("hidden");
+      }
+    }
+  });
+
+  document.addEventListener("click", (event) => {
+    if (event.target.classList.contains("reply-show-btn")) {
+      const commentId = event.target.dataset.commentId;
+      const replyList = document.getElementById(`reply-list-${commentId}`);
+
+      if (replyList) {
+        replyList.classList.toggle("hidden");
       }
     }
   });
@@ -133,8 +145,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
         replyList.appendChild(li);
         replyCommentInput.value = "";
-        replyList.classList.remove("hidden"); // 답글 리스트 즉시 표시
-
+        replyList.classList.remove("hidden");
       } catch (error) {
         alert(error.message);
       }

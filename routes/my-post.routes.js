@@ -35,7 +35,7 @@ function timeAgo(time) {
 router.get("/my-post", async function (req, res) {
   if (!req.session || !req.session.user) {
     return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
     );
   }
   const user = req.session.user.username;
@@ -61,7 +61,7 @@ router.get("/my-post", async function (req, res) {
 router.post("/delete-post", async function (req, res) {
   if (!req.session || !req.session.user) {
     return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
     );
   }
   const postId = req.body.postId;
@@ -86,7 +86,7 @@ router.post("/delete-post", async function (req, res) {
 router.get("/post/:id/edit", async function (req, res) {
   if (!req.session || !req.session.user) {
     return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>'
+      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
     );
   }
   const postId = req.params.id;
@@ -163,9 +163,11 @@ router.post(
       res.redirect("/mypage/my-post");
     } catch (error) {
       console.error("게시물 수정 중 오류:", error);
-      res.status(500).render("errors/500", { message: "서버 오류가 발생했습니다." });
+      res
+        .status(500)
+        .render("errors/500", { message: "서버 오류가 발생했습니다." });
     }
-  }
+  },
 );
 
 module.exports = router;
