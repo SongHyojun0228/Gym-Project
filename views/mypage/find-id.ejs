@@ -20,10 +20,12 @@
             placeholder="이름"
           />
           <% if (errors && errors.nameError) { %>
-            <p class="caution"><%= errors.nameError %></p>
+          <p class="caution"><%= errors.nameError %></p>
           <% } %>
 
-          <label for="user_username" id="username_label" class="form-label">닉네임</label>
+          <label for="user_username" id="username_label" class="form-label"
+            >닉네임</label
+          >
           <input
             type="text"
             name="user_username"
@@ -32,15 +34,11 @@
             placeholder="닉네임"
           />
           <% if (errors && errors.usernameError) { %>
-            <p class="caution"><%= errors.usernameError %></p>
-          <% } %>
-
-          <% if (errors && errors.resultError) { %>
-            <p class="caution"><%= errors.resultError %></p>
-          <% } %>
-
-          <% if (successMessage) { %>
-            <p class="success"><%= successMessage %></p>
+          <p class="caution"><%= errors.usernameError %></p>
+          <% } %> <% if (errors && errors.resultError) { %>
+          <p class="caution"><%= errors.resultError %></p>
+          <% } %> <% if (successMessage) { %>
+          <p class="success"><%= successMessage %></p>
           <% } %>
 
           <div id="btn-div">

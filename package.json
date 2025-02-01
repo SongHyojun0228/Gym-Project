@@ -15,7 +15,6 @@
   "description": "산업체 포트폴리오 준비 - 운동관련",
   "devDependencies": {
     "@eslint/js": "^9.19.0",
-    "eslint": "^9.19.0",
     "eslint-plugin-react": "^7.37.4",
     "globals": "^15.14.0",
     "nodemon": "^2.0.22"

@@ -6,8 +6,7 @@
     <title>로그인</title>
   </head>
   <body>
-    <%- include('../includes/header')%>
-    <%- include('../includes/aside')%>
+    <%- include('../includes/header')%> <%- include('../includes/aside')%>
     <main>
       <h2>Panata</h2>
       <div id="form-div">
@@ -21,10 +20,12 @@
             placeholder="아이디"
           />
           <% if (errorId) { %>
-            <p class="caution"><%= errorId %></p>
+          <p class="caution"><%= errorId %></p>
           <% } %>
-    
-          <label for="user_pw" class="form-label" id="user_pw_label">비밀번호</label>
+
+          <label for="user_pw" class="form-label" id="user_pw_label"
+            >비밀번호</label
+          >
           <input
             type="password"
             name="user_pw"
@@ -33,20 +34,20 @@
             placeholder="비밀번호"
           />
           <% if (errorPw) { %>
-            <p class="caution"><%= errorPw %></p>
+          <p class="caution"><%= errorPw %></p>
           <% } %>
-  
+
           <div id="btn-div">
-              <button id="login-btn">로그인</button>
+            <button id="login-btn">로그인</button>
           </div>
         </form>
 
         <div id="items-div">
-            <a href="/find-id" class="items">아이디 찾기</a>
-            <span>|</span>
-            <a href="/find-pw" class="items">비밀번호 찾기</a>
-            <span>|</span>
-            <a href="/join" class="items" id="gotojoin">회원가입</a>
+          <a href="/find-id" class="items">아이디 찾기</a>
+          <span>|</span>
+          <a href="/find-pw" class="items">비밀번호 찾기</a>
+          <span>|</span>
+          <a href="/join" class="items" id="gotojoin">회원가입</a>
         </div>
       </div>
     </main>
