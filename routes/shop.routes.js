@@ -28,7 +28,7 @@ router.post(
         { name: "product_img4", maxCount: 1 },
         { name: "product_img5", maxCount: 1 },
     ]),
-    shopController.getUploadProduct
+    shopController.UploadProduct
 );
 
 module.exports = router;
