@@ -2,22 +2,45 @@ const express = require("express");
 const app = express();
 app.use(express.json());
 
-const { ObjectId } = require("mongodb");
-
 const shop = require("../models/shop.model");
 
-function getShop(req, res) {
-  res.render("shop/shop");
+// 📌상점 페이지 함수
+async function getShop(req, res) {
+  const user = req.session.user;
+  try {
+    const products = await shop.getAllProducts();
+    res.render("shop/shop", { products, user });
+  } catch (error) {
+    console.log("상점 페이지 오류\n", error);
+    res.status(500).redirect("/error/500");
+  }
 }
 
+// 📌상점 상세 페이지 함수
+async function getProductDetail(req, res) {
+  const user = req.session.user;
+  const productId = req.params.id;
+  try {
+    const product = await shop.getProduct(productId);
+    console.log(product);
+    res.render("shop/product_detail", { product, user });
+  } catch(error) {
+    console.log("상품 상세 페이지 오류\n", error);
+    res.status(500).redirect("/error/500");
+  }
+}
+
+// 📌장바구니 페이지 함수
 function getCart(req, res) {
   res.render("shop/cart");
 }
 
+// 📌상품 추가 페이지 함수
 function getUploadProduct(req, res) {
   res.render("shop/upload-product");
 }
 
+// 📌상품 추가 함수
 async function UploadProduct(req, res) {
   if (!req.session.user && !req.session.user.isAdmin) {
     return res.redirect('/shop');
@@ -35,6 +58,8 @@ async function UploadProduct(req, res) {
     await shop.uploadProduct(
       imgPaths,
       req.body.product_name,
+      req.body.product_color,
+      +req.body.product_price,
       req.body.product_detail,
       +0
     );
@@ -47,6 +72,7 @@ async function UploadProduct(req, res) {
 
 module.exports = {
   getShop,
+  getProductDetail,
   getCart,
   getUploadProduct,
   UploadProduct

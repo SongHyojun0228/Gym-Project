@@ -51,7 +51,6 @@ async function getCommunity(req, res) {
 
 async function getCommunityDetail(req, res) {
   const PostId = req.params.id;
-
   if (!ObjectId.isValid(PostId)) {
     return res.render("errors/404");
   }

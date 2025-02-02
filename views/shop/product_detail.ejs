@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <%- include("../includes/head") %>
+    <link rel="stylesheet" href="/styles/product-detail.css" />
+    <title>상점</title>
+  </head>
+  <body>
+    <%- include("../includes/header") %> <%- include('../includes/aside')%>
+    <main>
+      <div id="product-item">
+        <div id="product_main_img">
+          <img src="<%= product.product_img[0] %>" alt="product_main_img" />
+        </div>
+        <div id="product_detail_container">
+          <p id="product_name"><%= product.product_name %></p>
+          <p id="product_color">(<%= product.product_color %>)</p>
+          <% if(product.product_detail) { %>
+          <p id="product_detail">
+            <span>DETAILS</span>
+            <br />
+            <%- product.product_detail.replace(/\n/g, '<br />') %>
+          </p>
+          <% } %>
+          <p id="product_price">
+            <%= product.product_price.toLocaleString() %>원
+          </p>
+          <div id="form-container">
+            <form action="/product-cart">
+              <button id="cart-btn">장바구니에 담기</button>
+            </form>
+            <form action="/product-purchase">
+              <button id="purchase-btn">구매하기</button>
+            </form>
+          </div>
+        </div>
+      </div>
+
+      <div id="product-additional-explanation">
+        <p id="tag-container">
+          <a href="#additional_img">DETAIL</a>
+          <a href="#review">REVIEW</a>
+          <a href="#QnA">Q&A</a>
+        </p>
+
+        <div id="additional_img">
+            <div class="product_additional_img">
+              <% for(let i=0;i<5;i++) { %> <% if(product.product_img[i]) { %>
+            <img
+              src="<%= product.product_img[i] %>"
+              alt="product_additional_img"
+            />
+            <% } %> <% } %>
+            <img
+              id="caution-img"
+              src="/images/products/caution.png"
+              alt="product_additional_img"
+            />
+          </div>
+        </div>
+      </div>
+    </main>
+    <%- include("../includes/footer") %>
+  </body>
+</html>

@@ -1,0 +1,155 @@
+#product-item {
+  display: flex;
+  justify-content: center;
+  border-bottom: 2px solid rgb(63, 63, 63);
+  background-color: white;
+  margin: auto;
+}
+
+#product_main_img {
+  width: 30rem;
+  height: 100%;
+  overflow: hidden;
+}
+
+#product_main_img img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+#product_detail_container {
+  width: 30rem;
+  background-color: white;
+  border-left: 2px solid rgb(152, 41, 50);
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+#product_name,
+#product_color,
+#product_price,
+#product_detail {
+  color: rgb(15, 15, 15);
+  text-align: left;
+  font-size: 1.3rem;
+  font-weight: 700;
+  margin: 0 auto;
+}
+
+#product_color,
+#product_price {
+  margin-bottom: 1rem;
+}
+
+#product_detail {
+  font-size: 1rem;
+  color: rgb(63, 63, 63);
+}
+
+#product_detail span {
+  text-decoration: underline;
+  color: rgb(15, 15, 15);
+}
+
+#form-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+#cart-btn,
+#purchase-btn {
+  font-size: 1rem;
+  padding: 0.5rem 1rem;
+  background-color: rgb(15, 15, 15);
+  border: 1px solid rgb(15, 15, 15);
+  border-radius: 2px;
+  color: rgb(240, 240, 240);
+}
+
+#cart-btn:hover,
+#purchase-btn:hover {
+  background-color: rgb(152, 41, 50);
+  border: 1px solid rgb(152, 41, 50);
+}
+
+#tag-container {
+  background-color: white;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: auto;
+  margin-bottom: 4rem;
+  border-bottom: 2px solid rgb(63, 63, 63);
+}
+
+#tag-container a {
+  display: block;
+  color: rgb(63, 63, 63);
+  padding: 2rem;
+  margin-inline: 2.5rem;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+#tag-container a:hover {
+  color: rgb(152, 41, 50);
+}
+
+.product_additional_img {
+  width: 100%;
+  margin: auto;
+  display: grid;
+  background-color: white;
+}
+
+.product_additional_img img,
+#caution-img {
+  width: 60rem;
+  margin: auto;
+  border: 1px solid rgb(240, 240, 240);
+}
+
+footer {
+  margin: 0;
+}
+
+@media (max-width: 60rem) {
+  #product-item {
+    width: 100%;
+  }
+
+  #product_main_img {
+    width: 50%;
+  }
+
+  #product_detail_container {
+    width: 50%;
+  }
+
+  .product_additional_img img,
+  #caution-img {
+    width: 100%;
+  }
+}
+
+@media (max-width: 40rem) {
+  #product-item {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  #product_main_img,
+  #product_detail_container {
+    width: 100%;
+    margin: auto;
+    border: none;
+  }
+
+  #product_detail_container {
+    margin-block: 1rem;
+  }
+}

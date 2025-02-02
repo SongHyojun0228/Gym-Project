@@ -8,54 +8,28 @@
   <body>
     <%- include("../includes/header") %> <%- include('../includes/aside')%>
     <main>
+      <% if(user && user.isAdmin) { %>
+      <a id="go-to-upload-product" href="/upload-product">상품 추가</a>
+      <% } %>
       <div id="store-container">
-        <div class="product-item">
-          <div class="product-image">
-            <img src="/images/store/powerhouse_logo_Tshirt.jpg" alt="" />
+        <% for(product of products) { %>
+        <a href="/product/<%= product._id%>">
+          <div class="product-item">
+            <div class="product-image">
+              <img src="<%= product.product_img[0]%>" alt="" />
+            </div>
+            <div class="product-title">
+              <p class="product-name"><%= product.product_name %></p>
+              <p class="product-color">(<%= product.product_color %>)</p>
+              <p class="product-price">
+                <%= product.product_price.toLocaleString() %>원
+              </p>
+            </div>
           </div>
-          <p class="product-name">
-            파워하우스 투톤 로고 오버핏 티셔츠
-            <br />
-            (블랙)
-          </p>
-          <p class="product-price">59,000원</p>
-        </div>
-        <div class="product-item">
-          <div class="product-image">
-            <img src="/images/store/powerhouse_logo_Tshirt.jpg" alt="" />
-          </div>
-          <p class="product-name">
-            파워하우스 투톤 로고 오버핏 티셔츠
-            <br />
-            (블랙)
-          </p>
-          <p class="product-price">59,000원</p>
-        </div>
-        <div class="product-item">
-          <div class="product-image">
-            <img src="/images/store/powerhouse_logo_Tshirt.jpg" alt="" />
-          </div>
-          <p class="product-name">
-            파워하우스 투톤 로고 오버핏 티셔츠
-            <br />
-            (블랙)
-          </p>
-          <p class="product-price">59,000원</p>
-        </div>
-        <div class="product-item">
-          <div class="product-image">
-            <img src="/images/store/powerhouse_logo_Tshirt.jpg" alt="" />
-          </div>
-          <p class="product-name">
-            파워하우스 투톤 로고 오버핏 티셔츠
-            <br />
-            (블랙)
-          </p>
-          <p class="product-price">59,000원</p>
-        </div>
+        </a>
+        <% } %>
       </div>
     </main>
-
     <%- include("../includes/footer") %>
   </body>
 </html>
