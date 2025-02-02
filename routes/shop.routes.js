@@ -16,7 +16,12 @@ const upload = multer({ storage: storage });
 
 router.get("/shop", shopController.getShop);
 router.get("/product/:id", shopController.getProductDetail);
+
 router.get("/cart", shopController.getCart);
+router.post("/add-to-cart", shopController.AddToCart); // AJAX
+
+router.get("/purchase", shopController.getPurchasePage);
+router.post("/purchase", shopController.Purchase);
 
 router.get("/upload-product", shopController.getUploadProduct);
 router.post(

@@ -70,10 +70,34 @@ async function UploadProduct(req, res) {
   }
 }
 
+// 📌상품 장바구니 페이지 함수
+async function getAddToCart() {
+
+}
+
+// 📌상품 장바구니 담기 함수
+async function AddToCart() {
+
+}
+
+// 📌상품 구매 페이지 함수
+async function getPurchasePage() {
+
+}
+
+// 📌상품 구매 함수
+async function Purchase() {
+
+}
+
 module.exports = {
   getShop,
   getProductDetail,
   getCart,
   getUploadProduct,
-  UploadProduct
+  UploadProduct,
+  getAddToCart,
+  AddToCart,
+  getPurchasePage,
+  Purchase
 };

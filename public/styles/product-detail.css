@@ -10,6 +10,7 @@
   width: 30rem;
   height: 100%;
   overflow: hidden;
+  border-right: 2px solid rgb(152, 41, 50);
 }
 
 #product_main_img img {
@@ -21,10 +22,10 @@
 #product_detail_container {
   width: 30rem;
   background-color: white;
-  border-left: 2px solid rgb(152, 41, 50);
   display: flex;
   flex-direction: column;
   justify-content: center;
+  padding-left: 2rem;
 }
 
 #product_name,
@@ -35,11 +36,12 @@
   text-align: left;
   font-size: 1.3rem;
   font-weight: 700;
-  margin: 0 auto;
+  margin: 0;
 }
 
 #product_color,
-#product_price {
+#product_price,
+#product_detail {
   margin-bottom: 1rem;
 }
 
@@ -55,7 +57,7 @@
 
 #form-container {
   display: flex;
-  justify-content: center;
+  justify-content: baseline;
   align-items: center;
   gap: 0.5rem;
 }
@@ -136,7 +138,7 @@ footer {
   }
 }
 
-@media (max-width: 40rem) {
+@media (max-width: 50rem) {
   #product-item {
     flex-direction: column;
     width: 100%;
