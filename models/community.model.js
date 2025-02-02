@@ -40,7 +40,7 @@ class Community {
       author: author,
       time: time,
       user_id: id,
-      like: like,
+      likes: [],
       hate: hate,
     };
     console.log("게시물 삽입 : \n", post);
@@ -105,7 +105,7 @@ class Community {
     const Author = await db
       .getDb()
       .collection("users")
-      .findOne({ author: postAuthor.username });
+      .findOne({ username: postAuthor.author });
     return Author;
   }
 
@@ -117,7 +117,7 @@ class Community {
     const Author = await db
       .getDb()
       .collection("users")
-      .findOne({ author: commentAuthor.username });
+      .findOne({ username: commentAuthor.author });
 
     return Author;
   }
@@ -130,9 +130,42 @@ class Community {
     const Author = await db
       .getDb()
       .collection("users")
-      .findOne({ author: replyAuthor.username });
+      .findOne({ username: replyAuthor.author });
 
     return Author;
+  }
+
+  static async updateLike(postId, username) {
+    const post = await db.getDb().collection("posts").findOne({ _id: new ObjectId(postId) });
+
+    if (!post) return null;
+
+    // likes 필드가 존재하지 않거나 배열이 아닐 경우 초기화
+    if (!Array.isArray(post.likes)) {
+      post.likes = []; // 배열로 초기화
+    }
+
+    let updateQuery;
+    let isLiked = false;
+    let updatedLikeCount = post.like || 0; // null일 경우 0으로 초기화
+
+    if (post.likes.includes(username)) {
+      // 이미 좋아요를 누른 경우 → 취소
+      updateQuery = { $pull: { likes: username }, $inc: { like: -1 } };
+      updatedLikeCount -= 1;
+    } else {
+      // 좋아요 추가
+      updateQuery = { $push: { likes: username }, $inc: { like: 1 } };
+      updatedLikeCount += 1;
+      isLiked = true;
+    }
+
+    await db.getDb().collection("posts").updateOne(
+      { _id: new ObjectId(postId) },
+      updateQuery
+    );
+
+    return { like: updatedLikeCount, isLiked };
   }
 }
 

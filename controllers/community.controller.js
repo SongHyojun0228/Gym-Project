@@ -50,6 +50,7 @@ async function getCommunity(req, res) {
 }
 
 async function getCommunityDetail(req, res) {
+  const user = req.session.user;
   const PostId = req.params.id;
   if (!ObjectId.isValid(PostId)) {
     return res.render("errors/404");
@@ -88,7 +89,12 @@ async function getCommunityDetail(req, res) {
       comment.authorProfile = commentAuthorProfile;
     }
 
+    if (!Array.isArray(post.likes)) {
+      post.likes = [];
+    }
+
     res.render("posts/community-detail", {
+      user: user,
       post: post,
       comments: comments,
       commentCount: commentCount,
@@ -165,12 +171,13 @@ async function Comment(req, res) {
     const result = await community.writeComment(newComment);
     newComment._id = result.insertedId;
 
+    console.log(req.session.user.profileImg);
+
     res.status(201).json({
       _id: newComment._id,
       comment: newComment.comment,
       author: newComment.author,
-      authorProfile:
-        req.session.user.profileImg || "/images/default-profile.png",
+      authorProfile: req.session.user.profileImg,
       timeAgo: timeAgo(newComment.time),
     });
   } catch (error) {
@@ -199,6 +206,7 @@ async function ReplyComment(req, res) {
     author: req.session.user.username,
     user_id: req.session.user.id,
     time: new Date(),
+    authorProfile: req.session.user.profileImg,
   };
 
   try {
@@ -209,8 +217,7 @@ async function ReplyComment(req, res) {
       _id: newReplyComment._id,
       comment: newReplyComment.comment,
       author: newReplyComment.author,
-      authorProfile:
-        req.session.user.profileImg || "/images/default-profile.png",
+      authorProfile: req.session.user.profileImg,
       timeAgo: timeAgo(newReplyComment.time),
     });
   } catch (error) {
@@ -219,6 +226,29 @@ async function ReplyComment(req, res) {
   }
 }
 
+async function ClickCPostLike(req, res) {
+  const user = req.session.user;
+  if (!user) {
+    return res.status(401).json({ error: "로그인이 필요합니다." });
+  }
+
+  const username = user.username;
+  const postId = req.params.id;
+
+  try {
+    const updatedData = await community.updateLike(postId, username);
+    if (!updatedData) {
+      return res.status(404).json({ error: "게시물을 찾을 수 없습니다." });
+    }
+
+    res.json(updatedData);
+  } catch (error) {
+    console.error("좋아요 처리 중 오류:", error);
+    res.status(500).json({ error: "좋아요 업데이트 실패" });
+  }
+};
+
+
 module.exports = {
   getCommunity,
   getCommunityDetail,
@@ -226,4 +256,5 @@ module.exports = {
   getInsertPost,
   InsertPost,
   ReplyComment,
+  ClickCPostLike
 };

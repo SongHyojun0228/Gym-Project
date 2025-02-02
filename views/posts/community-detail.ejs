@@ -5,7 +5,7 @@
     <link rel="stylesheet" href="/styles/community-detail.css" />
     <script src="/scripts/post.js" defer></script>
     <script src="/scripts/comment.js" defer></script>
-    <title><%= post.title %></title>
+    <title>헬스 뉴스</title>
   </head>
   <body>
     <%- include('../includes/header') %>
@@ -102,12 +102,14 @@
           </div>
         <% } %>
 
-        <div class="post-detail-container">
+        <div class="post-detail-container" data-post-id="<%= post._id %>">
           <div class="icon-container">
-            <img src="/images/basic-like.png" class="like-icon" alt="">
+            <img src="<%= post.likes.includes(user.username) ? '/images/click-like.png' : '/images/basic-like.png' %>"
+            class="like-icon" 
+            alt="좋아요 버튼">
           </div>
           <div class="number-of-likes-container">
-            <p class="number-of-likes"><%= post.like%></p>
+            <p class="number-of-likes"><%= post.like %></p>
           </div>
           <div class="icon-container">
             <img src="/images/basic-like.png" class="hate-icon" alt="">
@@ -136,8 +138,9 @@
               <li class="comment-li">
                 <li class="comment-item">
                   <div class="comment-author-profile">
-                    <img src="<%= comment.authorProfile%>" alt="">
+                    <img src="<%= comment.authorProfile %>" alt="프로필 이미지">
                   </div>
+                  
                   <div>
                     <p class="user-info"><%= comment.author %><span class="comment-time"><%= comment.timeAgo %></span></p>
                     <p class="comment"><%= comment.comment %></p>
@@ -148,12 +151,15 @@
                   <div class="comment-icon-container">
                     <img src="/images/basic-like.png" class="comment-like-icon" alt="">
                   </div>
+
                   <div class="comment-number-of-likes-container">
-                    <p class="comment-number-of-likes"><%= post.like%></p>
+                    <p class="comment-number-of-likes"><%= post.like %></p>
                   </div>
+
                   <div class="comment-icon-container">
                     <img src="/images/basic-like.png" class="comment-hate-icon" alt="">
                   </div>
+
                   <div class="reply-comment-line-container">
                     <p class="reply-comment-line" data-comment-id="<%= comment._id %>">답글</p>
                   </div>
@@ -179,7 +185,7 @@
                   <% for (const reply of comment.replies) { %>
                     <li class="reply-item">
                       <div class="reply-author-profile">
-                        <img src="<%= comment.authorProfile%>" alt="">
+                        <img src="<%= comment.authorProfile %>" alt="프로필 이미지">
                       </div>
                       <div>
                         <p class="user-info"><%= reply.author %><span class="reply-time"><%= reply.timeAgo %></span></p>

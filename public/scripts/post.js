@@ -30,4 +30,35 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     });
   });
+
+  document.querySelectorAll(".like-icon").forEach((likeIcon) => {
+    likeIcon.addEventListener("click", async () => {
+      const postContainer = likeIcon.closest(".post-detail-container");
+      const postId = postContainer.dataset.postId;
+      const likeCountElement = postContainer.querySelector(".number-of-likes");
+
+      try {
+        const response = await fetch(`/community/${postId}/like`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          credentials: "include", // 세션 쿠키를 포함하도록 설정
+        });
+
+        if (response.status === 401) {
+          alert("로그인이 필요합니다.");
+          return;
+        }
+
+        if (!response.ok) throw new Error("좋아요 업데이트 실패");
+
+        const data = await response.json();
+        likeCountElement.textContent = data.like;
+
+        // 아이콘 변경
+        likeIcon.src = data.isLiked ? "/images/click-like.png" : "/images/basic-like.png";
+      } catch (error) {
+        console.error("좋아요 처리 오류:", error);
+      }
+    });
+  });
 });

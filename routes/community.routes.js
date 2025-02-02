@@ -36,4 +36,7 @@ router.post(
 
 router.post("/community/comment/:id/reply", communiytController.ReplyComment);
 
+router.post("/community/:id/like", communiytController.ClickCPostLike);
+
+
 module.exports = router;

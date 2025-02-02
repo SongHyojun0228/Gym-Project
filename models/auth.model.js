@@ -43,7 +43,7 @@ class Auth {
       );
   }
 
-  async save(id, pw, name, tel, username) {
+  async save(id, pw, name, tel, username, profileImg) {
     const hashedPassword = await bcrypt.hash(String(pw), 12);
 
     const newUser = {
@@ -52,6 +52,7 @@ class Auth {
       name: name,
       tel: tel,
       username: username,
+      user_img : profileImg
     };
 
     await db.getDb().collection("users").insertOne(newUser);

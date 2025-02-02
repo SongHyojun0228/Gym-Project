@@ -117,7 +117,9 @@ async function Signup(req, res) {
       user_username,
     );
 
-    await newUser.save(user_id, user_pw, user_name, user_phone, user_username);
+    const profileImg = "/images/basic-profiles/basic-profile1.jpg";
+
+    await newUser.save(user_id, user_pw, user_name, user_phone, user_username, profileImg);
 
     delete authTokens[user_phone];
 

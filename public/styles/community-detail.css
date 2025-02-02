@@ -404,6 +404,7 @@
 
 .reply-comment {
   margin: 0;
+  color: rgb(240, 240, 240);
 }
 
 @media (max-width: 50rem) {
