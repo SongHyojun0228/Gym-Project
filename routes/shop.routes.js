@@ -1,5 +1,10 @@
 const express = require("express");
 const router = express.Router();
+
+router.use(express.json());
+router.use(express.urlencoded({ extended: true })); 
+
+
 const multer = require("multer");
 const path = require("path");
 
@@ -21,7 +26,7 @@ router.get("/cart", shopController.getCart);
 router.post("/add-to-cart", shopController.AddToCart); // AJAX
 
 router.get("/purchase", shopController.getPurchasePage);
-router.post("/purchase", shopController.Purchase);
+router.post("/product-purchasehase", shopController.Purchase);
 
 router.get("/upload-product", shopController.getUploadProduct);
 router.post(

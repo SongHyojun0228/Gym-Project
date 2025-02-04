@@ -37,7 +37,7 @@
             </div>
             <p id="post-detail"><%= post.author%><span id="post-time"><%= post.timeAgo%></span></p>
         </div>
-        <p id="post-comment"><%= post.content%></p>
+        <p id="post-comment"><%- post.content.replace(/\n/g, '<br />')%></p>
 
         <button
           class="toggle-btn"
@@ -111,9 +111,9 @@
           <div class="number-of-likes-container">
             <p class="number-of-likes"><%= post.like %></p>
           </div>
-          <div class="icon-container">
-            <img src="/images/basic-like.png" class="hate-icon" alt="">
-          </div>
+          <!-- <div class="icon-container">
+            <img src="/images/basic-like.png" class="hate-icon" alt="" />
+          </div> -->
           <div class="icon-container">
             <a href="/community/<%= post._id%>">
               <img src="/images/comment.png" class="comment-icon" alt="">
@@ -148,7 +148,7 @@
                 </li>
 
                 <div class="comment-detail-container">
-                  <div class="comment-icon-container">
+                  <!-- <div class="comment-icon-container">
                     <img src="/images/basic-like.png" class="comment-like-icon" alt="">
                   </div>
 
@@ -158,10 +158,10 @@
 
                   <div class="comment-icon-container">
                     <img src="/images/basic-like.png" class="comment-hate-icon" alt="">
-                  </div>
+                  </div> -->
 
                   <div class="reply-comment-line-container">
-                    <p class="reply-comment-line" data-comment-id="<%= comment._id %>">답글</p>
+                    <p class="reply-comment-line" data-comment-id="<%= comment._id %>">답글 달기</p>
                   </div>
                 </div>
 

@@ -3,6 +3,7 @@
   <head>
     <%- include("../includes/head") %>
     <link rel="stylesheet" href="/styles/product-detail.css" />
+    <script src="/scripts/cart.js" defer></script>
     <title>상점</title>
   </head>
   <body>
@@ -26,10 +27,10 @@
             <%= product.product_price.toLocaleString() %>원
           </p>
           <div id="form-container">
-            <form action="/product-cart">
-              <button id="cart-btn">장바구니에 담기</button>
+            <form action="/add-to-cart" method="POST">
+              <button id="cart-btn" data-product-id="<%= product._id %>">장바구니에 담기</button>
             </form>
-            <form action="/product-purchase">
+            <form action="/product-purchase" method="POST">
               <button id="purchase-btn">구매하기</button>
             </form>
           </div>
@@ -44,8 +45,8 @@
         </p>
 
         <div id="additional_img">
-            <div class="product_additional_img">
-              <% for(let i=0;i<5;i++) { %> <% if(product.product_img[i]) { %>
+          <div class="product_additional_img">
+            <% for(let i=0;i<5;i++) { %> <% if(product.product_img[i]) { %>
             <img
               src="<%= product.product_img[i] %>"
               alt="product_additional_img"

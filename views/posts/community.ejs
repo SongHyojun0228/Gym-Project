@@ -29,111 +29,120 @@
       </div>
 
       <% if(user.isAdmin) { %>
-        <div id="gotoadd">
-          <a href="/insert-post">글쓰기</a>
-        </div>
+      <div id="gotoadd">
+        <a href="/insert-post">글쓰기</a>
+      </div>
       <% } %>
 
       <div id="post-container">
         <% posts.forEach((post) => { %>
-          <div class="post-items">
-            <div class="title-container">
-              <div class="post-author-profile">
-                <img src="<%= post.authorProfile%>" alt="">
-              </div>
-              <p class="post-detail">
-                <%= post.author %><span class="post-time"><%= post.timeAgo %></span>
-              </p>
+        <div class="post-items">
+          <div class="title-container">
+            <div class="post-author-profile">
+              <img src="<%= post.authorProfile%>" alt="" />
             </div>
-      
-            <p class="content" data-post-id="<%= post._id %>"><%= post.content %></p>
-      
-            <!-- 버튼 -->
-            <button
-              class="toggle-btn"
-              data-post-id="<%= post._id %>"
-              onclick="toggleContent('<%= post._id %>')">
-              [자세히 보기]
-            </button>
-      
-            <% if (post.img && post.img.length > 0) { %>
-              <div
-                class="carousel slide"
-                data-post-id="<%= post._id %>"
-                id="carousel-<%= post._id %>"
+            <p class="post-detail">
+              <%= post.author %><span class="post-time"
+                ><%= post.timeAgo %></span
               >
-                <div class="carousel-indicators">
-                  <% post.img.forEach((imgPath, imgIndex) => { %>
-                    <button
-                      type="button"
-                      data-bs-target="#carousel-<%= post._id %>"
-                      data-bs-slide-to="<%= imgIndex %>"
-                      class="<%= imgIndex === 0 ? 'active' : '' %>"
-                      aria-current="<%= imgIndex === 0 ? 'true' : 'false' %>"
-                      aria-label="Slide <%= imgIndex + 1 %>"
-                    ></button>
-                  <% }); %>
-                </div>
-                <div class="carousel-inner">
-                  <% post.img.forEach((imgPath, imgIndex) => { %>
-                    <div class="carousel-item <%= imgIndex === 0 ? 'active' : '' %>">
-                      <img
-                        src="<%= imgPath %>"
-                        class="d-block w-100"
-                        alt="Image <%= imgIndex + 1 %>"
-                      />
-                    </div>
-                  <% }); %>
-                </div>
-                <button
-                  class="carousel-control-prev"
-                  type="button"
-                  data-bs-target="#carousel-<%= post._id %>"
-                  data-bs-slide="prev"
-                >
-                  <span
-                    class="carousel-control-prev-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Previous</span>
-                </button>
-                <button
-                  class="carousel-control-next"
-                  type="button"
-                  data-bs-target="#carousel-<%= post._id %>"
-                  data-bs-slide="next"
-                >
-                  <span
-                    class="carousel-control-next-icon"
-                    aria-hidden="true"
-                  ></span>
-                  <span class="visually-hidden">Next</span>
-                </button>
-              </div>
-            <% } %>
+            </p>
+          </div>
 
-            <div class="post-detail-container">
-              <div class="icon-container">
-                <img src="/images/basic-like.png" class="like-icon" alt="">
+          <p class="content" data-post-id="<%= post._id %>">
+            <%- post.content.replace(/\n/g, '<br />') %>
+          </p>
+
+          <!-- 버튼 -->
+          <button
+            class="toggle-btn"
+            data-post-id="<%= post._id %>"
+            onclick="toggleContent('<%= post._id %>')"
+          >
+            [자세히 보기]
+          </button>
+
+          <% if (post.img && post.img.length > 0) { %>
+          <div
+            class="carousel slide"
+            data-post-id="<%= post._id %>"
+            id="carousel-<%= post._id %>"
+          >
+            <div class="carousel-indicators">
+              <% post.img.forEach((imgPath, imgIndex) => { %>
+              <button
+                type="button"
+                data-bs-target="#carousel-<%= post._id %>"
+                data-bs-slide-to="<%= imgIndex %>"
+                class="<%= imgIndex === 0 ? 'active' : '' %>"
+                aria-current="<%= imgIndex === 0 ? 'true' : 'false' %>"
+                aria-label="Slide <%= imgIndex + 1 %>"
+              ></button>
+              <% }); %>
+            </div>
+            <div class="carousel-inner">
+              <% post.img.forEach((imgPath, imgIndex) => { %>
+              <div class="carousel-item <%= imgIndex === 0 ? 'active' : '' %>">
+                <img
+                  src="<%= imgPath %>"
+                  class="d-block w-100"
+                  alt="Image <%= imgIndex + 1 %>"
+                />
               </div>
-              <div class="number-of-likes-container">
-                <p class="number-of-likes"><%= post.like%></p>
-              </div>
-              <div class="icon-container">
-                <img src="/images/basic-like.png" class="hate-icon" alt="">
-              </div>
-              <div class="icon-container">
-                <a href="/community/<%= post._id%>">
-                  <img src="/images/comment.png" class="comment-icon" alt="">
-                </a>
-              </div>
-              <div class="number-of-comments-container">
-                <p class="number-of-comments"><%= post.commentCount %></p>
-              </div>
+              <% }); %>
+            </div>
+            <button
+              class="carousel-control-prev"
+              type="button"
+              data-bs-target="#carousel-<%= post._id %>"
+              data-bs-slide="prev"
+            >
+              <span
+                class="carousel-control-prev-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Previous</span>
+            </button>
+            <button
+              class="carousel-control-next"
+              type="button"
+              data-bs-target="#carousel-<%= post._id %>"
+              data-bs-slide="next"
+            >
+              <span
+                class="carousel-control-next-icon"
+                aria-hidden="true"
+              ></span>
+              <span class="visually-hidden">Next</span>
+            </button>
+          </div>
+          <% } %>
+
+          <div class="post-detail-container" data-post-id="<%= post._id %>"">
+            <div class="icon-container">
+              <img
+                src="<%= post.likes.includes(user.username) ? '/images/click-like.png' : '/images/basic-like.png' %>"
+                class="like-icon"
+                alt="좋아요 버튼"
+              />
+            </div>
+            <div class="number-of-likes-container">
+              <p class="number-of-likes"><%= post.like %></p>
+            </div>
+            <!-- <div class="icon-container">
+              <img src="/images/basic-like.png" class="hate-icon" alt="" />
+            </div> -->
+            <div class="icon-container">
+              <a href="/community/<%= post._id%>">
+                <img src="/images/comment.png" class="comment-icon" alt="" />
+              </a>
+            </div>
+            <div class="number-of-comments-container">
+              <p class="number-of-comments"><%= post.commentCount %></p>
             </div>
           </div>
+        </div>
         <% }); %>
-      </div>     
+      </div>
     </main>
     <%- include('../includes/footer') %>
   </body>

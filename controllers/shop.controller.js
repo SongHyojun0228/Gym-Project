@@ -1,6 +1,7 @@
 const express = require("express");
 const app = express();
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
 const shop = require("../models/shop.model");
 
@@ -12,7 +13,7 @@ async function getShop(req, res) {
     res.render("shop/shop", { products, user });
   } catch (error) {
     console.log("상점 페이지 오류\n", error);
-    res.status(500).redirect("/error/500");
+    res.status(500).redirect("/errors/500");
   }
 }
 
@@ -22,11 +23,10 @@ async function getProductDetail(req, res) {
   const productId = req.params.id;
   try {
     const product = await shop.getProduct(productId);
-    console.log(product);
     res.render("shop/product_detail", { product, user });
-  } catch(error) {
+  } catch (error) {
     console.log("상품 상세 페이지 오류\n", error);
-    res.status(500).redirect("/error/500");
+    res.status(500).redirect("/errors/500");
   }
 }
 
@@ -43,7 +43,7 @@ function getUploadProduct(req, res) {
 // 📌상품 추가 함수
 async function UploadProduct(req, res) {
   if (!req.session.user && !req.session.user.isAdmin) {
-    return res.redirect('/shop');
+    return res.redirect("/shop");
   }
 
   const imgPaths = [];
@@ -71,22 +71,60 @@ async function UploadProduct(req, res) {
 }
 
 // 📌상품 장바구니 페이지 함수
-async function getAddToCart() {
+async function getCart(req, res) {
+  const cart_items = req.session.cart; 
+  req.session.cart.totalPrice = 0;
+  req.session.cart.totalAmount = req.session.cart.length;
+  for(const cart_item of cart_items) {
+    req.session.cart.totalPrice += cart_item.product_price;
+  }
 
+  res.render("shop/cart", { cart_items });
 }
 
 // 📌상품 장바구니 담기 함수
-async function AddToCart() {
+async function AddToCart(req, res) {
+  const productId = req.body.productId;
 
+  if (!productId) {
+    return res.send(
+      '<script>alert("해당 상품이 존재하지 않습니다."); window.location.href = "/shop";</script>',
+    );
+  }
+
+  try {
+    const product = await shop.getProduct(productId);
+    if (!product) {
+      return res.send(
+        '<script>alert("해당 상품이 존재하지 않습니다."); window.location.href = "/shop";</script>',
+      );
+    }
+
+    const cart = {
+      productId: productId,
+      product_img: product.product_img[0],
+      product_price: product.product_price,
+      product_name: product.product_name,
+      product_color: product.product_color,
+    };
+
+    req.session.cart = req.session.cart || [];
+    req.session.cart.push(cart);
+    res.json({ success: true });
+  } catch (error) {
+    console.log("장바구니 담기 중 오류 : \n", error);
+    res.status(500).json({ success: false, message: "서버 오류 발생" });
+  }
 }
 
-// 📌상품 구매 페이지 함수
-async function getPurchasePage() {
 
+// 📌상품 구매 페이지 함수
+async function getPurchasePage(req, res) {
+  res.render("shop/purchase")
 }
 
 // 📌상품 구매 함수
-async function Purchase() {
+async function Purchase(req, res) {
 
 }
 
@@ -96,7 +134,7 @@ module.exports = {
   getCart,
   getUploadProduct,
   UploadProduct,
-  getAddToCart,
+  getCart,
   AddToCart,
   getPurchasePage,
   Purchase

@@ -112,6 +112,12 @@ function getInsertPost(req, res) {
     );
   }
 
+  if (!req.session.user.isAmin) {
+    return res.send(
+      '<script>alert("글쓰기 권한이 없습니다."); window.location.href = "/community";</script>',
+    );
+  }
+
   res.render("posts/insert-post");
 }
 

@@ -48,21 +48,21 @@ app.set("views", path.join(__dirname, "views"));
 app.use(express.static("public"));
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", DefaultRouter);
 app.use("/", UserRouter);
 app.use("/", CommunityRouter);
 app.use("/", MyPageRouter);
 app.use("/", MyPostRouter);
 app.use("/", ShopRouter);
+app.use("/", DefaultRouter);
 
-app.use((req, res) => {
-  res.status(404).render("errors/404");
-});
+// app.use((req, res) => {
+//   res.status(404).render("errors/404");
+// });
 
-app.use((err, req, res, next) => {
-  console.error(err.stack);
-  res.status(500).render("errors/500");
-});
+// app.use((err, req, res, next) => {
+//   console.error(err.stack);
+//   res.status(500).render("errors/500");
+// });
 
 db.connectToDatabase().then(function () {
   app.listen(3000);

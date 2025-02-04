@@ -67,7 +67,7 @@
   font-size: 1rem;
   margin-bottom: 0.5rem;
   padding: 0 4rem;
-  white-space: pre-wrap;
+  /* white-space: pre-wrap; */
   overflow: hidden;
   text-overflow: ellipsis;
 
@@ -159,6 +159,10 @@
 .hate-icon {
   transform: rotate(180deg);
   margin-inline: 1rem;
+}
+
+.comment-icon {
+  margin-left: 1rem;
 }
 
 #comment-container {
@@ -259,7 +263,7 @@
   display: flex;
   justify-items: baseline;
   align-items: center;
-  margin-left: 4rem;
+  margin-left: 3.5rem;
 }
 
 .comment-number-of-likes {
@@ -295,9 +299,10 @@
 
 .reply-comment-line {
   font-size: 0.9rem;
-  margin-left: 1rem;
+  /* margin-left: 1rem; */
   padding: 0.2rem 0.4rem;
   color: rgb(240, 240, 240);
+  color: rgb(152, 41, 50);
 }
 
 .reply-comment-line:hover {
@@ -360,7 +365,7 @@
   background: none;
   font-size: 0.9rem;
   font-weight: 500;
-  margin-top: 0.5rem;
+  /* margin-top: 0.5rem; */
   margin-left: 3.5rem;
 }
 

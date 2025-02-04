@@ -2,11 +2,39 @@
 <html lang="en">
   <head>
     <%- include("../includes/head") %>
+    <link rel="stylesheet" href="/styles/cart.css" />
     <title>장바구니</title>
   </head>
   <body>
     <%- include("../includes/header") %> <%- include('../includes/aside')%>
-    <main></main>
+    <main>
+      <h2>장바구니</h2>
+      <% for(const cart_item of cart_items) { %>
+      <div class="cart-item">
+        <div class="product-img">
+          <img src="<%= cart_item.product_img %>" alt="" />
+        </div>
+        <div class="product-detail">
+          <p class="product-name"><%= cart_item.product_name %></p>
+          <p class="product-color">(<%= cart_item.product_color %>)</p>
+          <p class="product-price">
+            <%= cart_item.product_price.toLocaleString() %>원
+          </p>
+          <form action="/delete-cart-item" method="POSt">
+            <button class="delete-btn">장바구니에서 삭제</button>
+          </form>
+        </div>
+      </div>
+      <% } %>
+
+      <div id="total">
+        <p id="total-amount">총 <%= cart_items.totalAmount.toLocaleString() %>개</p>
+        <p id="total-price"><%= cart_items.totalPrice.toLocaleString() %>원</p>
+        <form action="/purchase">
+          <button id="purchase-btn">구매하기</button>
+        </form>
+      </div>
+    </main>
 
     <%- include("../includes/footer") %>
   </body>
