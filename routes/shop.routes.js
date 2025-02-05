@@ -24,6 +24,7 @@ router.get("/product/:id", shopController.getProductDetail);
 
 router.get("/cart", shopController.getCart);
 router.post("/add-to-cart", shopController.AddToCart); // AJAX
+router.post("/update-cart", shopController.updateCart);
 
 router.get("/purchase", shopController.getPurchasePage);
 router.post("/product-purchasehase", shopController.Purchase);

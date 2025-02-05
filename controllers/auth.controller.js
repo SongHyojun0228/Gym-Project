@@ -172,8 +172,11 @@ async function Login(req, res) {
     profileImg: existingUser.user_img,
     isAdmin: existingUser.isAdmin,
   };
-
   req.session.isAuthenticated = true;
+
+  req.session.cart = [];
+  req.session.cartTotalPrice = 0;
+  req.session.totalAmount = 0;
 
   req.session.save((err) => {
     if (err) {

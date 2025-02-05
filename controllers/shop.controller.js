@@ -71,15 +71,13 @@ async function UploadProduct(req, res) {
 }
 
 // 📌상품 장바구니 페이지 함수
-async function getCart(req, res) {
-  const cart_items = req.session.cart; 
-  req.session.cart.totalPrice = 0;
-  req.session.cart.totalAmount = req.session.cart.length;
-  for(const cart_item of cart_items) {
-    req.session.cart.totalPrice += cart_item.product_price;
-  }
+function getCart(req, res) {
+  req.session.cart = req.session.cart || [];
+  const cart_items = req.session.cart;
+  const totalAmount = req.session.totalAmount;
+  const cartTotalPrice = req.session.cartTotalPrice;
 
-  res.render("shop/cart", { cart_items });
+  res.render("shop/cart", { cart_items, totalAmount, cartTotalPrice });
 }
 
 // 📌상품 장바구니 담기 함수
@@ -106,10 +104,29 @@ async function AddToCart(req, res) {
       product_price: product.product_price,
       product_name: product.product_name,
       product_color: product.product_color,
+      product_amount: 1
     };
 
     req.session.cart = req.session.cart || [];
-    req.session.cart.push(cart);
+    req.session.totalAmount = req.session.totalAmount || 0;
+    req.session.cartTotalPrice = req.session.cartTotalPrice || 0;
+
+    req.session.cartTotalPrice += cart.product_price;
+    req.session.totalAmount += cart.product_amount;
+
+    const currentCart = req.session.cart;
+    let isIncluded = false;
+    for (const currentCartProducts of currentCart) {
+      if (currentCartProducts.productId === cart.productId) {
+        currentCartProducts.product_amount++;
+        currentCartProducts.product_price += cart.product_price;
+        isIncluded = true;
+      }
+    }
+
+    if (!isIncluded) {
+      req.session.cart.push(cart);
+    }
     res.json({ success: true });
   } catch (error) {
     console.log("장바구니 담기 중 오류 : \n", error);
@@ -117,6 +134,39 @@ async function AddToCart(req, res) {
   }
 }
 
+// 📌상품 장바구니 수정 함수
+async function updateCart(req, res) {
+  const { productId, amount } = req.body;
+
+  if (!productId || isNaN(amount) || amount < 1) {
+    return res.status(400).json({ success: false, message: "잘못된 요청입니다." });
+  }
+
+  try {
+    let updatedPrice = 0;
+    req.session.cart.forEach(item => {
+      if (item.productId === productId) {
+        const unitPrice = item.product_price / item.product_amount; // 개당 가격 계산
+        item.product_amount = amount;
+        item.product_price = unitPrice * amount; // 새 총 가격 계산
+        updatedPrice = item.product_price;
+      }
+    });
+
+    req.session.totalAmount = req.session.cart.reduce((sum, item) => sum + item.product_amount, 0);
+    req.session.cartTotalPrice = req.session.cart.reduce((sum, item) => sum + item.product_price, 0);
+
+    res.json({
+      success: true,
+      totalAmount: req.session.totalAmount,
+      totalPrice: req.session.cartTotalPrice,
+      updatedPrice // 개별 상품의 변경된 총 가격 반환
+    });
+  } catch (error) {
+    console.error("장바구니 수량 업데이트 오류:", error);
+    res.status(500).json({ success: false, message: "서버 오류 발생" });
+  }
+}
 
 // 📌상품 구매 페이지 함수
 async function getPurchasePage(req, res) {
@@ -136,6 +186,7 @@ module.exports = {
   UploadProduct,
   getCart,
   AddToCart,
+  updateCart,
   getPurchasePage,
   Purchase
 };
