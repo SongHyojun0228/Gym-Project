@@ -53,7 +53,7 @@
       </div>
       <% } %>
       <div id="total">
-        <p id="total-amount">총 <%= totalAmount.toLocaleString() %>개</p>
+        <p id="total-amount">총 <%= cartTotalAmount.toLocaleString() %>개</p>
         <p id="total-price"><%= cartTotalPrice.toLocaleString() %>원</p>
         <form action="/purchase">
           <button id="purchase-btn">구매하기</button>

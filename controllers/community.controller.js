@@ -26,7 +26,7 @@ function timeAgo(time) {
 
 async function getCommunity(req, res) {
   try {
-    const user = req.session.user;
+    const user = req.session.user || {};
     const posts = await community.getAllPost();
 
     for (const post of posts) {
@@ -112,7 +112,7 @@ function getInsertPost(req, res) {
     );
   }
 
-  if (!req.session.user.isAmin) {
+  if (!req.session.user.isAdmin) {
     return res.send(
       '<script>alert("글쓰기 권한이 없습니다."); window.location.href = "/community";</script>',
     );
@@ -152,9 +152,7 @@ async function InsertPost(req, res) {
 
 async function Comment(req, res) {
   if (!req.session || !req.session.user) {
-    return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
-    );
+    return res.status(401).json({ error: "로그인이 필요합니다.", redirect: "/login" });
   }
 
   const postId = req.params.id;
@@ -194,9 +192,7 @@ async function Comment(req, res) {
 
 async function ReplyComment(req, res) {
   if (!req.session || !req.session.user) {
-    return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
-    );
+    return res.status(401).json({ error: "로그인이 필요합니다.", redirect: "/login" });
   }
 
   const commentId = req.params.id;
@@ -234,8 +230,8 @@ async function ReplyComment(req, res) {
 
 async function ClickCPostLike(req, res) {
   const user = req.session.user;
-  if (!user) {
-    return res.status(401).json({ error: "로그인이 필요합니다." });
+  if (!req.session || !req.session.user) {
+    return res.status(401).json({ error: "로그인이 필요합니다.", redirect: "/login" });
   }
 
   const username = user.username;

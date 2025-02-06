@@ -74,10 +74,10 @@ async function UploadProduct(req, res) {
 function getCart(req, res) {
   req.session.cart = req.session.cart || [];
   const cart_items = req.session.cart;
-  const totalAmount = req.session.totalAmount;
+  const cartTotalAmount = req.session.cartTotalAmount;
   const cartTotalPrice = req.session.cartTotalPrice;
 
-  res.render("shop/cart", { cart_items, totalAmount, cartTotalPrice });
+  res.render("shop/cart", { cart_items, cartTotalAmount, cartTotalPrice });
 }
 
 // 📌상품 장바구니 담기 함수
@@ -108,11 +108,11 @@ async function AddToCart(req, res) {
     };
 
     req.session.cart = req.session.cart || [];
-    req.session.totalAmount = req.session.totalAmount || 0;
+    req.session.cartTotalAmount = req.session.cartTotalAmount || 0;
     req.session.cartTotalPrice = req.session.cartTotalPrice || 0;
 
     req.session.cartTotalPrice += cart.product_price;
-    req.session.totalAmount += cart.product_amount;
+    req.session.cartTotalAmount += cart.product_amount;
 
     const currentCart = req.session.cart;
     let isIncluded = false;
@@ -127,6 +127,27 @@ async function AddToCart(req, res) {
     if (!isIncluded) {
       req.session.cart.push(cart);
     }
+
+    // ✅ 만약 로그인이 되어있는 상태라면? ✅
+    const user = req.session.user;
+    if (user) {
+      const userCart = await shop.loadCart(user.username);
+      let userIsIncluded = false;
+      for (const userCartProducts of userCart) {
+        // ✅ 동일 상품을 담았을 때 ✅
+        if (userCartProducts.productId === cart.productId) {
+          console.log("동일 상품 추가");
+          await shop.addSameProduct(user.username, userCartProducts.productId, userCartProducts.product_price);
+          userIsIncluded = true;
+        }
+      }
+
+      // ✅ 다른 상품을 담았을 때 ✅
+      if (!userIsIncluded) {
+        await shop.addToCart(product, user.username);
+      }
+    }
+
     res.json({ success: true });
   } catch (error) {
     console.log("장바구니 담기 중 오류 : \n", error);
@@ -153,12 +174,12 @@ async function updateCart(req, res) {
       }
     });
 
-    req.session.totalAmount = req.session.cart.reduce((sum, item) => sum + item.product_amount, 0);
+    req.session.cartTotalAmount = req.session.cart.reduce((sum, item) => sum + item.product_amount, 0);
     req.session.cartTotalPrice = req.session.cart.reduce((sum, item) => sum + item.product_price, 0);
 
     res.json({
       success: true,
-      totalAmount: req.session.totalAmount,
+      cartTotalAmount: req.session.cartTotalAmount,
       totalPrice: req.session.cartTotalPrice,
       updatedPrice // 개별 상품의 변경된 총 가격 반환
     });

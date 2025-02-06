@@ -27,6 +27,37 @@ class Shop {
         console.log("상품 추가 : \n", product);
         await db.getDb().collection("products").insertOne(product);
     }
+
+    static async loadCart(username) {
+        const user = await db.getDb().collection("users").findOne({ username: username });
+        return user.cart;
+    }
+
+    static async addToCart(cart, username) {
+        await db.getDb().collection("users").updateOne(
+            { username: username },
+            {
+                $push: {
+                    "cart": cart
+                }
+            });
+    }
+
+    static async addSameProduct(username, productId, product_price) {
+        await db.getDb().collection("users").updateOne(
+            {
+                username: username,
+                "cart.productId": productId 
+            },
+            {
+                $inc: {
+                    "cart.$.product_amount": 1,     
+                    "cart.$.product_price": product_price  
+                }
+            }
+        );
+
+    }
 }
 
 module.exports = Shop;

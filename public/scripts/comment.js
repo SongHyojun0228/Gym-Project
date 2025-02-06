@@ -22,9 +22,17 @@ document.addEventListener("DOMContentLoaded", () => {
         body: JSON.stringify({ comment }),
       });
 
+      const responseData = await response.json();
+
       if (!response.ok) {
-        throw new Error("댓글 작성 중 오류가 발생했습니다.");
+        if (responseData.redirect) {
+          alert(responseData.error);
+          window.location.href = responseData.redirect;  // 로그인 페이지로 이동
+          return;
+        }
+        throw new Error(responseData.error || "댓글 작성 중 오류가 발생했습니다.");
       }
+
 
       const newComment = await response.json();
       if (!newComment._id) {
@@ -121,8 +129,15 @@ document.addEventListener("DOMContentLoaded", () => {
           body: JSON.stringify({ replyComment }),
         });
 
+        const responseData = await response.json();
+
         if (!response.ok) {
-          throw new Error("답글 등록 중 오류가 발생했습니다.");
+          if (responseData.redirect) {
+            alert(responseData.error);
+            window.location.href = responseData.redirect;  // 로그인 페이지로 이동
+            return;
+          }
+          throw new Error(responseData.error || "댓글 작성 중 오류가 발생했습니다.");
         }
 
         const newReply = await response.json();

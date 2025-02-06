@@ -1,5 +1,6 @@
 const bcrypt = require("bcrypt");
 const Auth = require("../models/auth.model");
+const shop = require("../models/shop.model");
 
 // 🔥회원가입 페이지🔥
 function getSignup(req, res) {
@@ -174,9 +175,56 @@ async function Login(req, res) {
   };
   req.session.isAuthenticated = true;
 
-  req.session.cart = [];
   req.session.cartTotalPrice = 0;
-  req.session.totalAmount = 0;
+  req.session.cartTotalAmount = 0;
+
+  const sessionCart = req.session.cart;
+  const loadCart = await shop.loadCart(req.session.user.username);
+
+  // ✅ 세션 장바구니와 유저 장바구니가 모두 비어있을 때 ✅
+  if (!loadCart && !sessionCart) {
+    console.log("✅ 세션 장바구니와 유저 장바구니가 모두 비어있을 때 ✅");
+    console.log("유저 장바구니 : ", loadCart);
+    console.log("세션 장바구니 : ", sessionCart);
+    req.session.cart = [];
+  }
+
+  // ✅ 세션 장바구니가 차 있고 유저 장바구니가 비어있을 때 ✅
+  else if (!loadCart && sessionCart) {
+    console.log("✅ 세션 장바구니가 차 있고 유저 장바구니가 비어있을 때 ✅");
+    console.log("유저 장바구니 : ", loadCart);
+    console.log("세션 장바구니 : ", sessionCart);
+    for(const cart_item of sessionCart) {
+      await shop.addToCart(cart_item, req.session.user.username);
+    }
+  }
+
+  // ✅ 세션 장바구니가 비어있고 유저 바구니가 차 있을 때 ✅
+  else if (loadCart && !sessionCart) {
+    console.log("✅ 세션 장바구니가 비어있고 유저 바구니가 차 있을 때 ✅");
+    console.log("유저 장바구니 : ", loadCart);
+    console.log("세션 장바구니 : ", sessionCart);
+    req.session.cart = loadCart;
+    for (const currentCartProducts of loadCart) {
+      req.session.cartTotalPrice += currentCartProducts.product_price;
+      req.session.cartTotalAmount += currentCartProducts.product_amount;
+    }
+  }
+
+  // ✅ 세션 장바구니와 유저 바구니가 모두 차 있을 때 ✅
+  else {
+    console.log(" ✅ 세션 장바구니와 유저 바구니가 모두 차 있을 때 ✅");
+    console.log("유저 장바구니 : ", loadCart);
+    console.log("세션 장바구니 : ", sessionCart);
+    for(const cart_item of sessionCart) {
+      await shop.addToCart(cart_item, req.session.user.username);
+    }
+    req.session.cart = loadCart;
+    for (const currentCartProducts of loadCart) {
+      req.session.cartTotalPrice += currentCartProducts.product_price;
+      req.session.cartTotalAmount += currentCartProducts.product_amount;
+    }
+  }
 
   req.session.save((err) => {
     if (err) {

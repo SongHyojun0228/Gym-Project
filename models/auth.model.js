@@ -52,7 +52,8 @@ class Auth {
       name: name,
       tel: tel,
       username: username,
-      user_img : profileImg
+      user_img: profileImg,
+      cart: [],
     };
 
     await db.getDb().collection("users").insertOne(newUser);

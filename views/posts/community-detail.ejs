@@ -104,7 +104,7 @@
 
         <div class="post-detail-container" data-post-id="<%= post._id %>">
           <div class="icon-container">
-            <img src="<%= post.likes.includes(user.username) ? '/images/click-like.png' : '/images/basic-like.png' %>"
+            <img src="<%= post.likes && user && user.username && post.likes.includes(user.username) ? '/images/click-like.png' : '/images/basic-like.png' %>" 
             class="like-icon" 
             alt="좋아요 버튼">
           </div>
