@@ -165,6 +165,8 @@ async function updateCart(req, res) {
 
   try {
     let updatedPrice = 0;
+
+    // ✅ 세션 장바구니 업데이트
     req.session.cart.forEach(item => {
       if (item.productId === productId) {
         const unitPrice = item.product_price / item.product_amount; // 개당 가격 계산
@@ -176,6 +178,12 @@ async function updateCart(req, res) {
 
     req.session.cartTotalAmount = req.session.cart.reduce((sum, item) => sum + item.product_amount, 0);
     req.session.cartTotalPrice = req.session.cart.reduce((sum, item) => sum + item.product_price, 0);
+
+    // ✅ 로그인한 유저의 장바구니 업데이트
+    const user = req.session.user;
+    if (user) {
+      await shop.updateCartItem(user.username, productId, amount);
+    }
 
     res.json({
       success: true,
@@ -189,6 +197,11 @@ async function updateCart(req, res) {
   }
 }
 
+// 📌 장바구니 상품 제거 함수
+function deleteCartProduct() {
+
+}
+
 // 📌상품 구매 페이지 함수
 async function getPurchasePage(req, res) {
   res.render("shop/purchase")
@@ -196,7 +209,8 @@ async function getPurchasePage(req, res) {
 
 // 📌상품 구매 함수
 async function Purchase(req, res) {
-
+  const user = req.session.user;
+  shop.deleteCartProduct(user)
 }
 
 module.exports = {
@@ -208,6 +222,7 @@ module.exports = {
   getCart,
   AddToCart,
   updateCart,
+  deleteCartProduct,
   getPurchasePage,
   Purchase
 };

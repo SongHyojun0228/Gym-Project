@@ -47,16 +47,49 @@ class Shop {
         await db.getDb().collection("users").updateOne(
             {
                 username: username,
-                "cart.productId": productId 
+                "cart.productId": productId
             },
             {
                 $inc: {
-                    "cart.$.product_amount": 1,     
-                    "cart.$.product_price": product_price  
+                    "cart.$.product_amount": 1,
+                    "cart.$.product_price": product_price
                 }
             }
         );
+    }
 
+    static async updateCartItem(username, productId, amount) {
+        const user = await db.getDb().collection("users").findOne({ username: username });
+        if (!user || !user.cart) return;
+
+        const product = user.cart.find(item => item.productId === productId);
+        if (!product) return;
+
+        const unitPrice = product.product_price / product.product_amount; // 개당 가격 계산
+        const newPrice = unitPrice * amount; // 새로운 총 가격 계산
+
+        await db.getDb().collection("users").updateOne(
+            { username: username, "cart.productId": productId },
+            {
+                $set: {
+                    "cart.$.product_amount": amount,
+                    "cart.$.product_price": newPrice
+                }
+            }
+        );
+    }
+
+    static async deleteSessionCartProduct(productId) {
+        await db.collection("sessions").updateOne(
+            { $pull: { cart: { productId: productId } } }
+        );
+    }
+
+    static async deleteUserCartProduct(username, productId) {
+        await db.collection("users").updateOne(
+            { username: username },
+            { $pull: { cart: { productId: productId } } }
+        );
     }
 }
 

@@ -43,4 +43,6 @@ router.post(
     shopController.UploadProduct
 );
 
+router.post("/delete-cart-item", shopController.deleteCartProduct);
+
 module.exports = router;

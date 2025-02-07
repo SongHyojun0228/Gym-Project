@@ -1,3 +1,4 @@
+// ✅ 장바구니에 담기 ✅
 document.addEventListener("DOMContentLoaded", function () {
     const cartBtn = document.getElementById("cart-btn");
     cartBtn.addEventListener("click", function (event) {
@@ -31,6 +32,7 @@ document.addEventListener("DOMContentLoaded", function () {
     });
 });
 
+// ✅ 장바구니 상품 개수 수정 ✅
 document.addEventListener("DOMContentLoaded", function () {
     document.querySelectorAll(".plus-btn, .minus-btn").forEach((button) => {
         button.addEventListener("click", function () {

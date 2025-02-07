@@ -184,17 +184,13 @@ async function Login(req, res) {
   // ✅ 세션 장바구니와 유저 장바구니가 모두 비어있을 때 ✅
   if (!loadCart && !sessionCart) {
     console.log("✅ 세션 장바구니와 유저 장바구니가 모두 비어있을 때 ✅");
-    console.log("유저 장바구니 : ", loadCart);
-    console.log("세션 장바구니 : ", sessionCart);
     req.session.cart = [];
   }
 
   // ✅ 세션 장바구니가 차 있고 유저 장바구니가 비어있을 때 ✅
   else if (!loadCart && sessionCart) {
     console.log("✅ 세션 장바구니가 차 있고 유저 장바구니가 비어있을 때 ✅");
-    console.log("유저 장바구니 : ", loadCart);
-    console.log("세션 장바구니 : ", sessionCart);
-    for(const cart_item of sessionCart) {
+    for (const cart_item of sessionCart) {
       await shop.addToCart(cart_item, req.session.user.username);
     }
   }
@@ -202,27 +198,43 @@ async function Login(req, res) {
   // ✅ 세션 장바구니가 비어있고 유저 바구니가 차 있을 때 ✅
   else if (loadCart && !sessionCart) {
     console.log("✅ 세션 장바구니가 비어있고 유저 바구니가 차 있을 때 ✅");
-    console.log("유저 장바구니 : ", loadCart);
-    console.log("세션 장바구니 : ", sessionCart);
-    req.session.cart = loadCart;
-    for (const currentCartProducts of loadCart) {
-      req.session.cartTotalPrice += currentCartProducts.product_price;
-      req.session.cartTotalAmount += currentCartProducts.product_amount;
+    const currentUserCart = await shop.loadCart(req.session.user.username);
+    req.session.cart = currentUserCart;
+    for (const currentCartProduct of currentUserCart) {
+      req.session.cartTotalPrice += currentCartProduct.product_price;
+      req.session.cartTotalAmount += currentCartProduct.product_amount;
     }
   }
 
   // ✅ 세션 장바구니와 유저 바구니가 모두 차 있을 때 ✅
   else {
     console.log(" ✅ 세션 장바구니와 유저 바구니가 모두 차 있을 때 ✅");
-    console.log("유저 장바구니 : ", loadCart);
-    console.log("세션 장바구니 : ", sessionCart);
-    for(const cart_item of sessionCart) {
-      await shop.addToCart(cart_item, req.session.user.username);
+    const userCart = await shop.loadCart(req.session.user.username);
+    let isSameProduct = false;
+    for (const sessionCartItem of sessionCart) {
+      for (const userCartItem of userCart) {
+        // ✅ 동일 상품을 담았을 때 ✅
+        if (sessionCartItem.productId == userCartItem.productId) {
+          console.log(" ✅ 동일 상품을 담았을 때 ✅");
+          await shop.addSameProduct(req.session.user.username, sessionCartItem.productId, sessionCartItem.product_price);
+          isSameProduct = true;
+        }
+        // ✅ 다른 상품을 담았을 때 ✅
+      }
+      if (!isSameProduct) {
+        console.log(" ✅ 다른 상품을 담았을 때 ✅");
+        await shop.addToCart(sessionCartItem, req.session.user.username);
+      }
+      isSameProduct = false;
     }
-    req.session.cart = loadCart;
-    for (const currentCartProducts of loadCart) {
-      req.session.cartTotalPrice += currentCartProducts.product_price;
-      req.session.cartTotalAmount += currentCartProducts.product_amount;
+
+
+    // ✅ 로그인 시 유저 장바구니를 세션 장바구니에 붙여넣기 ✅
+    const currentUserCart = await shop.loadCart(req.session.user.username);
+    req.session.cart = currentUserCart;
+    for (const currentCartProduct of currentUserCart) {
+      req.session.cartTotalPrice += currentCartProduct.product_price;
+      req.session.cartTotalAmount += currentCartProduct.product_amount;
     }
   }
 
@@ -230,7 +242,7 @@ async function Login(req, res) {
     if (err) {
       console.error("세션 저장 에러 : ", err);
     }
-    console.log("로그인 성공!");
+    console.log("로그인 : ", req.session.user);
     res.redirect("/");
   });
 }
