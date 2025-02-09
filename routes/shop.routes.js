@@ -26,8 +26,7 @@ router.get("/cart", shopController.getCart);
 router.post("/add-to-cart", shopController.AddToCart); // AJAX
 router.post("/update-cart", shopController.updateCart);
 
-router.get("/purchase", shopController.getPurchasePage);
-router.post("/product-purchasehase", shopController.Purchase);
+router.get("/purchase", shopController.getPurchasePage);    
 
 router.get("/upload-product", shopController.getUploadProduct);
 router.post(
@@ -44,5 +43,8 @@ router.post(
 );
 
 router.post("/delete-cart-item", shopController.deleteCartProduct);
+
+router.get("/success", shopController.getSuccess);
+router.get("/success", shopController.getFail);
 
 module.exports = router;

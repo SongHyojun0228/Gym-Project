@@ -132,26 +132,31 @@ async function AddToCart(req, res) {
     const user = req.session.user;
     if (user) {
       const userCart = await shop.loadCart(user.username);
-      let userIsIncluded = false;
-      for (const userCartProducts of userCart) {
-        // ✅ 동일 상품을 담았을 때 ✅
-        if (userCartProducts.productId === cart.productId) {
-          console.log("동일 상품 추가");
-          await shop.addSameProduct(user.username, userCartProducts.productId, userCartProducts.product_price);
-          userIsIncluded = true;
+      if (userCart) {
+        let userIsIncluded = false;
+        for (const userCartProducts of userCart) {
+          // ✅ 동일 상품을 담았을 때 ✅
+          if (userCartProducts.productId === cart.productId) {
+            console.log("동일 상품 추가");
+            await shop.addSameProduct(user.username, userCartProducts.productId, userCartProducts.product_price);
+            userIsIncluded = true;
+          }
+        }
+
+        // ✅ 다른 상품을 담았을 때 ✅
+        if (!userIsIncluded) {
+          await shop.addToCart(cart, user.username);
         }
       }
-
-      // ✅ 다른 상품을 담았을 때 ✅
-      if (!userIsIncluded) {
-        await shop.addToCart(product, user.username);
+      else {
+        await shop.addToCart(cart, user.username);
       }
     }
 
     res.json({ success: true });
   } catch (error) {
     console.log("장바구니 담기 중 오류 : \n", error);
-    res.status(500).json({ success: false, message: "서버 오류 발생" });
+    res.status(500).render("/errors/500");
   }
 }
 
@@ -189,28 +194,63 @@ async function updateCart(req, res) {
       success: true,
       cartTotalAmount: req.session.cartTotalAmount,
       totalPrice: req.session.cartTotalPrice,
-      updatedPrice // 개별 상품의 변경된 총 가격 반환
+      updatedPrice
     });
   } catch (error) {
     console.error("장바구니 수량 업데이트 오류:", error);
-    res.status(500).json({ success: false, message: "서버 오류 발생" });
+    res.status(500).render("/errors/500");
   }
 }
 
 // 📌 장바구니 상품 제거 함수
-function deleteCartProduct() {
+async function deleteCartProduct(req, res) {
+  const productId = req.body.productId;
 
+  if (!productId) {
+    return res.status(400).json({ success: false, message: "상품 ID가 없습니다." });
+  }
+
+  try {
+    // ✅ 세션 장바구니에서 삭제
+    req.session.cart = req.session.cart.filter(item => item.productId !== productId);
+
+    // ✅ 장바구니 개수와 총 가격을 다시 계산
+    req.session.cartTotalAmount = req.session.cart.reduce((sum, item) => sum + item.product_amount, 0);
+    req.session.cartTotalPrice = req.session.cart.reduce((sum, item) => sum + item.product_price, 0);
+
+    // ✅ 로그인한 유저의 장바구니에서 삭제
+    if (req.session.user) {
+      await shop.deleteUserCartProduct(req.session.user.username, productId);
+    }
+
+    res.json({
+      success: true,
+      cartTotalAmount: req.session.cartTotalAmount,
+      totalPrice: req.session.cartTotalPrice
+    });
+  } catch (error) {
+    console.error("❌ 장바구니 상품 삭제 중 오류 : \n", error);
+    res.status(500).render("/errors/500");
+  }
 }
 
 // 📌상품 구매 페이지 함수
 async function getPurchasePage(req, res) {
-  res.render("shop/purchase")
+  const user = req.session.user;
+  const userCart = await shop.loadCart(user.username);
+  const totalPrice = req.session.cartTotalPrice;
+  const totalAmount = req.session.cartTotalAmount;
+  res.render("shop/purchase", { user: user, userCart: userCart, totalPrice: totalPrice, totalAmount: totalAmount });
 }
 
-// 📌상품 구매 함수
-async function Purchase(req, res) {
-  const user = req.session.user;
-  shop.deleteCartProduct(user)
+// 📌상품 구매 성공 페이지 함수
+async function getSuccess(req, res) {
+  res.render("shop/success");
+}
+
+// 📌상품 구매 실패 페이지 함수
+async function getFail(req, res) {
+  res.render("shop/fail");
 }
 
 module.exports = {
@@ -224,5 +264,6 @@ module.exports = {
   updateCart,
   deleteCartProduct,
   getPurchasePage,
-  Purchase
+  getSuccess,
+  getFail
 };

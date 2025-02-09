@@ -79,14 +79,15 @@ class Shop {
         );
     }
 
-    static async deleteSessionCartProduct(productId) {
-        await db.collection("sessions").updateOne(
-            { $pull: { cart: { productId: productId } } }
+    static async deleteSessionCartProduct(sessionId, productId) {
+        await db.getDb().collection("sessions").updateOne(
+            { _id: sessionId },
+            { $pull: { "session.cart": { productId: productId } } }
         );
     }
 
     static async deleteUserCartProduct(username, productId) {
-        await db.collection("users").updateOne(
+        await db.getDb().collection("users").updateOne(
             { username: username },
             { $pull: { cart: { productId: productId } } }
         );

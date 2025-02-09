@@ -169,6 +169,7 @@ async function Login(req, res) {
   req.session.user = {
     id: existingUser._id.toString(),
     username: existingUser.username.toString(),
+    tel: existingUser.tel.toString(),
     name: existingUser.name.toString(),
     profileImg: existingUser.user_img,
     isAdmin: existingUser.isAdmin,

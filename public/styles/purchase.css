@@ -1,0 +1,145 @@
+#purchase-container {
+  width: 80rem;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+}
+
+#orderer-information {
+  width: 45rem;
+  border-top: 2px solid rgb(240, 240, 240);
+  margin-top: 5rem;
+}
+
+.title {
+  font-size: 1.3rem;
+  margin: 0;
+  margin-block: 2rem;
+  font-weight: 700;
+  color: rgb(240, 240, 240);
+}
+
+.orderer-items {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+}
+
+.orderer-items p {
+  font-size: 1rem;
+  margin: 0;
+  font-weight: 500;
+  color: rgb(240, 240, 240);
+}
+
+.orderer-items span {
+  color: rgb(152, 41, 50);
+}
+
+.orderer-items input {
+  width: 35rem;
+  padding: 0.8rem;
+  font-family: inherit;
+  font-weight: 600;
+  border: 1px solid rgb(63, 63, 63);
+  border-radius: 4px;
+  background-color: rgb(15, 15, 15);
+  color: rgb(240, 240, 240);
+}
+
+.orderer-items input::placeholder {
+  font-size: 1rem;
+}
+
+#toss {
+  background-color: white;
+  border-radius: 6px;
+  overflow: hidden;
+}
+
+#payment-button {
+  margin-bottom: 2rem;
+}
+
+#products-information-contianer {
+  width: 30rem;
+  /* background-color: rgb(240, 240, 240); */
+  border: 1px solid rgb(63, 63, 63);
+  border-radius: 6px;
+  margin-top: 5rem;
+  padding-inline: 2rem;
+}
+
+#product-information-title {
+  font-size: 1.2rem;
+  font-weight: 900;
+  margin: 0;
+  color: rgb(240, 240, 240);
+  border-bottom: 1px solid rgb(63, 63, 63);
+  padding-block: 1.5rem;
+}
+
+.product-information {
+  display: flex;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(63, 63, 63);
+  padding-block: 1.5rem;
+}
+
+.product {
+  display: flex;
+  flex-direction: column;
+}
+
+.product-name,
+.product-color,
+.product-price,
+.product-amount {
+  color: rgb(240, 240, 240);
+  font-weight: 600;
+}
+
+.product-name {
+  font-weight: 700;
+}
+
+.product-color {
+  margin-bottom: 0.5rem;
+}
+
+.product-amount {
+  color: rgb(63, 63, 63);
+}
+
+.product-img {
+  width: 8rem;
+}
+
+.product-img img {
+  width: 8em;
+  object-fit: cover;
+}
+
+#total-information {
+    margin-top: 1.5rem;
+}
+
+.total {
+  display: flex;
+  justify-content: space-between;
+}
+
+.total span {
+    color: rgb(240, 240, 240);
+    font-size: 1rem;
+    font-weight: 900;
+}
+
+#total-amount,
+#total-price {
+  color: rgb(240, 240, 240);
+  margin: 0;
+  font-weight: 900;
+  margin-bottom: 1.5rem;
+}

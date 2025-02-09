@@ -47,7 +47,12 @@
             <%= cart_item.product_price.toLocaleString() %>원
           </p>
           <form action="/delete-cart-item" method="POSt">
-            <button class="delete-btn">장바구니에서 삭제</button>
+            <button
+              class="delete-btn"
+              data-product-id="<%= cart_item.productId %>"
+            >
+              장바구니에서 삭제
+            </button>
           </form>
         </div>
       </div>
@@ -55,9 +60,7 @@
       <div id="total">
         <p id="total-amount">총 <%= cartTotalAmount.toLocaleString() %>개</p>
         <p id="total-price"><%= cartTotalPrice.toLocaleString() %>원</p>
-        <form action="/purchase">
-          <button id="purchase-btn">구매하기</button>
-        </form>
+        <a id="purchase-btn" href="/purchase">구매하기</a>
       </div>
       <% } %>
     </main>

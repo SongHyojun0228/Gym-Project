@@ -1,1 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <link rel="stylesheet" href="/styles/toss.css" />
+    <%- include("../includes/head") %>
+    <link rel="stylesheet" href="/styles/purchase.css" />
+    <script src="https://js.tosspayments.com/v2/standard"></script>
+    <title>구매하기</title>
+  </head>
+  <body>
+    <%- include("../includes/header") %> <%- include('../includes/aside')%>
+    <main>
+      <div id="purchase-container">
+        <div id="orderer-information-container">
+          <!-- 주문자 정보 -->
+          <div id="orderer-information">
+            <p class="title">주문자 정보</p>
+            <div class="orderer-items">
+              <p>주문자 <span>*</span></p>
+              <input
+                type="text"
+                name="user_name"
+                value="<%=user.name%>"
+                required
+              />
+            </div>
 
+            <div class="orderer-items">
+              <p>주소 <span>*</span></p>
+              <input type="text" name="user_address" required />
+            </div>
+
+            <div class="orderer-items">
+              <p>일반 전화</p>
+              <input type="tel" name="user_tel" />
+            </div>
+
+            <div class="orderer-items">
+              <p>휴대 전화 <span>*</span></p>
+              <input
+                type="tel"
+                name="user_telPhone"
+                value="<%=user.tel%>"
+                required
+              />
+            </div>
+
+            <div class="orderer-items">
+              <p>배송 메시지</p>
+              <input type="tel" name="delivery_message" />
+            </div>
+          </div>
+
+          <!-- 결제 정보 -->
+          <div id="payment-information-container">
+            <div id="products-information">
+              <p class="title">결제 정보</p>
+
+              <!-- 토스 결제 -->
+              <div id="toss">
+                <!-- 결제 UI, 이용약관 UI 영역 -->
+                <div id="payment-method"></div>
+                <!-- 이용약관 UI -->
+                <div id="agreement"></div>
+                <!-- 결제하기 버튼 -->
+                <button
+                  class="button"
+                  id="payment-button"
+                  style="margin-top: 30px"
+                >
+                  결제하기
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="products-information-contianer">
+          <p id="product-information-title">주문 상품 정보</p>
+          <!-- 주문 상품 정보 -->
+          <% for(const cartItem of userCart) { %>
+          <div class="product-information">
+            <div class="product">
+              <div class="product-name"><%= cartItem.product_name %></div>
+              <div class="product-color"><%= cartItem.product_color %></div>
+              <div class="product-price">
+                <%= cartItem.product_price.toLocaleString() %>원
+              </div>
+              <div class="product-amount">
+                [<%= cartItem.product_amount %>개]
+              </div>
+            </div>
+            <div class="product-img">
+              <img src="<%= cartItem.product_img %>" alt="" />
+            </div>
+          </div>
+          <% } %>
+          <div id="total-information">
+            <div class="total">
+                <span>총 결제예정 개수</span>
+                <p id="total-amount">총 <%= totalAmount %>개</p>
+            </div>
+            <div class="total">
+                <span>총 결제예정 금액</span>
+                <p id="total-price"><%= totalPrice.toLocaleString() %></p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </main>
+    <%- include("../includes/footer") %>
+  </body>
+</html>
+
+<script>
+  document.addEventListener("DOMContentLoaded", function () {
+    main();
+  });
+
+  async function main() {
+    function generateOrderId() {
+      return "order-" + crypto.randomUUID(); // 고유한 주문번호 생성
+    }
+
+    const button = document.getElementById("payment-button");
+    const coupon = document.getElementById("coupon-box");
+    // ------  결제위젯 초기화 ------
+    const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
+    const tossPayments = TossPayments(clientKey);
+    // 회원 결제
+    const customerKey = "<%= user.id %>";
+    const widgets = tossPayments.widgets({
+      customerKey,
+    });
+    // 비회원 결제
+    // const widgets = tossPayments.widgets({ customerKey: TossPayments.ANONYMOUS });
+
+    // ------ 주문의 결제 금액 설정 ------
+    await widgets.setAmount({
+      currency: "KRW",
+      value: 50000,
+    });
+
+    await Promise.all([
+      // ------  결제 UI 렌더링 ------
+      widgets.renderPaymentMethods({
+        selector: "#payment-method",
+        variantKey: "DEFAULT",
+      }),
+      // ------  이용약관 UI 렌더링 ------
+      widgets.renderAgreement({
+        selector: "#agreement",
+        variantKey: "AGREEMENT",
+      }),
+    ]);
+
+    // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+    button.addEventListener("click", async function () {
+      const orderId = generateOrderId();
+      await widgets.requestPayment({
+        orderId: orderId,
+        orderName: "PANATA 결제",
+        successUrl: window.location.origin + "/success",
+        failUrl: window.location.origin + "/fail",
+        customerEmail: "customer123@gmail.com",
+        customerName: "<%= user.name %>",
+        customerMobilePhone: "<%= user.tel %>",
+      });
+    });
+  }
+</script>
