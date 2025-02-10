@@ -1,58 +1,84 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
-    <meta charset="utf-8" />
     <link rel="stylesheet" href="/styles/toss.css" />
+    <%- include("../includes/head") %>
+    <link rel="stylesheet" href="/styles/after-purchase.css" />
   </head>
   <body>
-    <h2>결제 성공</h2>
-    <p id="paymentKey"></p>
-    <p id="orderId"></p>
-    <p id="amount"></p>
-
-    <script>
-      // 쿼리 파라미터 값이 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
-      // 클라이언트에서 결제 금액을 조작하는 행위를 방지할 수 있습니다.
-      const urlParams = new URLSearchParams(window.location.search);
-      const paymentKey = urlParams.get("paymentKey");
-      const orderId = urlParams.get("orderId");
-      const amount = urlParams.get("amount");
-
-      async function confirm() {
-        const requestData = {
-          paymentKey: paymentKey,
-          orderId: orderId,
-          amount: amount,
-        };
-
-        const response = await fetch("/confirm", {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(requestData),
-        });
-
-        const json = await response.json();
-
-        if (!response.ok) {
-          // 결제 실패 비즈니스 로직을 구현하세요.
-          console.log(json);
-          window.location.href = `/fail?message=${json.message}&code=${json.code}`;
-        }
-
-        // 결제 성공 비즈니스 로직을 구현하세요.
-        console.log(json);
-      }
-      confirm();
-
-      const paymentKeyElement = document.getElementById("paymentKey");
-      const orderIdElement = document.getElementById("orderId");
-      const amountElement = document.getElementById("amount");
-
-      orderIdElement.textContent = "주문번호: " + orderId;
-      amountElement.textContent = "결제 금액: " + amount;
-      paymentKeyElement.textContent = "paymentKey: " + paymentKey;
-    </script>
+    <%- include("../includes/header") %> <%- include('../includes/aside')%>
+    <main>
+      <h2>결제 성공</h2>
+      <p id="paymentKey"></p>
+      <p id="orderId"></p>
+      <p id="amount"></p>
+      <a href="/" id="go-to-home">홈으로</a>
+    </main>
+    <%- include("../includes/footer") %>
   </body>
 </html>
+<script>
+  // 쿼리 파라미터 값이 결제 요청할 때 보낸 데이터와 동일한지 반드시 확인하세요.
+  // 클라이언트에서 결제 금액을 조작하는 행위를 방지할 수 있습니다.
+  const urlParams = new URLSearchParams(window.location.search);
+  const paymentKey = urlParams.get("paymentKey");
+  const orderId = urlParams.get("orderId");
+  const amount = urlParams.get("amount");
+
+  async function confirm() {
+    const customerAddress = localStorage.getItem("user_address");
+    const customerPhone = localStorage.getItem("user_phone");
+
+    const requestData = {
+      paymentKey: paymentKey,
+      orderId: orderId,
+      amount: amount,
+      address: customerAddress,
+      phone: customerPhone,
+    };
+
+    console.log("📌 서버로 보낼 결제 데이터:", requestData);
+
+    const response = await fetch("/confirm", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(requestData),
+    });
+
+    const json = await response.json();
+
+    if (!response.ok) {
+      // 결제 실패 비즈니스 로직을 구현하세요.
+      console.log(json);
+      window.location.href = `/fail?message=${json.message}&code=${json.code}`;
+      return;
+    }
+
+    // 결제 성공 비즈니스 로직을 구현하세요.
+    console.log("✅ 결제 승인 완료:", json);
+
+    // ✅ 결제 정보를 DB에 저장하는 요청 추가
+    await fetch("/payment-success", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(requestData),
+    });
+
+    localStorage.removeItem("user_address");
+    localStorage.removeItem("user_phone");
+
+    console.log("✅ 결제 정보 저장 요청 완료");
+  }
+
+  confirm();
+
+  const paymentKeyElement = document.getElementById("paymentKey");
+  const orderIdElement = document.getElementById("orderId");
+  const amountElement = document.getElementById("amount");
+
+  orderIdElement.textContent = "주문번호: " + orderId;
+  amountElement.textContent = "총 결제 금액: " + amount.toLocaleString() + "원";
+  paymentKeyElement.textContent = "paymentKey: " + paymentKey;
+</script>

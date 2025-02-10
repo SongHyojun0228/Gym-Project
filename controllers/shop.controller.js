@@ -243,6 +243,44 @@ async function getPurchasePage(req, res) {
   res.render("shop/purchase", { user: user, userCart: userCart, totalPrice: totalPrice, totalAmount: totalAmount });
 }
 
+
+// 📌결제 내역 저장 함수
+async function handlePaymentSuccess(req, res) {
+  if (!req.body || Object.keys(req.body).length === 0) {
+    console.error("❌ 요청 본문이 비어 있음!");
+    return res.status(400).json({ error: "잘못된 요청입니다." });
+  }
+
+  const { orderId, address, phone } = req.body;
+  const user = req.session.user;
+
+  if (!user) {
+    console.error("❌ 사용자 세션 없음");
+    return res.redirect("/shop");
+  }
+
+  try {
+    console.log("💾 결제 데이터 저장 시도...");
+    await shop.savePayment(orderId, user, req.session.cart || [], address, phone);
+    console.log("✅ 결제 정보 저장 완료:", orderId);
+
+    // ✅ 세션 장바구니 비우기
+    req.session.cart = [];
+    req.session.cartTotalAmount = 0;
+    req.session.cartTotalPrice = 0;
+
+    // ✅ 유저 장바구니 비우기 (DB 업데이트)
+    await shop.clearUserCart(user.username);
+    console.log("✅ 유저 장바구니 초기화 완료");
+
+    res.redirect("/success");
+  } catch (error) {
+    console.error("❌ 결제 정보 저장 오류:", error);
+    res.status(500).redirect("/fail");
+  }
+}
+
+
 // 📌상품 구매 성공 페이지 함수
 async function getSuccess(req, res) {
   res.render("shop/success");
@@ -264,6 +302,7 @@ module.exports = {
   updateCart,
   deleteCartProduct,
   getPurchasePage,
+  handlePaymentSuccess,
   getSuccess,
   getFail
 };

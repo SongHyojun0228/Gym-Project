@@ -12,11 +12,60 @@
     <main>
       <div>
         <!-- <h1 class="main-h1" id="h1-1">꾸준함이 진리다.</h1> -->
-        <h1 class="main-h1" id="h1-1">내일을 위해 오늘의 자신을 밀어붙여라.</h1>
-        <h1 class="main-h1" id="h1-2">도리안 예이츠</h1>
+        <h1 class="main-h1" id="h1-1"></h1>
+        <h1 class="main-h1" id="h1-2"></h1>
       </div>
     </main>
 
     <%- include("includes/footer") %>
   </body>
 </html>
+
+<script>
+  const quotes = [
+    { quote: "Yeah Buddy! Light Weight Baby!~", author: "- Ronnie Coleman -" },
+    { quote: "비결은 없다. 오직 열심히 할 뿐이다.", author: "- Ronnie Coleman -" },
+    { quote: "어제보다 더 열심히 훈련하라.", author: "- Jay Cutler -" },
+    {
+      quote: "실패지점에 도달했을 때, 그때야 비로소 진짜 운동이 시작된다.",
+      author: "- Ronnie Coleman -",
+    },
+    {
+      quote: "내일을 위해 오늘의 자신을 밀어붙여라.",
+      author: "- Dorian Yates -",
+    },
+    {
+      quote: "실패를 두려워하지 말아라.",
+      author: "- Arnold Schwarzenegger -",
+    },
+    {
+      quote: "너 자신을 믿어라.",
+      author: "- Arnold Schwarzenegger -",
+    },
+    { quote: "Thoughts become things.", author: "- Kai Greene -" },
+    { quote: "부정적이고 게으른 것은 병이다.", author: "- Phil Heath - " },
+    { quote: "당신의 행동이 결과를 만든다.", author: "- Chris Bumstead - " },
+
+    {
+      quote: "좋은 몸을 바라지만 말고, 그걸 위해 노력하라.",
+      author: "- Chris Bumstead - ",
+    },
+    { quote: "먹는 것까지가 운동이다.", author: "- 김종국 - " },
+    { quote: "ALL RIGHT 24.", author: "- 박재훈 - " },
+    { quote: "남자는 등이 커야 멋있어요.", author: "- 추성훈 - " },
+    {
+      quote: "몸이 좋아지고 싶으면 정신개조부터 해야 한다.",
+      author: "- 김건우 - ",
+    },
+  ];
+
+  function getRandomQuote() {
+    return quotes[Math.floor(Math.random() * quotes.length)];
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    const randomQuote = getRandomQuote();
+    document.getElementById("h1-1").textContent = randomQuote.quote;
+    document.getElementById("h1-2").textContent = randomQuote.author;
+  });
+</script>

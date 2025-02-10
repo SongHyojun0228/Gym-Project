@@ -1,6 +1,7 @@
 <div id="aside-container">
   <% if (typeof session !== "undefined" && session.isAuthenticated) { %>
-  <li class="aside-item" id="first"><a href="/shop">싱점</a></li>
+  <a href="/my-page" id="username"><%= session.user.username %></a>
+  <li class="aside-item" id="first"><a href="/shop">상점</a></li>
   <li class="aside-item"><a href="/cart">장바구니</a></li>
   <li class="aside-item"><a href="/community">커뮤니티</a></li>
   <li class="aside-item"><a href="/my-page">마이페이지</a></li>

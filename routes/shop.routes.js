@@ -44,7 +44,8 @@ router.post(
 
 router.post("/delete-cart-item", shopController.deleteCartProduct);
 
+router.post("/payment-success", shopController.handlePaymentSuccess);
 router.get("/success", shopController.getSuccess);
-router.get("/success", shopController.getFail);
+router.get("/fail", shopController.getFail);
 
 module.exports = router;

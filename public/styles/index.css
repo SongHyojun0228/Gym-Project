@@ -1,20 +1,34 @@
+@font-face {
+  font-family: 'KORAIL';
+  src: url('https://fastly.jsdelivr.net/gh/projectnoonnu/noonfonts_2212@1.0/KORAIL.woff2') format('woff2');
+  font-weight: normal;
+  font-style: normal;
+}
+
 main div {
   padding: 10rem 0;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .main-h1 {
-  padding: 5rem;
+  font-weight: 900;
   text-align: center;
-  font-size: 10rem;
-  color: white;
+  font-size: 5rem;
+  color: rgb(240, 240, 240);
+  margin: 0;
 }
 
 #h1-1 {
-  margin-bottom: 10rem;
+  margin-bottom: 1rem;
 }
 
 #h1-2 {
-  font-size: 8rem;
+  font-family: "KORAIL";
+  font-size: 3rem;
+  color: rgb(152, 41, 50);
 }
 
 footer {
@@ -22,19 +36,11 @@ footer {
 }
 
 @media (max-width: 90rem) {
-  main div {
-    display: flex;
-  }
   #h1-1 {
-    writing-mode: vertical-lr;
-    font-size: 5rem;
-    margin: auto;
+    font-size: 2rem;
   }
+
   #h1-2 {
-    writing-mode: vertical-lr;
-    text-orientation: upright;
-    font-size: 5rem;
-    margin: auto;
-    margin-left: 10rem;
+    font-size: 1.5rem;
   }
 }

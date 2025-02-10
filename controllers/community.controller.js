@@ -151,82 +151,77 @@ async function InsertPost(req, res) {
 }
 
 async function Comment(req, res) {
-  if (!req.session || !req.session.user) {
+  const { comment } = req.body;
+  const postId = req.params.id;
+  const user = req.session.user;
+
+  if (!user) {
     return res.status(401).json({ error: "로그인이 필요합니다.", redirect: "/login" });
   }
 
-  const postId = req.params.id;
-  const { comment } = req.body;
-
-  if (!comment) {
-    return res.status(400).json({ error: "댓글 내용을 입력하세요." });
+  if (!comment || !postId || !ObjectId.isValid(postId)) {
+    console.error("❌ 잘못된 요청: postId가 유효하지 않거나 comment가 없음");
+    return res.status(400).json({ error: "잘못된 요청입니다." });
   }
+
+  const authorProfile = user.profileImg || "/images/basic-profiles/default-profile.jpg"; // ✅ 기본 프로필 이미지 설정
 
   const newComment = {
     postId: new ObjectId(postId),
     comment: comment,
-    author: req.session.user.username,
-    user_id: req.session.user.id,
+    author: user.username,
+    authorProfile: authorProfile, // ✅ 명확하게 포함
     time: new Date(),
-    authorProfile: req.session.user.profileImg,
   };
 
   try {
     const result = await community.writeComment(newComment);
     newComment._id = result.insertedId;
-
-    console.log(req.session.user.profileImg);
-
-    res.status(201).json({
-      _id: newComment._id,
-      comment: newComment.comment,
-      author: newComment.author,
-      authorProfile: req.session.user.profileImg,
-      timeAgo: timeAgo(newComment.time),
-    });
+    newComment.timeAgo = timeAgo(newComment.time);
+    res.json(newComment);
   } catch (error) {
-    console.error("댓글 등록 오류 : ", error);
-    res.status(500).json({ error: "서버 오류 발생" });
+    console.error("❌ 댓글 저장 중 오류 발생:", error);
+    res.status(500).json({ error: "댓글 저장 중 오류가 발생했습니다." });
   }
 }
 
+
 async function ReplyComment(req, res) {
-  if (!req.session || !req.session.user) {
+  const { replyComment } = req.body;
+  const commentId = req.params.commentId;
+  const user = req.session.user;
+
+  if (!user) {
     return res.status(401).json({ error: "로그인이 필요합니다.", redirect: "/login" });
   }
 
-  const commentId = req.params.id;
-  const { replyComment } = req.body;
-
-  if (!ObjectId.isValid(commentId)) {
-    return res.status(400).json({ error: "잘못된 댓글 ID입니다." });
+  if (!replyComment) {
+    console.error("❌ 잘못된 요청: replyComment가 없음");
+    return res.status(400).json({ error: "잘못된 요청입니다." });
   }
 
-  const newReplyComment = {
+  const authorProfile = user.profileImg || "/images/basic-profiles/default-profile.jpg"; // ✅ 기본 프로필 이미지 설정
+
+  const newReply = {
     commentId: new ObjectId(commentId),
     comment: replyComment,
-    author: req.session.user.username,
-    user_id: req.session.user.id,
+    author: user.username,
+    authorProfile: authorProfile,
     time: new Date(),
-    authorProfile: req.session.user.profileImg,
   };
 
   try {
-    const result = await community.writeReplyComment(newReplyComment);
-    newReplyComment._id = result.insertedId;
-
-    res.status(201).json({
-      _id: newReplyComment._id,
-      comment: newReplyComment.comment,
-      author: newReplyComment.author,
-      authorProfile: req.session.user.profileImg,
-      timeAgo: timeAgo(newReplyComment.time),
-    });
+    const result = await community.writeReplyComment(newReply);
+    newReply._id = result.insertedId;
+    newReply.timeAgo = timeAgo(newReply.time);
+    res.json(newReply);
   } catch (error) {
-    console.error("답글 등록 오류: ", error);
-    res.status(500).json({ error: "서버 오류 발생" });
+    console.error("❌ 답글 작성 오류:", error);
+    res.status(500).json({ error: "답글 저장 중 오류가 발생했습니다." });
   }
 }
+
+
 
 async function ClickCPostLike(req, res) {
   const user = req.session.user;

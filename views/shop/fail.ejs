@@ -1,14 +1,20 @@
 <!DOCTYPE html>
 <html lang="ko">
   <head>
-    <meta charset="utf-8" />
     <link rel="stylesheet" href="/styles/toss.css" />
+    <%- include("../includes/head") %>
+    <link rel="stylesheet" href="/styles/after-purchase.css" />
   </head>
 
   <body>
-    <h2>결제 실패</h2>
-    <p id="code"></p>
-    <p id="message"></p>
+    <%- include("../includes/header") %> <%- include('../includes/aside')%>
+    <main>
+      <h2>결제 실패</h2>
+      <p id="code"></p>
+      <p id="message"></p>
+      <a href="/index" id="go-to-home">홈으로</a>
+    </main>
+    <%- include("../includes/footer") %>
   </body>
 </html>
 

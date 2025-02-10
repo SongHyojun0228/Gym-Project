@@ -127,7 +127,7 @@
       
       <div id="comment-container">
         <p id="comment-line">댓글</p>
-        <form action="/community/<%= post._id %>/comment" method="POST" id="form-comment" data-post-id="<%= post._id %>"
+        <form action="/community/<%= post._id %>/comment" method="POST" id="form-comment" data-post-id="<%= post._id || '' %>"
           >
           <input type="text" id="comment" name="comment" placeholder="댓글 추가..." />
           <button>작성</button>
@@ -167,7 +167,7 @@
 
                 <form 
                   action="/community/comment/<%= comment._id %>/reply" 
-                  method="POST" 
+                  method="POST"
                   class="form-reply-comment hidden" 
                   data-comment-id="<%= comment._id %>">
                   <input type="text" class="reply-comment" name="replyComment" placeholder="답글 추가..." />

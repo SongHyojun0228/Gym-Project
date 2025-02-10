@@ -97,12 +97,12 @@
           <% } %>
           <div id="total-information">
             <div class="total">
-                <span>총 결제예정 개수</span>
-                <p id="total-amount">총 <%= totalAmount %>개</p>
+              <span>총 결제예정 개수</span>
+              <p id="total-amount">총 <%= totalAmount %>개</p>
             </div>
             <div class="total">
-                <span>총 결제예정 금액</span>
-                <p id="total-price"><%= totalPrice.toLocaleString() %></p>
+              <span>총 결제예정 금액</span>
+              <p id="total-price"><%= totalPrice.toLocaleString() %></p>
             </div>
           </div>
         </div>
@@ -113,59 +113,83 @@
 </html>
 
 <script>
-  document.addEventListener("DOMContentLoaded", function () {
-    main();
-  });
-
-  async function main() {
+  document.addEventListener("DOMContentLoaded", async function () {
     function generateOrderId() {
       return "order-" + crypto.randomUUID(); // 고유한 주문번호 생성
     }
 
     const button = document.getElementById("payment-button");
-    const coupon = document.getElementById("coupon-box");
-    // ------  결제위젯 초기화 ------
-    const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
-    const tossPayments = TossPayments(clientKey);
-    // 회원 결제
-    const customerKey = "<%= user.id %>";
-    const widgets = tossPayments.widgets({
-      customerKey,
-    });
-    // 비회원 결제
-    // const widgets = tossPayments.widgets({ customerKey: TossPayments.ANONYMOUS });
+    if (!button) {
+      console.error("❌ 결제 버튼을 찾을 수 없습니다.");
+      return;
+    }
 
-    // ------ 주문의 결제 금액 설정 ------
-    await widgets.setAmount({
-      currency: "KRW",
-      value: 50000,
-    });
+    const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm"; // Toss Payments 테스트 키
+    if (!window.TossPayments) {
+      console.error("❌ TossPayments API 로드 실패");
+      return;
+    }
+
+    const tossPayments = TossPayments(clientKey);
+    const customerKey = "<%= user.id %>"; // 회원 ID
+    const widgets = tossPayments.widgets({ customerKey });
+
+    const totalPrice = "<%= totalPrice %>";
+    const totalPriceNum = Number(totalPrice);
+
+    await widgets.setAmount({ currency: "KRW", value: totalPriceNum });
 
     await Promise.all([
-      // ------  결제 UI 렌더링 ------
       widgets.renderPaymentMethods({
         selector: "#payment-method",
         variantKey: "DEFAULT",
       }),
-      // ------  이용약관 UI 렌더링 ------
       widgets.renderAgreement({
         selector: "#agreement",
         variantKey: "AGREEMENT",
       }),
     ]);
 
-    // ------ '결제하기' 버튼 누르면 결제창 띄우기 ------
+    const orderId = generateOrderId();
+
     button.addEventListener("click", async function () {
-      const orderId = generateOrderId();
-      await widgets.requestPayment({
-        orderId: orderId,
-        orderName: "PANATA 결제",
-        successUrl: window.location.origin + "/success",
-        failUrl: window.location.origin + "/fail",
-        customerEmail: "customer123@gmail.com",
-        customerName: "<%= user.name %>",
-        customerMobilePhone: "<%= user.tel %>",
-      });
+      console.log("✅ 결제 버튼 클릭됨");
+
+      const customerAddress = document.querySelector(
+        "input[name='user_address']"
+      ).value;
+      const customerPhone = document.querySelector(
+        "input[name='user_telPhone']"
+      ).value;
+
+      localStorage.setItem("user_address", customerAddress);
+      localStorage.setItem("user_phone", customerPhone);
+
+      try {
+        await widgets.requestPayment({
+          orderId: orderId,
+          orderName: "PANATA 결제",
+          successUrl: window.location.origin + "/success",
+          failUrl: window.location.origin + "/fail",
+          customerName: "<%= user.name %>",
+          customerMobilePhone: customerPhone,
+        });
+
+        const response = await fetch("/payment-success", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            orderId,
+            address: customerAddress,
+            phone: customerPhone,
+          }),
+        });
+
+        if (!response.ok) throw new Error("서버 응답 실패");
+        console.log("✅ 결제 정보 저장 완료");
+      } catch (error) {
+        console.error("❌ 결제 요청 오류:", error);
+      }
     });
-  }
+  });
 </script>

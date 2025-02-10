@@ -92,6 +92,38 @@ class Shop {
             { $pull: { cart: { productId: productId } } }
         );
     }
+
+    static async savePayment(orderId, user, cartItems, address, phone) {
+        const paymentData = {
+            orderId: orderId,
+            user: {
+                name: user.name,
+                username: user.username,
+                address: address,
+                phone: phone
+            },
+            items: cartItems.map(item => ({
+                productId: item.productId,
+                product_name: item.product_name,
+                product_color: item.product_color,
+                product_price: item.product_price,
+                product_amount: item.product_amount
+            })),
+            totalAmount: cartItems.reduce((sum, item) => sum + item.product_amount, 0),
+            totalPrice: cartItems.reduce((sum, item) => sum + item.product_price, 0),
+            createdAt: new Date()
+        };
+
+        await db.getDb().collection("payments").insertOne(paymentData);
+    }
+
+    static async clearUserCart(username) {
+        await db.getDb().collection("users").updateOne(
+            { username: username },
+            { $set: { cart: [] } } 
+        );
+    }
+
 }
 
 module.exports = Shop;
