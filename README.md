@@ -8,7 +8,7 @@
 <br>
 <br>
 
-<h2>📌프로젝트 소개</h2>
+<h2>📌 프로젝트 소개</h2>
 <h3><ins>PANATA는 운동, 특히 헬스를 좋아하는 사람들을 위한 커뮤니티 및 스토어 플랫폼입니다.</ins></h3>
 <p>PANATA 사용자들은 팝업이나 대회(경기)를 빠르게 접할 수 있고, 운동 관련 팁을 얻을 수 있습니다.</p>
 <p>또한, 다양한 브랜드의 벨트나 스트랩 등 운동 관련 용품을 동시에 구매할 수 있습니다.</p>
@@ -16,8 +16,8 @@
 <br>
 <br>
 
-<h2>🔥주요기능</h2>
-<h3>✅🏆국내외 대회일정 및 선수들의 업로드</h3>
+<h2>🔥 주요기능</h2>
+<h3>✅🏆 국내외 대회일정 및 선수들의 업로드</h3>
 <p>- 최신 헬스 뉴스 및 피트니스 대회 일정 제공</p>
 
 <h3>✅💬 헬스 커뮤니티</h3>
@@ -63,6 +63,8 @@
 |:-:|:-:|
 | <img width="1920" alt="마이페이지" src="https://github.com/user-attachments/assets/2567cbc9-9cba-49eb-85a8-8c4540e33c7d" /> | <img width="1920" alt="마이페이지" src="https://github.com/user-attachments/assets/deaaa97a-617c-47ec-9fd3-d5103ffa3463" /> |
 
+<br>
+<br>
 
 <h2>🚀 기술 스택</h2>
 <h3>👨🏻‍💻Frontend : HTML, CSS, JavaScript</h3>
