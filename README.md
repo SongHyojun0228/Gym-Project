@@ -34,7 +34,7 @@
 <h2>📸프로젝트 사진</h2>
 |홈 화면|회원가입 화면|로그인 화면|
 |:-:|:-:|:-:|
-|![홈]([images/home.png](https://github.com/user-attachments/assets/85bfac56-1aa5-430a-b37c-9022918591ff))|![로그인](images/login.png)|![대시보드](images/dashboard.png)|
+|![홈](https://github.com/user-attachments/assets/85bfac56-1aa5-430a-b37c-9022918591ff)|![로그인](images/login.png)|![대시보드](images/dashboard.png)|
 메인 화면
 <img width="1920" alt="Image" src="https://github.com/user-attachments/assets/85bfac56-1aa5-430a-b37c-9022918591ff" />
 
