@@ -116,10 +116,9 @@ async function changeNickname(req, res) {
   }
 
   await mypage.changeUsername(sessionUserName, enteredUsername);
-
   await community.changePostAuthor(sessionUserName, enteredUsername);
-
   await community.changeCommentAuthor(sessionUserName, enteredUsername);
+  await community.changeReplyAuthor(sessionUserName, enteredUsername);
 
   sessionUser.username = enteredUsername;
 
@@ -149,6 +148,9 @@ async function changeName(req, res) {
 
   await mypage.changeName(sessionName, enteredName);
   sessionUser.name = enteredName;
+
+  await community.changeCommentAuthor(sessionName, enteredName);
+  await community.changeReplyAuthor(sessionName, enteredName);
 
   res.redirect("/my-page");
 }

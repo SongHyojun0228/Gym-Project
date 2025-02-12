@@ -61,6 +61,13 @@ class Community {
       .updateMany({ author: nickname }, { $set: { author: changename } });
   }
 
+  static async changeReplyAuthor(nickname, changename) {
+    await db
+      .getDb()
+      .collection("replies")
+      .updateMany({ author: nickname }, { $set: { author: changename } });
+  }
+
   static async getComments(postid) {
     const comments = await db
       .getDb()

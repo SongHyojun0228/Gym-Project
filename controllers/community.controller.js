@@ -85,7 +85,6 @@ async function getCommunityDetail(req, res) {
 
       for (const reply of replies) {
         const replyAuthor = await community.getReplyAuthor(reply.author);
-        console.log(replyAuthor);
         const replyAuthorProfile = replyAuthor.user_img;
         reply.timeAgo = timeAgo(reply.time);
         reply.authorProfile = replyAuthorProfile;
