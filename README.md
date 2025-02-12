@@ -35,24 +35,24 @@
 <h3>1️⃣ 프로젝트 클론</h3>
 
 ```
-<p>git clone https://github.com/yourusername/healthhub.git</p>
-<p>cd healthhub</p>
+git clone https://github.com/yourusername/healthhub.git
+cd healthhub
 ```
 
 <h3>2️⃣ 패키지 설치</h3>
 
 ```
-<p>npm install</p>
+npm install
 ```
 
 <h3>3️⃣ 서버 실행</h3>
 
 ```
-<p>npm start</p>
+npm start
 ```
 
 <h3>4️⃣ 로컬 환경에서 접속</h3>
 
 ```
-<p>http://localhost:3000</p>
+http://localhost:3000
 ```
