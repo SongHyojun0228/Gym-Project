@@ -1,6 +1,5 @@
-<img src="https://capsule-render.vercel.app/api?type=모양&color=색상코드&height=높이&section=header&text=텍스트&fontSize=텍스트크기" />
+<img src="[https://capsule-render.vercel.app/api](https://www.google.com/url?sa=i&url=https%3A%2F%2Fen.namu.wiki%2Fw%2F%25EB%25AF%25B8%25EC%258A%25A4%25ED%2584%25B0%2520%25EC%2598%25AC%25EB%25A6%25BC%25ED%2594%25BC%25EC%2595%2584&psig=AOvVaw3wQ7HjyA9IemAd_aoSAcF7&ust=1739454641900000&source=images&cd=vfe&opi=89978449&ved=0CBQQjRxqFwoTCJi5pdOjvosDFQAAAAAdAAAAABAE)?type=모양&color=색상코드&height=높이&section=header&text=텍스트&fontSize=텍스트크기" />
 
-출처: https://hulrud.tistory.com/3 [주독야독:티스토리]
 ### 헬스(운동)관련 프로젝트
 
 ### 헬스 소식(예를 들어, 팝업이나 경기 소식 등)을 알 수 있는 커뮤니티
