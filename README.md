@@ -1,5 +1,8 @@
 <img src="https://github.com/user-attachments/assets/ad1ffd28-2e11-40cb-b2a9-0fa842de3980" alt="Mr.Olympia">
 
+<br>
+<br>
+
 <h1>💪🏻PANATA - 헬스 커뮤니티 & 스토어</h1>
 
 <br>
