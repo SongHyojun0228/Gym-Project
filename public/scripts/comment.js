@@ -40,7 +40,6 @@ document.addEventListener("DOMContentLoaded", () => {
       }
 
       const responseData = await response.json();
-      console.log("📢 댓글 응답 데이터:", responseData);  // ✅ authorProfile이 있는지 확인
 
       const li = document.createElement("li");
       li.className = "comment-li";
@@ -67,7 +66,7 @@ document.addEventListener("DOMContentLoaded", () => {
         </form>
       `;
 
-      commentList.prepend(li);
+      commentList.appendChild(li);
       commentInput.value = "";
     } catch (error) {
       alert("댓글 작성 중 오류가 발생했습니다.");
@@ -93,6 +92,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const replyComment = replyCommentInput.value.trim();
       const commentId = event.target.dataset.commentId;
 
+      if (!commentId) {
+        alert("❌ commentId가 정의되지 않았습니다.");
+        return;
+      }
+
       if (!replyComment) {
         alert("답글을 입력하세요.");
         return;
@@ -114,7 +118,17 @@ document.addEventListener("DOMContentLoaded", () => {
 
         const responseData = await response.json();
 
-        const replyList = document.getElementById(`reply-list-${commentId}`);
+        let replyList = document.getElementById(`reply-list-${commentId}`);
+
+        if (!replyList) {
+          replyList = document.createElement("ul");
+          replyList.id = `reply-list-${commentId}`;
+          replyList.classList.add("reply-list", "hidden");
+        
+          const commentItem = event.target.closest(".comment-li");
+          commentItem.appendChild(replyList);
+        }
+
         const li = document.createElement("li");
         li.className = "reply-item";
         li.innerHTML = `
@@ -127,7 +141,7 @@ document.addEventListener("DOMContentLoaded", () => {
           </div>
         `;
 
-        replyList.prepend(li);
+        replyList.appendChild(li);
         replyCommentInput.value = "";
         replyList.classList.remove("hidden");
       } catch (error) {
@@ -135,4 +149,18 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+
+  document.addEventListener("click", (event) => {
+    if (event.target.classList.contains("reply-show-btn")) {
+      const commentId = event.target.dataset.commentId;
+      const replyList = document.getElementById(`reply-list-${commentId}`);
+
+      if (replyList) {
+        replyList.classList.toggle("hidden");
+      } else {
+        console.error(`❌ reply-list-${commentId} 요소를 찾을 수 없습니다.`);
+      }
+    }
+  });
+
 });

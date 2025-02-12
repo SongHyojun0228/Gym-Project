@@ -1,3 +1,11 @@
+main {
+  height: 100vh;
+}
+
+h2 {
+  margin-top: 20vh;
+}
+
 #form-div {
   width: 25rem;
   margin: 0 auto;

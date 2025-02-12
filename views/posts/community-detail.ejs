@@ -182,18 +182,20 @@
 
                 <!-- 답글 리스트 -->
                 <ul class="reply-list hidden" id="reply-list-<%= comment._id %>">
-                  <% for (const reply of comment.replies) { %>
-                    <li class="reply-item">
-                      <div class="reply-author-profile">
-                        <img src="<%= comment.authorProfile %>" alt="프로필 이미지">
-                      </div>
-                      <div>
-                        <p class="user-info"><%= reply.author %><span class="reply-time"><%= reply.timeAgo %></span></p>
-                        <p class="reply-comment"><%= reply.comment %></p>
-                      </div>
-                    </li>
+                  <% if (comment.replies && comment.replies.length > 0) { %>
+                    <% for (const reply of comment.replies) { %>
+                      <li class="reply-item">
+                        <div class="reply-author-profile">
+                          <img src="<%= reply.authorProfile %>" alt="프로필 이미지">
+                        </div>
+                        <div>
+                          <p class="user-info"><%= reply.author %><span class="reply-time"><%= reply.timeAgo %></span></p>
+                          <p class="reply-comment"><%= reply.comment %></p>
+                        </div>
+                      </li>
+                    <% } %>
                   <% } %>
-                </ul>
+                </ul>                
               </li>
             <% } %>
           </ul>

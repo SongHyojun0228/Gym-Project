@@ -118,7 +118,7 @@ async function Signup(req, res) {
       user_username,
     );
 
-    const profileImg = "/images/basic-profiles/basic-profile1.jpg";
+    const profileImg = "/images/basic-profiles/default-profile.png";
 
     await newUser.save(user_id, user_pw, user_name, user_phone, user_username, profileImg);
 

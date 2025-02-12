@@ -1,5 +1,13 @@
+main {
+  height: 100vh;
+}
+
+h2 {
+  margin-top: 20vh;
+}
+
 #form-container {
-  margin: 5rem auto;
+  margin: 0 auto 5rem auto;
   width: 40rem;
   border: 2px solid rgb(63, 63, 63);
   border-radius: 6px;
@@ -17,7 +25,8 @@ label {
   color: rgb(240, 240, 240);
 }
 
-input {
+#username,
+#name {
   width: 30rem;
   padding: 1rem;
   font-size: 1rem;
@@ -31,20 +40,28 @@ input {
   transition: width 0.5s ease-in-out;
 }
 
-input:focus {
+#username:focus,
+#name:focus {
   border: none;
   outline: 2px solid rgb(152, 41, 50);
 }
 
-input::placeholder {
+#username::placeholder,
+#name::placeholder {
   color: rgb(240, 240, 240);
   font-family: inherit;
   font-size: 1rem;
 }
 
+#username:-webkit-autofill,
+#name:-webkit-autofill {
+  box-shadow: 0 0 0 1000px rgb(63, 63, 63) inset !important;
+  -webkit-text-fill-color: rgb(240, 240, 240) !important;
+}
+
 #caution {
   margin-top: 0.5rem;
-  color: red;
+  color: rgb(152, 41, 50);
   text-align: center;
 }
 

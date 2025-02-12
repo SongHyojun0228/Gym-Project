@@ -38,19 +38,23 @@ async function getMypage(req, res) {
     const sessionUserName = sessionUser.username;
 
     const user = await mypage.getUserByNickname(sessionUserName);
+    const payments = await mypage.loadUserPayments(sessionUserName);
+    const posts = await community.getPostByNickName(sessionUserName);
 
-    const posts = await community.getPostByNickName(user.username);
+    for (const post of posts) {
+      const comments = await community.getComments(post._id);
 
-    posts.forEach((post) => {
-      if (post.content.length > 30) {
-        post.shortContent = post.content.substring(0, 30) + "...";
-      } else {
-        post.shortContent = post.content;
-      }
+      post.shortContent =
+        post.content.length > 30
+          ? post.content.substring(0, 30) + "..."
+          : post.content;
       post.timeAgo = timeAgo(post.time);
-    });
+      post.commentCount = comments.length;
+      const postAuthorProfile = await community.getPostAuthor(post.author);
+      post.authorProfile = postAuthorProfile.user_img;
+    }
 
-    res.render("mypage/my-page", { user: user, posts: posts });
+    res.render("mypage/my-page", { user: user, posts: posts, payments: payments });
   } catch (error) {
     console.error("게시물 로드 중 오류:", error);
     res.status(500).render("errors/500");
@@ -98,9 +102,7 @@ async function changeNickname(req, res) {
 
   const sessionUser = req.session.user;
   const sessionUserName = sessionUser.username;
-
   const enteredUsername = req.body.username;
-  const message = "";
 
   const user = await mypage.getUserByNickname(sessionUserName);
 
@@ -142,10 +144,11 @@ async function getChangeName(req, res) {
 // 🔥이름 수정🔥
 async function changeName(req, res) {
   const sessionUser = req.session.user;
-  const sessionUserName = sessionUser.name;
+  const sessionName = sessionUser.name;
   const enteredName = req.body.name;
 
-  await mypage.changeName(sessionUserName, enteredName);
+  await mypage.changeName(sessionName, enteredName);
+  sessionUser.name = enteredName;
 
   res.redirect("/my-page");
 }

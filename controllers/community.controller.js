@@ -26,11 +26,12 @@ function timeAgo(time) {
 
 async function getCommunity(req, res) {
   try {
-    const user = req.session.user || {};
+    const user = req.session.user;
     const posts = await community.getAllPost();
 
     for (const post of posts) {
-      const comments = await community.getComments(post._id);
+      const postId = post._id.toString();
+      const comments = await community.getComments(postId);
 
       post.shortContent =
         post.content.length > 30
@@ -58,6 +59,7 @@ async function getCommunityDetail(req, res) {
 
   try {
     const post = await community.getOnePost(PostId);
+    console.log("✅ 게시물 자세히 보기 : ", PostId);
     const postAuthorProfile = await community.getPostAuthor(post.author);
     post.authorProfile = postAuthorProfile.user_img;
 
@@ -67,19 +69,23 @@ async function getCommunityDetail(req, res) {
         .render("errors/404", { message: "게시물을 찾을 수 없습니다." });
     }
 
-    const comments = await community.getComments(new ObjectId(PostId));
+    const comments = await community.getComments(PostId);
     const commentCount = comments.length;
     post.timeAgo = timeAgo(post.time);
 
     for (const comment of comments) {
+
       comment.timeAgo = timeAgo(comment.time);
-      const replies = await community.getReplyComments(comment._id);
+
+      const commentId = comment._id.toString();
+      const replies = await community.getReplyComments(commentId);
       const replyCommentCount = replies.length;
       const commentAuthor = await community.getCommentAuthor(comment.author);
       const commentAuthorProfile = commentAuthor.user_img;
 
       for (const reply of replies) {
-        const replyAuthor = await community.getReplyAuthor(comment.author);
+        const replyAuthor = await community.getReplyAuthor(reply.author);
+        console.log(replyAuthor);
         const replyAuthorProfile = replyAuthor.user_img;
         reply.timeAgo = timeAgo(reply.time);
         reply.authorProfile = replyAuthorProfile;
@@ -88,6 +94,7 @@ async function getCommunityDetail(req, res) {
       comment.repliesCount = replyCommentCount;
       comment.authorProfile = commentAuthorProfile;
     }
+
 
     if (!Array.isArray(post.likes)) {
       post.likes = [];
@@ -164,13 +171,13 @@ async function Comment(req, res) {
     return res.status(400).json({ error: "잘못된 요청입니다." });
   }
 
-  const authorProfile = user.profileImg || "/images/basic-profiles/default-profile.jpg"; // ✅ 기본 프로필 이미지 설정
+  const authorProfile = user.profileImg || "/images/basic-profiles/default-profile.png";
 
   const newComment = {
-    postId: new ObjectId(postId),
+    postId: postId,
     comment: comment,
     author: user.username,
-    authorProfile: authorProfile, // ✅ 명확하게 포함
+    authorProfile: authorProfile,
     time: new Date(),
   };
 
@@ -188,7 +195,9 @@ async function Comment(req, res) {
 
 async function ReplyComment(req, res) {
   const { replyComment } = req.body;
-  const commentId = req.params.commentId;
+  const commentId = req.params.id;
+  console.log("📢 저장하는 commentId:", commentId);
+
   const user = req.session.user;
 
   if (!user) {
@@ -200,10 +209,10 @@ async function ReplyComment(req, res) {
     return res.status(400).json({ error: "잘못된 요청입니다." });
   }
 
-  const authorProfile = user.profileImg || "/images/basic-profiles/default-profile.jpg"; // ✅ 기본 프로필 이미지 설정
+  const authorProfile = user.profileImg || "/images/basic-profiles/default-profile.png"; // ✅ 기본 프로필 이미지 설정
 
   const newReply = {
-    commentId: new ObjectId(commentId),
+    commentId: commentId,
     comment: replyComment,
     author: user.username,
     authorProfile: authorProfile,

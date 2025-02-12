@@ -65,18 +65,24 @@
             >변경</a
           >
         </div>
-        <a href="/find-pw" id="gotopw">비밀번호 변경</a>
       </div>
-      
+
       <div id="post-container">
         <% posts.forEach((post) => { %>
         <div class="post-items">
-          <p class="post-detail">
-            <%= post.author %><span class="post-time"><%= post.timeAgo %></span>
-          </p>
+          <div class="title-container">
+            <div class="post-author-profile">
+              <img src="<%= post.authorProfile%>" alt="" />
+            </div>
+            <p class="post-detail">
+              <%= post.author %><span class="post-time"
+                ><%= post.timeAgo %></span
+              >
+            </p>
+          </div>
 
           <p class="content" data-post-id="<%= post._id %>">
-            <%= post.content %>
+            <%- post.content.replace(/\n/g, '<br />') %>
           </p>
 
           <!-- 버튼 -->
@@ -142,9 +148,74 @@
               <span class="visually-hidden">Next</span>
             </button>
           </div>
-          <% } %>
+          <% } %> <div class="post-detail-container" data-post-id="<%= post._id
+          %>"">
+          <div class="icon-container">
+            <img
+              src="<%= post.likes.includes(user.username) ? '/images/click-like.png' : '/images/basic-like.png' %>"
+              class="like-icon"
+              alt="좋아요 버튼"
+            />
+          </div>
+          <div class="number-of-likes-container">
+            <p class="number-of-likes"><%= post.like %></p>
+          </div>
+          <!-- <div class="icon-container">
+              <img src="/images/basic-like.png" class="hate-icon" alt="" />
+            </div> -->
+          <div class="icon-container">
+            <a href="/community/<%= post._id%>">
+              <img src="/images/comment.png" class="comment-icon" alt="" />
+            </a>
+          </div>
+          <div class="number-of-comments-container">
+            <p class="number-of-comments"><%= post.commentCount %></p>
+          </div>
         </div>
-        <% }); %>
+      </div>
+      <% }); %>
+
+      <div id="payments-container">
+        <h3>구매내역</h3>
+        <% if (Array.isArray(payments) && payments.length > 0) { %> <% for
+        (const payment of payments) { %>
+        <div class="payment">
+          <p class="payment-date"><%= payment.date %></p>
+          <% if (Array.isArray(payment.items) && payment.items.length > 0) { %>
+          <% payment.items.forEach((product, index) => { %>
+          <!-- ✅ forEach 사용하여 index 활용 -->
+          <div
+            class="product <%= index === payment.items.length - 1 ? 'last-product' : '' %>"
+          >
+            <a href="/product/<%= product.productId %>">
+              <div class="product-img">
+                <img src="<%= product.product_img %>" alt="상품 이미지" />
+              </div>
+            </a>
+            <div class="product-detail">
+              <p class="product-name product-description">
+                <%= product.product_name %>
+              </p>
+              <p class="product-color product-description">
+                <%= product.product_color %>
+              </p>
+              <p class="product-price product-description">
+                <%= product.product_price.toLocaleString() %>원
+              </p>
+              <p class="product-amount product-description">
+                <%= product.product_amount %>개
+              </p>
+            </div>
+          </div>
+          <% }); %> <% } else { %>
+          <p class="caution">상품 정보가 없습니다.</p>
+          <% } %>
+          <p class="total">총 결제 수량 : <%= payment.totalAmount.toLocaleString() %>개</p>
+          <p class="total">총 결제 금액 : <%= payment.totalPrice.toLocaleString() %>원</p>
+        </div>
+        <% } %> <% } else { %>
+        <p class="caution">결제 내역이 없습니다.</p>
+        <% } %>
       </div>
     </main>
     <%-include('../includes/footer')%>

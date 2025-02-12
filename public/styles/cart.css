@@ -2,7 +2,7 @@ h2 {
   font-size: 2rem;
   color: rgb(240, 240, 240);
   margin: 0;
-  margin-block: 2rem;
+  margin-block: 4rem 2rem;
 }
 
 .cart-item {

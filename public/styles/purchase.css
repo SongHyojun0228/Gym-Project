@@ -52,6 +52,16 @@
   font-size: 1rem;
 }
 
+.orderer-items input:focus {
+  outline: 2px solid rgb(152, 41, 50);
+}
+
+.orderer-items input:-webkit-autofill {
+  box-shadow: 0 0 0 1000px rgb(15, 15, 15) inset !important;
+  -webkit-text-fill-color: rgb(240, 240, 240) !important;
+}
+
+
 #toss {
   background-color: white;
   border-radius: 6px;

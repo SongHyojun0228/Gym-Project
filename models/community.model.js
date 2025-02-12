@@ -66,6 +66,7 @@ class Community {
       .getDb()
       .collection("comments")
       .find({ postId: postid })
+      .sort({ time: 1 })
       .toArray();
 
     return comments;
@@ -102,6 +103,7 @@ class Community {
       .getDb()
       .collection("posts")
       .findOne({ author: a });
+
     const Author = await db
       .getDb()
       .collection("users")
@@ -127,10 +129,13 @@ class Community {
       .getDb()
       .collection("replies")
       .findOne({ author: a });
+
+    const authorName = replyAuthor.author;
+
     const Author = await db
       .getDb()
       .collection("users")
-      .findOne({ username: replyAuthor.author });
+      .findOne({ username: authorName });
 
     return Author;
   }

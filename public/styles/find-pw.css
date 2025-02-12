@@ -1,3 +1,11 @@
+main {
+  height: 100vh;
+}
+
+h2 {
+  margin-top: 20vh;
+}
+
 #form-div {
   width: 25rem;
   margin: 0 auto;
@@ -42,7 +50,7 @@
 }
 
 .caution {
-  color: red;
+  color: rgb(152, 41, 50);
   font-size: 0.9rem;
   margin-top: 0.5rem;
   margin-left: 0.1rem;
@@ -88,17 +96,15 @@
 
 #items-div {
   margin-top: 1rem;
-  text-align: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
 }
 
 .items {
   text-decoration: none;
   font-size: 1rem;
-  color: rgba(0, 0, 0, 0.4);
-}
-
-#gotojoin {
-  color: rgb(0, 0, 0, 0.65);
+  color: rgb(240, 240, 240);
 }
 
 #gotojoin:hover {
@@ -113,6 +119,6 @@
 
 span {
   font-size: 1.5rem;
-  color: rgba(0, 0, 0, 0.1);
+  color: rgb(63, 63, 63);
   padding-inline: 1rem;
 }

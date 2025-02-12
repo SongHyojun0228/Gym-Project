@@ -94,6 +94,9 @@ class Shop {
     }
 
     static async savePayment(orderId, user, cartItems, address, phone) {
+        const today = new Date();
+        const formattedDate = today.toLocaleDateString("ko-KR").replace(/-/g, ".");
+
         const paymentData = {
             orderId: orderId,
             user: {
@@ -104,6 +107,7 @@ class Shop {
             },
             items: cartItems.map(item => ({
                 productId: item.productId,
+                product_img: item.product_img,
                 product_name: item.product_name,
                 product_color: item.product_color,
                 product_price: item.product_price,
@@ -111,7 +115,7 @@ class Shop {
             })),
             totalAmount: cartItems.reduce((sum, item) => sum + item.product_amount, 0),
             totalPrice: cartItems.reduce((sum, item) => sum + item.product_price, 0),
-            createdAt: new Date()
+            date: formattedDate
         };
 
         await db.getDb().collection("payments").insertOne(paymentData);

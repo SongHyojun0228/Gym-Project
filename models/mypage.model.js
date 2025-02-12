@@ -37,6 +37,24 @@ class Mypage {
       .collection("users")
       .updateOne({ name: name }, { $set: { name: changename } });
   }
+
+  static async loadUserPayments(username) {
+    const payments = await db
+      .getDb()
+      .collection("payments")
+      .find({"user.username" : username}).toArray();
+
+    return payments;
+  }
+
+  static async loadUserPayments(username) {
+    const payments = await db
+      .getDb()
+      .collection("payments")
+      .find({"user.username" : username}).toArray();
+
+    return payments;
+  }
 }
 
 module.exports = Mypage;
