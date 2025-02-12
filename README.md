@@ -31,6 +31,35 @@
 <br>
 <br>
 
+<h2>📸프로젝트 사진</h2>
+|홈 화면|회원가입 화면|로그인 화면|
+|:-:|:-:|:-:|
+|![홈]([images/home.png](https://github.com/user-attachments/assets/85bfac56-1aa5-430a-b37c-9022918591ff))|![로그인](images/login.png)|![대시보드](images/dashboard.png)|
+메인 화면
+<img width="1920" alt="Image" src="https://github.com/user-attachments/assets/85bfac56-1aa5-430a-b37c-9022918591ff" />
+
+회원가입
+<img width="1920" alt="Image" src="https://github.com/user-attachments/assets/c08063e0-fec2-474c-aa22-2ffa5c2d095f" />
+
+로그인
+<img width="1920" alt="Image" src="https://github.com/user-attachments/assets/137cbd72-a925-474e-b72c-9e9456c0c715" />
+
+커뮤니티
+<img width="1920" alt="Image" src="https://github.com/user-attachments/assets/2ba28ad6-acad-4852-ac25-cdc737852e10" />
+<img width="1920" alt="Image" src="https://github.com/user-attachments/assets/cf03df98-4e21-42fb-ba75-8f2b45ab384f" />
+
+상점 및 장바구니
+
+<img width="1920" alt="Image" src="https://github.com/user-attachments/assets/c27aec31-e2f6-43ca-b86d-4c91896d8d84" />
+
+<img width="1920" alt="Image" src="https://github.com/user-attachments/assets/4ab4b367-9b6c-44f8-87c1-e8ad3d426466" />
+
+마이페이지
+
+<img width="1920" alt="Image" src="https://github.com/user-attachments/assets/2567cbc9-9cba-49eb-85a8-8c4540e33c7d" />
+
+<img width="1920" alt="Image" src="https://github.com/user-attachments/assets/deaaa97a-617c-47ec-9fd3-d5103ffa3463" />
+
 <h2>🚀 기술 스택</h2>
 <h3>👨🏻‍💻Frontend : HTML, CSS, JavaScript</h3>
 <h3>👨🏻‍💻Backend : NodeJs, Express</h3>
