@@ -78,7 +78,7 @@
 
 ```
 git clone https://github.com/SongHyojun0228/Gym-Projects.git
-cd healthhub
+cd Gym-Projects
 ```
 
 <h3>2️⃣ 패키지 설치</h3>
@@ -90,7 +90,7 @@ npm install
 <h3>3️⃣ 서버 실행</h3>
 
 ```
-npm start
+nodemon app.js
 ```
 
 <h3>4️⃣ 로컬 환경에서 접속</h3>
