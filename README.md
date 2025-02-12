@@ -1,6 +1,6 @@
 <img src="https://github.com/user-attachments/assets/ad1ffd28-2e11-40cb-b2a9-0fa842de3980" alt="Mr.Olympia">
 
-<h1>💪🏻헬스(운동)관련 프로젝트</h1>
+<h1>PANATA 헬스 커뮤니티 & 스토어</h1>
 <br>
 <h2>프로젝트 소개</h2>
 <p>헬스 소식(예를 들어, 팝업이나 경기 소식 등)을 알 수 있는 커뮤니티</p>
