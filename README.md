@@ -26,6 +26,7 @@
 <br>
 
 <h2>🚀 기술 스택</h2>
+[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=SongHyojun0228)](https://github.com/anuraghazra/github-readme-stats)
 
 <br>
 
