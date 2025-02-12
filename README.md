@@ -13,20 +13,19 @@
 
 <h2>🔥주요기능</h2>
 <h3>✅🏆국내외 대회일정 및 선수들의 업로드</h3>
-* 최신 헬스 뉴스 및 피트니스 대회 일정 제공
+<p>- 최신 헬스 뉴스 및 피트니스 대회 일정 제공</p>
+
 <h3>✅💬 헬스 커뮤니티</h3>
-* 질문 & 답변 기능 (Q&A)
-<br>
-* 운동 루틴 공유 및 피드백
+<p>- 질문 & 답변 기능 (Q&A)</p>
+<p>- 운동 루틴 공유 및 피드백</p>
+
 <h3>✅🛒 운동 용품 스토어</h3>
-* 기능성 운동복, 스트랩, 벨트 등 다양한 상품
-<br>
-* 안전한 결제 시스템 지원
+<p>- 기능성 운동복, 스트랩, 벨트 등 다양한 상품</p>
+<p>- 안전한 결제 시스템 지원</p>
 
 <br>
 
 <h2>🚀 기술 스택</h2>
-[![Top Langs](https://github-readme-stats.vercel.app/api/top-langs/?username=SongHyojun0228)](https://github.com/anuraghazra/github-readme-stats)
 
 <br>
 
