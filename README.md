@@ -42,7 +42,7 @@
 <h3>1️⃣ 프로젝트 클론</h3>
 
 ```
-git clone https://github.com/yourusername/healthhub.git
+git clone https://github.com/SongHyojun0228/Gym-Projects.git
 cd healthhub
 ```
 
