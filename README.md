@@ -27,7 +27,7 @@
 
 <h2>🚀 기술 스택</h2>
 <p>Frontend : HTML, CSS, JavaScript</p>
-<p>Backend : NodeJs, Express</p>
+<p>Backend : NodeJs, Express</p>
 
 <br>
 
