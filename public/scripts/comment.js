@@ -98,7 +98,6 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 답글 작성 처리
-  // 답글 작성 처리
   document.addEventListener("submit", async (event) => {
     if (event.target.classList.contains("form-reply-comment")) {
       event.preventDefault();
