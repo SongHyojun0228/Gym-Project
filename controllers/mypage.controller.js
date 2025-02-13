@@ -1,4 +1,3 @@
-const db = require("../data/database");
 const express = require("express");
 
 const app = express();

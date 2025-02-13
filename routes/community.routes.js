@@ -4,6 +4,7 @@ const multer = require("multer");
 const path = require("path");
 
 const communiytController = require("../controllers/community.controller");
+const checkAuth = require("../utils/checkAuth");
 
 const storage = multer.diskStorage({
   destination: "./public/uploads/posts",
@@ -15,13 +16,13 @@ const storage = multer.diskStorage({
 const upload = multer({ storage: storage });
 
 router.get("/community", communiytController.getCommunity);
-
 router.get("/community/:id", communiytController.getCommunityDetail);
 
-router.post("/community/:id/comment", communiytController.Comment);
+router.post("/community/:id/comment", checkAuth.requirePostLogin, communiytController.Comment);
+router.post("/community/comment/:id/reply", checkAuth.requirePostLogin, communiytController.ReplyComment);
+router.post("/community/:id/like", checkAuth.requirePostLogin, communiytController.ClickCPostLike);
 
-router.get("/insert-post", communiytController.getInsertPost);
-
+router.get("/insert-post", checkAuth.requireAdmin, communiytController.getInsertPost);
 router.post(
   "/insert-post",
   upload.fields([
@@ -31,12 +32,8 @@ router.post(
     { name: "img4", maxCount: 1 },
     { name: "img5", maxCount: 1 },
   ]),
+  checkAuth.requireAdmin,
   communiytController.InsertPost,
 );
-
-router.post("/community/comment/:id/reply", communiytController.ReplyComment);
-
-router.post("/community/:id/like", communiytController.ClickCPostLike);
-
 
 module.exports = router;

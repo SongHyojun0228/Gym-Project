@@ -41,23 +41,36 @@ document.addEventListener("DOMContentLoaded", () => {
         const response = await fetch(`/community/${postId}/like`, {
           method: "POST",
           headers: { "Content-Type": "application/json" },
-          credentials: "include", // 세션 쿠키를 포함하도록 설정
+          credentials: "include",
         });
 
-        if (response.status === 401) {
-          alert("로그인이 필요합니다.");
+        const text = await response.text();
+        let data;
+        try {
+          data = JSON.parse(text);
+        } catch (error) {
+          console.error("❌ 서버에서 예상치 못한 응답:", text);
+          if (confirm("서버 오류가 발생했습니다. 다시 시도하시겠습니까?")) {
+            return;
+          }
           return;
         }
 
-        if (!response.ok) throw new Error("좋아요 업데이트 실패");
+        if (response.status === 401) {
+          if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) {
+            window.location.href = data.redirect;
+          }
+          return;
+        }
 
-        const data = await response.json();
         likeCountElement.textContent = data.like;
-
-        // 아이콘 변경
         likeIcon.src = data.isLiked ? "/images/click-like.png" : "/images/basic-like.png";
+
       } catch (error) {
-        console.error("좋아요 처리 오류:", error);
+        console.error("❌ 좋아요 처리 오류:", error);
+        if (confirm("좋아요 처리 중 오류가 발생했습니다. 다시 시도하시겠습니까?")) {
+          return;
+        }
       }
     });
   });

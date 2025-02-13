@@ -33,14 +33,28 @@ document.addEventListener("DOMContentLoaded", () => {
       });
 
       if (!response.ok) {
-        const responseData = await response.json();
-        alert(responseData.error);
-        if (responseData.redirect) window.location.href = responseData.redirect;
+        const text = await response.text();
+        try {
+          const data = JSON.parse(text);
+          if (data.redirect) {
+            if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) {
+              window.location.href = data.redirect;
+            }
+            return;
+          }
+          if (confirm(`${data.error} 다시 시도하시겠습니까?`)) {
+            return;
+          }
+        } catch (error) {
+          console.error("❌ 서버에서 예상치 못한 응답:", text);
+          if (confirm("서버 오류가 발생했습니다. 다시 시도하시겠습니까?")) {
+            return;
+          }
+        }
         return;
       }
 
       const responseData = await response.json();
-
       const li = document.createElement("li");
       li.className = "comment-li";
       li.innerHTML = `
@@ -84,6 +98,7 @@ document.addEventListener("DOMContentLoaded", () => {
   });
 
   // 답글 작성 처리
+  // 답글 작성 처리
   document.addEventListener("submit", async (event) => {
     if (event.target.classList.contains("form-reply-comment")) {
       event.preventDefault();
@@ -110,21 +125,35 @@ document.addEventListener("DOMContentLoaded", () => {
         });
 
         if (!response.ok) {
-          const responseData = await response.json();
-          alert(responseData.error);
-          if (responseData.redirect) window.location.href = responseData.redirect;
+          const text = await response.text();
+          try {
+            const data = JSON.parse(text);
+            if (data.redirect) {
+              if (confirm("로그인이 필요합니다. 로그인 페이지로 이동하시겠습니까?")) {
+                window.location.href = data.redirect;
+              }
+              return;
+            }
+            if (confirm(`${data.error} 다시 시도하시겠습니까?`)) {
+              return;
+            }
+          } catch (error) {
+            console.error("❌ 서버에서 예상치 못한 응답:", text);
+            if (confirm("서버 오류가 발생했습니다. 다시 시도하시겠습니까?")) {
+              return;
+            }
+          }
           return;
         }
 
         const responseData = await response.json();
-
         let replyList = document.getElementById(`reply-list-${commentId}`);
 
         if (!replyList) {
           replyList = document.createElement("ul");
           replyList.id = `reply-list-${commentId}`;
           replyList.classList.add("reply-list", "hidden");
-        
+
           const commentItem = event.target.closest(".comment-li");
           commentItem.appendChild(replyList);
         }
@@ -132,14 +161,14 @@ document.addEventListener("DOMContentLoaded", () => {
         const li = document.createElement("li");
         li.className = "reply-item";
         li.innerHTML = `
-          <div class="reply-author-profile">
-            <img src="${responseData.authorProfile}" alt="프로필 이미지">
-          </div>
-          <div>
-            <p class="user-info">${responseData.author} <span class="reply-time">${responseData.timeAgo}</span></p>
-            <p class="reply-comment">${responseData.comment}</p>
-          </div>
-        `;
+        <div class="reply-author-profile">
+          <img src="${responseData.authorProfile}" alt="프로필 이미지">
+        </div>
+        <div>
+          <p class="user-info">${responseData.author} <span class="reply-time">${responseData.timeAgo}</span></p>
+          <p class="reply-comment">${responseData.comment}</p>
+        </div>
+      `;
 
         replyList.appendChild(li);
         replyCommentInput.value = "";
@@ -149,6 +178,7 @@ document.addEventListener("DOMContentLoaded", () => {
       }
     }
   });
+
 
   document.addEventListener("click", (event) => {
     if (event.target.classList.contains("reply-show-btn")) {

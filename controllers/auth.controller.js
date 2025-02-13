@@ -2,7 +2,7 @@ const bcrypt = require("bcrypt");
 const Auth = require("../models/auth.model");
 const shop = require("../models/shop.model");
 
-// 🔥회원가입 페이지🔥
+// 📌 회원가입 페이지
 function getSignup(req, res) {
   res.render("auth/join", { errors: {} });
 }
@@ -10,7 +10,7 @@ function getSignup(req, res) {
 const { printTokenResult } = require("../utils/send_sms");
 const authTokens = {};
 
-// 🔥전화번호 인증🔥
+// 📌 전화번호 인증 
 async function sendVerificationCode(req, res) {
   const { phone } = req.body;
   if (!phone) {
@@ -22,25 +22,28 @@ async function sendVerificationCode(req, res) {
 
   try {
     await printTokenResult(phone, token);
+    console.log("✅ 전화 번호 인증번호가 발송");
     res.status(200).json({ message: "인증번호가 발송되었습니다." });
   } catch (error) {
-    console.error("SMS 발송 오류:", error);
-    res.status(500).json({ message: "SMS 발송에 실패했습니다." });
+    console.error("❌ SMS 발송 오류:", error);
+    res.status(500).render("errors/500");
   }
 }
 
-// 🔥인증코드 입력🔥
+// 📌 인증코드 입력
 function verifyCode(req, res) {
   const { phone, code } = req.body;
   if (authTokens[phone] === code) {
-    delete authTokens[phone]; // 인증 후 제거
+    // ✅ 인증 후 제거
+    delete authTokens[phone];
+    console.log("✅ 전화 번호 인증");
     res.status(200).json({ message: "인증되었습니다." });
   } else {
     res.status(400).json({ message: "인증번호가 올바르지 않습니다." });
   }
 }
 
-// 🔥회원가입🔥
+// 📌 회원가입
 async function Signup(req, res) {
   const {
     user_id,
@@ -54,7 +57,7 @@ async function Signup(req, res) {
 
   const errors = {};
 
-  // 아이디 검사
+  // ✅ 아이디 검사
   const userIdPattern = /^[a-z0-9]{4,16}$/;
   if (!user_id) {
     errors.userId = "(아이디를 입력하세요)";
@@ -62,7 +65,7 @@ async function Signup(req, res) {
     errors.userId = "(영소문자/숫자 4-16자만 가능합니다)";
   }
 
-  // 비밀번호 검사
+  // ✅ 비밀번호 검사
   const userPwPattern =
     /^(?=.*[a-zA-Z].*)(?=.*[0-9].*|.*[!@#$%^&*].*).*|(?=.*[0-9].*)(?=.*[!@#$%^&*].*).{8,16}$/;
   if (!user_pw) {
@@ -71,19 +74,19 @@ async function Signup(req, res) {
     errors.userPw = "(영문, 숫자, 특수문자 포함 8~16자로 입력하세요)";
   }
 
-  // 비밀번호 확인 검사
+  // ✅ 비밀번호 확인 검사
   if (!user_pw_check) {
     errors.userPwCheck = "(비밀번호를 확인해주세요)";
   } else if (user_pw_check !== user_pw) {
     errors.userPwCheck = "(비밀번호가 일치하지 않습니다)";
   }
 
-  // 이름 검사
+  // ✅ 이름 검사
   if (!user_name) {
     errors.userName = "(이름을 입력하세요)";
   }
 
-  // 전화번호 인증 확인
+  // ✅ 전화번호 인증 확인
   if (!user_phone || !verification_code) {
     errors.phone = "(전화번호와 인증번호를 입력하세요)";
   } else if (authTokens[user_phone] !== verification_code) {
@@ -94,12 +97,12 @@ async function Signup(req, res) {
     return res.render("auth/join", { errors });
   }
 
+  // ✅ 동일 닉네임을 사용하는 사용자 확인
   const existingUser = await Auth.findById(user_id);
   if (existingUser) {
     errors.userId = "(해당 아이디의 유저가 존재합니다)";
     return res.render("auth/join", { errors });
   }
-
   const existingUsername = await Auth.findByNameAndUsername(
     user_name,
     user_username,
@@ -118,54 +121,56 @@ async function Signup(req, res) {
       user_username,
     );
 
+    // ✅ 회원가입 시 기본 프로필 사진을 프로필 사진으로 설정
     const profileImg = "/images/basic-profiles/default-profile.png";
 
     await newUser.save(user_id, user_pw, user_name, user_phone, user_username, profileImg);
 
     delete authTokens[user_phone];
 
-    console.log("회원가입 성공");
+    console.log("✅ 회원가입 완료");
     res.redirect("/login");
   } catch (error) {
-    console.error("회원가입 중 오류 발생:", error);
+    console.error("❌ 회원가입 중 오류 발생:", error);
     res.status(500).render("errors/500");
   }
 }
 
-// 🔥로그인 페이지🔥
+// 📌 로그인 페이지
 function getLogin(req, res) {
   res.render("auth/login", { errorId: "", errorPw: "" });
 }
 
-// 🔥로그인🔥
+// 📌 로그인
 async function Login(req, res) {
   const userData = req.body;
   const enteredId = userData.user_id;
   const enteredPw = userData.user_pw;
 
+  // ✅ 입력한 아이디의 사용자 확인
   const existingUser = await Auth.findById(enteredId);
-
   if (!existingUser) {
-    console.log("해당 유저가 존재하지 않습니다.");
+    console.log("❌ 해당 유저가 존재하지 않습니다.");
     return res.render("auth/login", {
       errorId: "해당 아이디가 존재하지 않습니다.",
       errorPw: "",
     });
   }
 
+  // ✅ 비밀번호 일치 여부 확인
   const passwordsAreEqual = await bcrypt.compare(
     String(enteredPw),
     existingUser.password,
   );
-
   if (!passwordsAreEqual) {
-    console.log("비밀번호가 일치하지 않습니다");
+    console.log("❌ 비밀번호가 일치하지 않습니다.");
     return res.render("auth/login", {
       errorId: "",
       errorPw: "비밀번호가 일치하지 않습니다.",
     });
   }
 
+  // ✅ 세션 유저
   req.session.user = {
     id: existingUser._id.toString(),
     username: existingUser.username.toString(),
@@ -182,23 +187,20 @@ async function Login(req, res) {
   const sessionCart = req.session.cart;
   const loadCart = await shop.loadCart(req.session.user.username);
 
-  // ✅ 세션 장바구니와 유저 장바구니가 모두 비어있을 때 ✅
+  // ✅ 세션 장바구니와 유저 장바구니가 모두 비어있을 때 
   if (!loadCart && !sessionCart) {
-    console.log("✅ 세션 장바구니와 유저 장바구니가 모두 비어있을 때 ✅");
     req.session.cart = [];
   }
 
-  // ✅ 세션 장바구니가 차 있고 유저 장바구니가 비어있을 때 ✅
+  // ✅ 세션 장바구니가 차 있고 유저 장바구니가 비어있을 때 
   else if (!loadCart && sessionCart) {
-    console.log("✅ 세션 장바구니가 차 있고 유저 장바구니가 비어있을 때 ✅");
     for (const cart_item of sessionCart) {
       await shop.addToCart(cart_item, req.session.user.username);
     }
   }
 
-  // ✅ 세션 장바구니가 비어있고 유저 바구니가 차 있을 때 ✅
+  // ✅ 세션 장바구니가 비어있고 유저 바구니가 차 있을 때
   else if (loadCart && !sessionCart) {
-    console.log("✅ 세션 장바구니가 비어있고 유저 바구니가 차 있을 때 ✅");
     const currentUserCart = await shop.loadCart(req.session.user.username);
     req.session.cart = currentUserCart;
     for (const currentCartProduct of currentUserCart) {
@@ -207,30 +209,28 @@ async function Login(req, res) {
     }
   }
 
-  // ✅ 세션 장바구니와 유저 바구니가 모두 차 있을 때 ✅
+  // ✅ 세션 장바구니와 유저 바구니가 모두 차 있을 때 
   else {
-    console.log(" ✅ 세션 장바구니와 유저 바구니가 모두 차 있을 때 ✅");
     const userCart = await shop.loadCart(req.session.user.username);
     let isSameProduct = false;
     for (const sessionCartItem of sessionCart) {
       for (const userCartItem of userCart) {
-        // ✅ 동일 상품을 담았을 때 ✅
+        // ✅ 동일 상품을 담았을 때 
         if (sessionCartItem.productId == userCartItem.productId) {
-          console.log(" ✅ 동일 상품을 담았을 때 ✅");
           await shop.addSameProduct(req.session.user.username, sessionCartItem.productId, sessionCartItem.product_price);
           isSameProduct = true;
         }
-        // ✅ 다른 상품을 담았을 때 ✅
+        // ✅ 다른 상품을 담았을 때 
       }
       if (!isSameProduct) {
-        console.log(" ✅ 다른 상품을 담았을 때 ✅");
+        console.log(" ✅ 다른 상품을 담았을 때");
         await shop.addToCart(sessionCartItem, req.session.user.username);
       }
       isSameProduct = false;
     }
 
 
-    // ✅ 로그인 시 유저 장바구니를 세션 장바구니에 붙여넣기 ✅
+    // ✅ 로그인 시 유저 장바구니를 세션 장바구니에 붙여넣기 
     const currentUserCart = await shop.loadCart(req.session.user.username);
     req.session.cart = currentUserCart;
     for (const currentCartProduct of currentUserCart) {
@@ -241,26 +241,27 @@ async function Login(req, res) {
 
   req.session.save((err) => {
     if (err) {
-      console.error("세션 저장 에러 : ", err);
+      console.error("❌ 세션 저장 에러 : ", err);
     }
-    console.log("로그인 : ", req.session.user);
+    console.log("✅ 로그인 성공\n", req.session.user);
     res.redirect("/");
   });
 }
 
-// 🔥로그아웃
+// 📌 로그아웃
 function Logout(req, res) {
   req.session.destroy(() => {
+    console.log("✅ 로그아웃");
     res.redirect("/");
   });
 }
 
-// 🔥아이디찾기 페이지
+// 📌 아이디찾기 페이지
 function getFindId(req, res) {
   res.render("mypage/find-id", { errors: {}, successMessage: null });
 }
 
-// 🔥아이디 찾기
+// 📌 아이디 찾기
 async function FindId(req, res) {
   const enteredName = req.body.user_name;
   const enteredUsername = req.body.user_username;
@@ -270,7 +271,6 @@ async function FindId(req, res) {
   if (!enteredName) {
     errors.nameError = "(이름을 입력하세요)";
   }
-
   if (!enteredUsername) {
     errors.usernameError = "(닉네임을 입력하세요)";
   }
@@ -279,12 +279,12 @@ async function FindId(req, res) {
     return res.render("mypage/find-id", { errors, successMessage: null });
   }
 
+  // ✅ 입력한 정보와 일치하는 유저 확인 
   try {
     const existingUser = await Auth.findByNameAndUsername(
       enteredName,
       enteredUsername,
     );
-
     if (!existingUser) {
       return res.render("mypage/find-id", {
         errors: {
@@ -294,16 +294,18 @@ async function FindId(req, res) {
       });
     }
 
+    console.log("✅ 아이디 찾기 완료 : ", existingUser.id);
     res.render("mypage/find-id", {
       successMessage: `아이디는 ${existingUser.id} 입니다.`,
       errors: {},
     });
   } catch (error) {
-    console.error("아이디 찾기 중 오류:", error);
+    console.error("❌ 아이디 찾기 중 오류:", error);
     res.status(500).render("errors/500");
   }
 }
 
+// 📌 비밀번호 찾기 페이지
 function getFindPw(req, res) {
   const userId = req.query.userId || null;
   const changePwVisible = !!userId;
@@ -315,6 +317,7 @@ function getFindPw(req, res) {
   });
 }
 
+// 📌 비밀번호 찾기
 async function FindPw(req, res) {
   const enteredId = req.body.user_id;
   const enteredName = req.body.user_name;
@@ -343,6 +346,7 @@ async function FindPw(req, res) {
     });
   }
 
+  // ✅ 입력한 정보와 일치하는 유저 확인 
   try {
     const existingUser = await Auth.findByIdAndDetails(
       enteredId,
@@ -359,6 +363,7 @@ async function FindPw(req, res) {
       });
     }
 
+    console.log("✅ 비밀번호 찾기 : 유저 찾기 완료");
     res.render("mypage/find-pw", {
       errors: {},
       successMessage: null,
@@ -366,11 +371,12 @@ async function FindPw(req, res) {
       userId: existingUser._id,
     });
   } catch (error) {
-    console.error("비밀번호 찾기 중 오류:", error);
+    console.error("❌ 비밀번호 찾기 중 오류:", error);
     res.status(500).render("errors/500");
   }
 }
 
+// 📌 비밀번호 변경
 async function ChangePw(req, res) {
   const userId = req.params.id;
   const enteredPw = req.body.user_pw;
@@ -401,11 +407,10 @@ async function ChangePw(req, res) {
 
   try {
     Auth.update(userId, enteredPw);
-
-    console.log("비밀번호 변경 성공");
+    console.log("✅ 비밀번호 변경 성공");
     res.redirect("/login");
   } catch (error) {
-    console.error("비밀번호 변경 중 오류:", error);
+    console.error("❌ 비밀번호 변경 중 오류:", error);
     res.status(500).render("errors/500");
   }
 }

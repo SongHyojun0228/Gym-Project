@@ -6,6 +6,7 @@ app.use(express.json());
 const { ObjectId } = require("mongodb");
 const community = require("../models/community.model");
 
+// 📌 게시물, 댓글, 답글 등록 시간 계산 함수
 function timeAgo(time) {
   const now = new Date();
   const diff = Math.floor((now - time) / 1000);
@@ -24,15 +25,20 @@ function timeAgo(time) {
   }
 }
 
+// 📌 게시물 페이지
 async function getCommunity(req, res) {
   try {
     const user = req.session.user;
     const posts = await community.getAllPost();
 
     for (const post of posts) {
+      // ✅ 게시물 Id(Object) => String
       const postId = post._id.toString();
+
+      // ✅ 해당 게시물의 댓글 불러오기
       const comments = await community.getComments(postId);
 
+      // ✅ 게시물 글 간소화, 등록 시간, 댓글 수, 작성자 프로필
       post.shortContent =
         post.content.length > 30
           ? post.content.substring(0, 30) + "..."
@@ -45,11 +51,12 @@ async function getCommunity(req, res) {
 
     res.render("posts/community", { posts, user });
   } catch (error) {
-    console.error("게시물 로드 중 오류:", error);
+    console.log("❌ 게시물 로드 중 오류:", error);
     res.status(500).render("errors/500");
   }
 }
 
+// 📌 게시물 자세히 보기
 async function getCommunityDetail(req, res) {
   const user = req.session.user;
   const PostId = req.params.id;
@@ -69,10 +76,12 @@ async function getCommunityDetail(req, res) {
         .render("errors/404", { message: "게시물을 찾을 수 없습니다." });
     }
 
+    // ✅ 해당 게시물의 댓글 불러오기 & 댓글 수 
     const comments = await community.getComments(PostId);
     const commentCount = comments.length;
     post.timeAgo = timeAgo(post.time);
 
+    // ✅ 댓글과 답글의 시간, 개수, 작성자 프로필 등
     for (const comment of comments) {
 
       comment.timeAgo = timeAgo(comment.time);
@@ -106,32 +115,107 @@ async function getCommunityDetail(req, res) {
       commentCount: commentCount,
     });
   } catch (error) {
-    console.error("에러 발생:", error);
+    console.log("❌ 게시물 자세히 보기 에러 발생:", error);
     res.status(500).render("errors/500");
   }
 }
 
+// 📌 댓글 작성 (회원만 가능)
+async function Comment(req, res) {
+  const user = req.session.user;
+  const { comment } = req.body;
+  const postId = req.params.id;
+
+  if (!comment || !postId || !ObjectId.isValid(postId)) {
+    console.log("❌ 잘못된 요청: postId가 유효하지 않거나 comment가 없음");
+    return res.status(400).json({ error: "잘못된 요청입니다." });
+  }
+
+  const authorProfile = user.profileImg || "/images/basic-profiles/default-profile.png";
+
+  // ✅ 새 댓글 정보
+  const newComment = {
+    postId: postId,
+    comment: comment,
+    author: user.username,
+    authorProfile: authorProfile,
+    time: new Date(),
+  };
+
+  try {
+    const result = await community.writeComment(newComment);
+    newComment._id = result.insertedId;
+    newComment.timeAgo = timeAgo(newComment.time);
+    console.log("✅ 댓글 등록 성공");
+    res.json(newComment);
+  } catch (error) {
+    console.log("❌ 댓글 저장 중 오류 발생:", error);
+    res.status(500).json({ error: "댓글 저장 중 오류가 발생했습니다." });
+  }
+}
+
+// 📌 답글 작성 (회원만 가능)
+async function ReplyComment(req, res) {
+  const user = req.session.user;
+  const { replyComment } = req.body;
+  const commentId = req.params.id;
+
+  if (!replyComment) {
+    console.log("❌ 잘못된 요청: replyComment가 없음");
+    return res.status(400).json({ error: "잘못된 요청입니다." });
+  }
+
+  // ✅ 기본 프로필 이미지 설정
+  const authorProfile = user.profileImg || "/images/basic-profiles/default-profile.png";
+
+  // ✅ 새 답글 정보
+  const newReply = {
+    commentId: commentId,
+    comment: replyComment,
+    author: user.username,
+    authorProfile: authorProfile,
+    time: new Date(),
+  };
+
+  try {
+    const result = await community.writeReplyComment(newReply);
+    newReply._id = result.insertedId;
+    newReply.timeAgo = timeAgo(newReply.time);
+    console.log("✅ 답글 등록 성공");
+    res.json(newReply);
+  } catch (error) {
+    console.log("❌ 답글 작성 오류:", error);
+    res.status(500).json({ error: "답글 저장 중 오류가 발생했습니다." });
+  }
+}
+
+// 📌 좋아요 (회원만 가능)
+async function ClickCPostLike(req, res) {
+  const user = req.session.user;
+  const username = user.username;
+  const postId = req.params.id;
+
+  try {
+    const updatedData = await community.updateLike(postId, username);
+    if (!updatedData) {
+      return res.status(404).json({ error: "게시물을 찾을 수 없습니다." });
+    }
+
+    console.log("✅ 좋아요 등록 성공");
+    res.json(updatedData);
+  } catch (error) {
+    console.log("❌ 좋아요 처리 중 오류 : ", error);
+    res.status(500).json({ error: "좋아요 업데이트 실패" });
+  }
+};
+
+// 📌 글 작성 페이지(관리자만 가능)
 function getInsertPost(req, res) {
-  if (!req.session || !req.session.user) {
-    return res.send(
-      '<script>alert("로그인이 필요합니다."); window.location.href = "/login";</script>',
-    );
-  }
-
-  if (!req.session.user.isAdmin) {
-    return res.send(
-      '<script>alert("글쓰기 권한이 없습니다."); window.location.href = "/community";</script>',
-    );
-  }
-
   res.render("posts/insert-post");
 }
 
+// 📌 글 작성 (관리자만 가능)
 async function InsertPost(req, res) {
-  if (!req.session.user) {
-    return res.redirect("/login");
-  }
-
   const imgPaths = [];
   ["img1", "img2", "img3", "img4", "img5"].forEach((key) => {
     if (req.files[key]) {
@@ -149,117 +233,21 @@ async function InsertPost(req, res) {
       0,
       0,
     );
+    console.log("✅ 게시물 등록 성공");
     res.redirect("/community");
   } catch (error) {
-    console.error("게시물 등록 오류 : \n", error);
+    console.log("❌ 게시물 등록 오류 : \n", error);
     res.status(500).render("errors/500");
   }
 }
-
-async function Comment(req, res) {
-  const { comment } = req.body;
-  const postId = req.params.id;
-  const user = req.session.user;
-
-  if (!user) {
-    return res.status(401).json({ error: "로그인이 필요합니다.", redirect: "/login" });
-  }
-
-  if (!comment || !postId || !ObjectId.isValid(postId)) {
-    console.error("❌ 잘못된 요청: postId가 유효하지 않거나 comment가 없음");
-    return res.status(400).json({ error: "잘못된 요청입니다." });
-  }
-
-  const authorProfile = user.profileImg || "/images/basic-profiles/default-profile.png";
-
-  const newComment = {
-    postId: postId,
-    comment: comment,
-    author: user.username,
-    authorProfile: authorProfile,
-    time: new Date(),
-  };
-
-  try {
-    const result = await community.writeComment(newComment);
-    newComment._id = result.insertedId;
-    newComment.timeAgo = timeAgo(newComment.time);
-    res.json(newComment);
-  } catch (error) {
-    console.error("❌ 댓글 저장 중 오류 발생:", error);
-    res.status(500).json({ error: "댓글 저장 중 오류가 발생했습니다." });
-  }
-}
-
-
-async function ReplyComment(req, res) {
-  const { replyComment } = req.body;
-  const commentId = req.params.id;
-  console.log("📢 저장하는 commentId:", commentId);
-
-  const user = req.session.user;
-
-  if (!user) {
-    return res.status(401).json({ error: "로그인이 필요합니다.", redirect: "/login" });
-  }
-
-  if (!replyComment) {
-    console.error("❌ 잘못된 요청: replyComment가 없음");
-    return res.status(400).json({ error: "잘못된 요청입니다." });
-  }
-
-  const authorProfile = user.profileImg || "/images/basic-profiles/default-profile.png"; // ✅ 기본 프로필 이미지 설정
-
-  const newReply = {
-    commentId: commentId,
-    comment: replyComment,
-    author: user.username,
-    authorProfile: authorProfile,
-    time: new Date(),
-  };
-
-  try {
-    const result = await community.writeReplyComment(newReply);
-    newReply._id = result.insertedId;
-    newReply.timeAgo = timeAgo(newReply.time);
-    res.json(newReply);
-  } catch (error) {
-    console.error("❌ 답글 작성 오류:", error);
-    res.status(500).json({ error: "답글 저장 중 오류가 발생했습니다." });
-  }
-}
-
-
-
-async function ClickCPostLike(req, res) {
-  const user = req.session.user;
-  if (!req.session || !req.session.user) {
-    return res.status(401).json({ error: "로그인이 필요합니다.", redirect: "/login" });
-  }
-
-  const username = user.username;
-  const postId = req.params.id;
-
-  try {
-    const updatedData = await community.updateLike(postId, username);
-    if (!updatedData) {
-      return res.status(404).json({ error: "게시물을 찾을 수 없습니다." });
-    }
-
-    res.json(updatedData);
-  } catch (error) {
-    console.error("좋아요 처리 중 오류:", error);
-    res.status(500).json({ error: "좋아요 업데이트 실패" });
-  }
-};
 
 
 module.exports = {
   getCommunity,
   getCommunityDetail,
   Comment,
-  getInsertPost,
-  InsertPost,
   ReplyComment,
-  ClickCPostLike
+  ClickCPostLike,
+  getInsertPost,
+  InsertPost
 };

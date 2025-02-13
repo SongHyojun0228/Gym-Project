@@ -1,6 +1,10 @@
-const express = require("express");
 const path = require("path");
-const app = express();
+
+const express = require("express");
+const expressSession = require("express-session");
+
+const createSessionConfig = require("./config/session");
+const db = require("./data/database");
 
 const DefaultRouter = require("./routes/default.routes");
 const UserRouter = require("./routes/auth.routes");
@@ -9,40 +13,25 @@ const MyPageRouter = require("./routes/my-page.routes");
 const MyPostRouter = require("./routes/my-post.routes");
 const ShopRouter = require("./routes/shop.routes");
 
-const session = require("express-session");
-const db = require("./data/database");
-const mongodbStore = require("connect-mongodb-session");
-const MongoDBStore = mongodbStore(session);
+const app = express();
 
-const sessionStore = new MongoDBStore({
-  uri: "mongodb+srv://thdgywns2300:oF4luy5LHKI7Cah3@gym.4vl2x.mongodb.net/Gym?retryWrites=true&w=majority&appName=Gym",
-  databaseName: "Gym",
-  collection: "sessions",
-});
+app.use(express.static("public"));
+app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-app.use(
-  session({
-    secret: "super-secret",
-    resave: false,
-    saveUninitialized: false,
-    store: sessionStore,
-    cookie: {
-      maxAge: 12 * 60 * 60 * 1000,
-      httpOnly: true,
-    },
-  }),
-);
+app.set("view engine", "ejs");
+app.set("views", path.join(__dirname, "views"));
+
+// 📌 세션 로그인
+const sessionConfig = createSessionConfig();
+app.use(expressSession(sessionConfig));
 
 app.use((req, res, next) => {
   res.locals.session = req.session;
   next();
 });
 
-app.use(express.json());
-app.use(express.static("public"));
-app.use(express.urlencoded({ extended: true }));
-
-// 토스 결제 
+// 📌 토스 결제 
 (async () => {
   const { default: got } = await import("got");
 
@@ -74,15 +63,11 @@ app.use(express.urlencoded({ extended: true }));
 
 
 app.use("/uploads", express.static(path.join(__dirname, "public/uploads")));
-
-app.set("view engine", "ejs");
-app.set("views", path.join(__dirname, "views"));
-
 app.use("/", UserRouter);
 app.use("/", CommunityRouter);
-app.use("/", MyPageRouter);
 app.use("/", MyPostRouter);
 app.use("/", ShopRouter);
+app.use("/", MyPageRouter);
 app.use("/", DefaultRouter);
 
 db.connectToDatabase().then(function () {
