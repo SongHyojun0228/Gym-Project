@@ -1,7 +1,6 @@
 <img src="https://github.com/user-attachments/assets/ad1ffd28-2e11-40cb-b2a9-0fa842de3980" alt="Mr.Olympia">
 
 <br>
-<br>
 
 <h1>💪🏻PANATA - 헬스 커뮤니티 & 스토어</h1>
 
@@ -69,6 +68,7 @@
 <h2>🚀 기술 스택</h2>
 <h3>👨🏻‍💻Frontend : HTML, CSS, JavaScript</h3>
 <h3>👨🏻‍💻Backend : NodeJs, Express</h3>
+<h3>⚡️API : 쿨에스엠에스(전화번호 인증), 토스(결제)</h3>
 
 <br>
 <br>
