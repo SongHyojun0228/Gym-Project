@@ -1,7 +1,6 @@
 <img src="https://github.com/user-attachments/assets/ad1ffd28-2e11-40cb-b2a9-0fa842de3980" alt="Mr.Olympia">
 
 <br>
-<br>
 
 <h1>💪🏻PANATA - 헬스 커뮤니티 & 스토어</h1>
 
@@ -69,6 +68,7 @@
 <h2>🚀 기술 스택</h2>
 <h3>👨🏻‍💻Frontend : HTML, CSS, JavaScript</h3>
 <h3>👨🏻‍💻Backend : NodeJs, Express</h3>
+<h3>⚡️API : 쿨에스엠에스(전화번호 인증), 토스(결제)</h3>
 
 <br>
 <br>
@@ -78,7 +78,7 @@
 
 ```
 git clone https://github.com/SongHyojun0228/Gym-Projects.git
-cd healthhub
+cd Gym-Projects
 ```
 
 <h3>2️⃣ 패키지 설치</h3>
@@ -90,7 +90,7 @@ npm install
 <h3>3️⃣ 서버 실행</h3>
 
 ```
-npm start
+nodemon app.js
 ```
 
 <h3>4️⃣ 로컬 환경에서 접속</h3>
