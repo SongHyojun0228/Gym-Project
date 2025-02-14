@@ -60,7 +60,7 @@
 ### 🛒 구매 & 성공
 | 구매 페이지 | 구매 성공 |
 |:-:|:-:|
-| <img width="1920" alt="Image" src="https://github.com/user-attachments/assets/4f8d4922-4302-4951-8599-1ff7fa20e739" /> | <img width="1920" alt="Image" src="https://github.com/user-attachments/assets/c296678a-71be-421a-9ed2-2c995624a185" /> |
+| <img width="1920" alt="Image" src="https://github.com/user-attachments/assets/4f8d4922-4302-4951-8599-1ff7fa20e739" /> | <img width="1920" alt="Image" src="https://github.com/user-attachments/assets/6843158e-75c0-43dc-850c-2e05165310fb" />|
 
 ---
 
