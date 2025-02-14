@@ -108,7 +108,7 @@ async function Signup(req, res) {
   }
 
 
-  // ✅ 동일 닉네임을 사용하는 사용자 확인
+  // ✅ 동일 아이디/닉네임을 사용하는 사용자 확인
   const existingUser = await Auth.findById(user_id);
   if (existingUser) {
     errors.userId = "(해당 아이디의 유저가 존재합니다)";
