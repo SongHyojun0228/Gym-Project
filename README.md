@@ -39,7 +39,7 @@
 ### 📝 회원가입 & 로그인
 | 회원가입 | 로그인 |
 |:-:|:-:|
-| <img width="1920" alt="회원가입" src="https://github.com/user-attachments/assets/c08063e0-fec2-474c-aa22-2ffa5c2d095f" /> | <img width="1920" alt="로그인" src="https://github.com/user-attachments/assets/137cbd72-a925-474e-b72c-9e9456c0c715" /> |
+| <img width="1920" alt="Image" src="https://github.com/user-attachments/assets/6d14d320-9bf1-4167-9d39-8ed71111c49c" /> | <img width="1920" alt="로그인" src="https://github.com/user-attachments/assets/137cbd72-a925-474e-b72c-9e9456c0c715" /> |
 
 ---
 
@@ -57,10 +57,17 @@
 
 ---
 
+### 🛒 구매 & 성공
+| 구매 페이지 | 구매 성공 |
+|:-:|:-:|
+| <img width="1920" alt="Image" src="https://github.com/user-attachments/assets/4f8d4922-4302-4951-8599-1ff7fa20e739" /> | <img width="1920" alt="Image" src="https://github.com/user-attachments/assets/6843158e-75c0-43dc-850c-2e05165310fb" />|
+
+---
+
 ### 🙍 마이페이지
 | 마이페이지 1 | 마이페이지 2 |
 |:-:|:-:|
-| <img width="1920" alt="마이페이지" src="https://github.com/user-attachments/assets/2567cbc9-9cba-49eb-85a8-8c4540e33c7d" /> | <img width="1920" alt="마이페이지" src="https://github.com/user-attachments/assets/deaaa97a-617c-47ec-9fd3-d5103ffa3463" /> |
+| <img width="1920" alt="마이페이지" src="https://github.com/user-attachments/assets/2567cbc9-9cba-49eb-85a8-8c4540e33c7d" /> | <img width="1920" alt="Image" src="https://github.com/user-attachments/assets/094352b7-2c0a-491d-83e4-6bb82d261cb0" /> |
 
 <br>
 <br>
@@ -68,7 +75,7 @@
 <h2>🚀 기술 스택</h2>
 <h3>👨🏻‍💻Frontend : HTML, CSS, JavaScript</h3>
 <h3>👨🏻‍💻Backend : NodeJs, Express</h3>
-<h3>⚡️API : 쿨에스엠에스(전화번호 인증), 토스(결제)</h3>
+<h3>⚡️API : 쿨에스엠에스 API (전화번호 인증), DAUM 주소 API, 토스 API(결제)</h3>
 
 <br>
 <br>
@@ -98,3 +105,19 @@ nodemon app.js
 ```
 http://localhost:3000
 ```
+
+<br>
+<br>
+
+<h2>🙋🏻‍♂️ 회원 정보</h2>
+<h3>관리자</h3>
+<p>ID : test</p>
+<p>PW : test12345!</p>
+
+<h3>회원1</h3>
+<p>ID : thdgywns2300</p>
+<p>PW : song0228!</p>
+
+<h3>회원2</h3>
+<p>ID : hyojun2300</p>
+<p>PW : song0228!</p>
