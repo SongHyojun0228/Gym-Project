@@ -105,3 +105,19 @@ nodemon app.js
 ```
 http://localhost:3000
 ```
+
+<br>
+<br>
+
+<h2>🙋🏻‍♂️ 회원 정보</h2>
+<h3>관리자</h3>
+<p>ID : test</p>
+<p>PW : test12345!</p>
+
+<h3>회원1</h3>
+<p>ID : thdgywns2300</p>
+<p>PW : song0228!</p>
+
+<h3>회원2</h3>
+<p>ID : hyojun2300</p>
+<p>PW : song0228!</p>
