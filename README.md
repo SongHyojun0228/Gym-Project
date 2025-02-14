@@ -84,7 +84,7 @@
 <h3>1️⃣ 프로젝트 클론</h3>
 
 ```
-https://github.com/SongHyojun0228/Gym-Project.git
+git clone https://github.com/SongHyojun0228/Gym-Project.git
 cd Gym-Project
 ```
 
