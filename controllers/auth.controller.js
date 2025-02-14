@@ -51,8 +51,12 @@ async function Signup(req, res) {
     user_pw_check,
     user_name,
     user_phone,
-    user_username,
     verification_code,
+    user_postcode,
+    user_address,
+    user_detailAddress,
+    user_extraAddress,
+    user_username,
   } = req.body;
 
   const errors = {};
@@ -93,9 +97,16 @@ async function Signup(req, res) {
     errors.phone = "(인증번호가 올바르지 않습니다)";
   }
 
+  // ✅ 주소 검사
+  if (!user_postcode || !user_address) {
+    errors.address = "(주소를 입력하세요)";
+  }
+
   if (Object.keys(errors).length > 0) {
+    console.log("❌ 회원가입 오류 발생:", errors);
     return res.render("auth/join", { errors });
   }
+
 
   // ✅ 동일 닉네임을 사용하는 사용자 확인
   const existingUser = await Auth.findById(user_id);
@@ -113,18 +124,10 @@ async function Signup(req, res) {
   }
 
   try {
-    const newUser = new Auth(
-      user_id,
-      user_pw,
-      user_name,
-      user_phone,
-      user_username,
-    );
-
     // ✅ 회원가입 시 기본 프로필 사진을 프로필 사진으로 설정
     const profileImg = "/images/basic-profiles/default-profile.png";
 
-    await newUser.save(user_id, user_pw, user_name, user_phone, user_username, profileImg);
+    await Auth.save(user_id, user_pw, user_name, user_phone, user_postcode, user_address, user_detailAddress, user_extraAddress, user_username, profileImg);
 
     delete authTokens[user_phone];
 
@@ -175,6 +178,7 @@ async function Login(req, res) {
     id: existingUser._id.toString(),
     username: existingUser.username.toString(),
     tel: existingUser.tel.toString(),
+    totalAddress: existingUser.totalAddress,
     name: existingUser.name.toString(),
     profileImg: existingUser.user_img,
     isAdmin: existingUser.isAdmin,

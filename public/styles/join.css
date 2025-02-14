@@ -3,7 +3,6 @@
   margin: 0 auto;
 }
 
-/* ✅플렉스 컨테이너 */
 .flex-container {
   margin: auto;
   margin-bottom: 2rem;
@@ -11,7 +10,6 @@
   text-align: left;
 }
 
-/* ✅필수 표시 */
 .required {
   color: rgb(152, 41, 50);
 }
@@ -24,7 +22,6 @@
   color: rgb(240, 240, 240);
 }
 
-/* ✅입력 필드 스타일 */
 .form-input {
   padding: 1rem;
   font-size: 1rem;
@@ -49,7 +46,6 @@
   -webkit-text-fill-color: rgb(240, 240, 240) !important;
 }
 
-/* ✅경고 및 주의 사항 */
 .caution {
   margin-top: 0.8rem;
   margin-left: 0.1rem;
@@ -73,16 +69,48 @@
   background-color: rgb(240, 240, 240);
   padding: 0.5rem;
   margin-top: 0.5rem;
-  border: 1px solid rgb(240, 240, 240);
+  border: none;
   border-radius: 4px;
 }
 
 #send-code-btn:hover {
-  border: 1px solid rgb(152, 41, 50);
-  color: rgb(152, 41, 50);
+  background-color: rgb(152, 41, 50);
+  color: rgb(240, 240, 240);
 }
 
-/* ✅버튼 스타일 */
+#user_postcode {
+  width: 15rem;
+  margin-right: 1rem;
+}
+
+#postcode-btn {
+  width: 9rem;
+  margin: 0;
+  padding: 0.5rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+}
+
+#postcode-btn:hover {
+  background-color: rgb(152, 41, 50);
+  color: rgb(240, 240, 240);
+}
+
+.address-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#user_detailAddress,
+#user_extraAddress {
+  width: 12rem;
+}
+
+#user_address {
+  margin-block: 1rem;
+}
+
 #join-btn {
   background-color: rgb(240, 240, 240);
   color: rgb(63, 63, 63);

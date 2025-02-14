@@ -127,3 +127,19 @@ h2 {
   font-size: 1.5rem;
   font-weight: 500;
 }
+
+@media (max-width: 60rem) {
+  .cart-item,
+  #total {
+    width: 100%;
+  }
+
+  .product-name,
+  .product-color,
+  .product-amount,
+  .product-price,
+  .delete-btn,
+  .amount {
+    font-size: 0.9rem;
+  }
+}

@@ -27,7 +27,45 @@
 
             <div class="orderer-items">
               <p>주소 <span>*</span></p>
-              <input type="text" name="user_address" required />
+              <div class="flex-container">
+                <div class="address-container">
+                  <input
+                    type="text"
+                    id="user_postcode"
+                    name="user_postcode"
+                    placeholder="우편번호"
+                    value="<%= user.totalAddress.postcode %>"
+                  />
+                  <input
+                    type="button"
+                    onclick="user_execDaumPostcode()"
+                    id="postcode-btn"
+                    value="우편번호 찾기"
+                  /><br />
+                </div>
+
+                <input
+                  type="text"
+                  id="user_address"
+                  name="user_address"
+                  value="<%= user.totalAddress.address %>"
+                /><br />
+
+                <div class="address-container">
+                  <input
+                    type="text"
+                    id="user_detailAddress"
+                    name="user_detailAddress"
+                    value="<%= user.totalAddress.detailAddress %>"
+                  />
+                  <input
+                    type="text"
+                    id="user_extraAddress"
+                    name="user_extraAddress"
+                    value="<%= user.totalAddress.extraAddress %>"
+                  />
+                </div>
+              </div>
             </div>
 
             <div class="orderer-items">

@@ -61,6 +61,46 @@
   -webkit-text-fill-color: rgb(240, 240, 240) !important;
 }
 
+#user_postcode {
+  width: 25rem;
+  margin-right: 1rem;
+}
+
+#postcode-btn {
+  width: 9rem;
+  margin: 0;
+  padding: 0.5rem;
+  font-weight: 600;
+  border: none;
+  border-radius: 4px;
+  background-color: rgb(240, 240, 240);
+  color: rgb(15, 15, 15);
+}
+
+#postcode-btn:hover {
+  background-color: rgb(152, 41, 50);
+  color: rgb(240, 240, 240);
+}
+
+.address-container {
+  display: flex;
+  justify-content: space-between;
+}
+
+#user_detailAddress,
+#user_extraAddress {
+  width: 17rem;
+}
+
+#user_address {
+  margin-block: 1rem;
+}
+
+#payment-information-container {
+  width: 45rem;
+  border-top: 2px solid rgb(240, 240, 240);
+  margin-top: 2rem;
+}
 
 #toss {
   background-color: white;
@@ -132,7 +172,7 @@
 }
 
 #total-information {
-    margin-top: 1.5rem;
+  margin-top: 1.5rem;
 }
 
 .total {
@@ -141,9 +181,9 @@
 }
 
 .total span {
-    color: rgb(240, 240, 240);
-    font-size: 1rem;
-    font-weight: 900;
+  color: rgb(240, 240, 240);
+  font-size: 1rem;
+  font-weight: 900;
 }
 
 #total-amount,
@@ -152,4 +192,46 @@
   margin: 0;
   font-weight: 900;
   margin-bottom: 1.5rem;
+}
+
+@media (max-width: 80rem) {
+  #purchase-container {
+    width: 100%;
+    flex-direction: column;
+    justify-content: center;
+    align-self: center;
+  }
+
+  #orderer-information,
+  #payment-information-container,
+  #products-information-contianer {
+    width: 45rem;
+    margin: auto;
+    margin-top: 5rem;
+  }
+}
+
+@media (max-width: 45rem) {
+  #orderer-information,
+  #payment-information-container,
+  #products-information-contianer {
+    width: 25rem;
+  }
+
+  .orderer-items input {
+    width: 20rem;
+  }
+
+  #user_postcode {
+    width: 12rem;
+  }
+
+  #postcode-btn {
+    width: 7rem;
+  }
+
+  #user_detailAddress,
+  #user_extraAddress {
+    width: 9.5rem;
+  }
 }

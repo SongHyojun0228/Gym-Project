@@ -103,7 +103,8 @@ class Shop {
                 name: user.name,
                 username: user.username,
                 address: address,
-                phone: phone
+                phone: phone,
+                address : address
             },
             items: cartItems.map(item => ({
                 productId: item.productId,
@@ -124,7 +125,7 @@ class Shop {
     static async clearUserCart(username) {
         await db.getDb().collection("users").updateOne(
             { username: username },
-            { $set: { cart: [] } } 
+            { $set: { cart: [] } }
         );
     }
 

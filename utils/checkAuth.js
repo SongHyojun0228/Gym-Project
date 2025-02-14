@@ -13,7 +13,6 @@ function requireLogin(req, res, next) {
 
 function requirePostLogin(req, res, next) {
     console.log("🔍 로그인 확인 미들웨어 실행됨");
-
     if (!req.session || !req.session.user) {
         return res.status(401).json({
             error: "로그인이 필요합니다.",
@@ -24,13 +23,16 @@ function requirePostLogin(req, res, next) {
 }
 
 
-function forceLogin(req, res) {
-    return res.send(`
-        <script>
-            alert("로그인이 필요합니다.");
-            window.location.href = "/login";
-        </script>
-    `);
+function forceLogin(req, res, next) {
+    if (!req.session || !req.session.user) {
+        return res.send(`
+            <script>
+                alert("로그인이 필요합니다.");
+                window.location.href = "/login";
+            </script>
+        `);
+    }
+    next();
 }
 
 function requireAdmin(req, res, next) {

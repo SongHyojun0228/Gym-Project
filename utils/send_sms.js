@@ -9,7 +9,7 @@ async function printTokenResult(phone, token) {
   const result = await messageService.sendOne({
     to: `${phone}`,
     from: "01023002175",
-    text: `안녕하세요 요청하신 인증번호는 [${token}]입니다.`,
+    text: `[PANATA]\n요청하신 인증번호는 [${token}]입니다.`,
   });
 
   console.log(result);

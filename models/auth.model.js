@@ -3,14 +3,6 @@ const bcrypt = require("bcrypt");
 const { ObjectId } = require("mongodb");
 
 class Auth {
-  constructor(id, pw, name, tel, username) {
-    this.id = id;
-    this.pw = pw;
-    this.name = name;
-    this.tel = tel;
-    this.username = username;
-  }
-
   static async findById(id) {
     return db.getDb().collection("users").findOne({
       id: id,
@@ -43,7 +35,7 @@ class Auth {
       );
   }
 
-  async save(id, pw, name, tel, username, profileImg) {
+  static async save(id, pw, name, tel, postcode, address, detailAddress, extraAddress, username, profileImg) {
     const hashedPassword = await bcrypt.hash(String(pw), 12);
 
     const newUser = {
@@ -51,6 +43,12 @@ class Auth {
       password: hashedPassword,
       name: name,
       tel: tel,
+      totalAddress: {
+        postcode,
+        address,
+        detailAddress,
+        extraAddress
+      },
       username: username,
       user_img: profileImg,
       cart: [],

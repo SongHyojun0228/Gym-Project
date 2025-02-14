@@ -4,6 +4,11 @@
     <%- include("../includes/head") %>
     <link rel="stylesheet" href="/styles/join.css" />
     <script src="/scripts/join.js" defer></script>
+    <script src="/scripts/map.js" defer></script>
+    <script
+      src="//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js"
+      defer
+    ></script>
     <title>회원가입</title>
   </head>
 
@@ -120,6 +125,55 @@
             />
             <% if (errors && errors.phone) { %>
             <p class="red-caution"><%= errors.phone %></p>
+            <% } %>
+          </div>
+
+          <div class="flex-container">
+            <label class="form-label"
+              >주소<span class="required">*</span></label
+            >
+            <div class="address-container">
+              <input
+                type="text"
+                id="user_postcode"
+                name="user_postcode"
+                class="form-input"
+                placeholder="우편번호"
+              />
+              <input
+                type="button"
+                onclick="user_execDaumPostcode()"
+                id="postcode-btn"
+                value="우편번호 찾기"
+              /><br />
+            </div>
+
+            <input
+              type="text"
+              id="user_address"
+              name="user_address"
+              class="form-input"
+              placeholder="주소"
+            /><br />
+
+            <div class="address-container">
+              <input
+                type="text"
+                id="user_detailAddress"
+                name="user_detailAddress"
+                class="form-input"
+                placeholder="상세주소"
+              />
+              <input
+                type="text"
+                id="user_extraAddress"
+                name="user_extraAddress"
+                class="form-input"
+                placeholder="참고항목"
+              />
+            </div>
+            <% if (errors && errors.address) { %>
+            <p class="red-caution"><%= errors.address %></p>
             <% } %>
           </div>
 
