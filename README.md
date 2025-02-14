@@ -78,7 +78,7 @@
 
 ```
 git clone https://github.com/SongHyojun0228/Gym-Projects.git
-cd Gym-Projects
+cd Gym-Project
 ```
 
 <h3>2️⃣ 패키지 설치</h3>
