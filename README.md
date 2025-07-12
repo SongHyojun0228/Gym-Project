@@ -87,9 +87,9 @@ npm install
 
 ### 3️⃣ 환경 변수 설정 (.env)
 
-이 프로젝트를 실행하려면, Gym-projec 폴더 내 최상위에 `.env` 파일을 생성하고 아래 내용을 입력해야 합니다.
-** [SMS_SENDER=your_phone_number_here]만 입력하셔도 됩니다. **
-** [SMS_SENDER=your_phone_number_here]만 입력했을 시에, 터미넬에 인증번호가 출력됩니다. **
+- 이 프로젝트를 실행하려면, Gym-projec 폴더 내 최상위에 `.env` 파일을 생성하고 아래 내용을 입력해야 합니다.
+- **[SMS_SENDER=your_phone_number_here]만 입력하셔도 됩니다.**
+- **[SMS_SENDER=your_phone_number_here]만 입력했을 시에, 터미넬에 인증번호가 출력됩니다.**
 
 ```
 SMS_API_KEY=your_api_key_here // 입력하지 않으셔도 됩니다.
