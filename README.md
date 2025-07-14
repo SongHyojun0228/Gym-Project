@@ -11,6 +11,9 @@ PANATA 사용자들은 팝업이나 대회(경기)를 빠르게 접할 수 있�
 ### API 명세서
 > https://spotless-seeker-00f.notion.site/PANATA-API-22e13ddc688b80138e63ee7582c851b7?pvs=73
 
+### Notion
+> https://spotless-seeker-00f.notion.site/16513ddc688b806aacb5f59a6befa64e?p=16513ddc688b8183934ecda09e134885&pm=c
+
 <br><br>
 
 ## 선정이유
